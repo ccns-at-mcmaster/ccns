@@ -21,9 +21,9 @@ if __name__ == '__main__':
     center = (75, 111)
     n_bins = 100
 
-    solid_angle_correction(data2d, center, sample_to_detector)
-    pixel_solid_angle = get_pixel_solid_angle(sample_to_detector)
-    scaled_img = scale_to_absolute_intensity(data2d, data2d, sample_transmission, sample_thickness, pixel_solid_angle)
+    #solid_angle_correction(data2d, center, sample_to_detector)
+    #pixel_solid_angle = get_pixel_solid_angle(sample_to_detector)
+    #scaled_img = scale_to_absolute_intensity(data2d, data2d, sample_transmission, sample_thickness, pixel_solid_angle)
 
     """
         intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, center, n_bins)
@@ -39,5 +39,3 @@ if __name__ == '__main__':
 
         plt.show()
         """
-
-

@@ -7,7 +7,7 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 """
 
 from math import sqrt, cos, atan
-from numpy import linspace
+from numpy import linspace, zeros, pi
 
 
 def get_radial_bin(img, outer_radius, inner_radius, center):
@@ -162,3 +162,20 @@ def scale_to_absolute_intensity(measured_img, empty_img, sample_transmission, sa
             m = (empty_img[y][x] * sample_transmission * sample_thickness * pixel_solid_angle)
             scaled_img[y][x] = measured_img[y][x] / m
     return scaled_img
+
+
+def estimate_incoherent_scattering(distance, sample_transmission, shape=(147, 147)):
+    """
+    This function estimates the incoherent scattering assuming that incoherent scattering dominates.
+
+    :param distance:               Sample-to-detector distance
+    :param sample_transmission:    The neutron sample transmission T
+    :param shape:                  The shape of the returned array. Defaults to (147, 147) for the Mirrotron 2D neutron
+                                   detector.
+    :return incoherent_scattering: An estimate of the incoherent scattering of the sample.
+    """
+    incoherent_scattering = zeros(shape, order='F')
+    for y, row in enumerate(incoherent_scattering):
+        for x, val in enumerate(row):
+            incoherent_scattering[y][x] = 1 / (4 * pi * distance) * (1 - sample_transmission) / sample_transmission
+    return incoherent_scattering
