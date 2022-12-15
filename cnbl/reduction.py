@@ -99,3 +99,17 @@ def get_intensity_as_a_function_of_radius_in_pixels(img, center=(0, 0), n_bins=1
         average_intensity = get_average_intensity(img, radial_bin)
         intensities.append(average_intensity)
     return intensities, bins
+
+
+def get_pixel_solid_angle(distance, pixel_dim=(0.7, 0.7)):
+    """
+    Returns the solid angle subtended by a detector pixel orthogonal to and centered on the beam axis.
+
+    :param distance: The sample-to-detector distance in cm.
+    :param pixel_dim: A tuple (x, y) containing the x and y size of the pixel
+    :return solid_angle: The solid angle subtended by the chosen pixel.
+    """
+
+    pixel_area = pixel_dim[0] * pixel_dim[1]
+    solid_angle = pixel_area / (distance * distance)
+    return solid_angle
