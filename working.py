@@ -27,7 +27,7 @@ if __name__ == '__main__':
     pixel_solid_angle = get_pixel_solid_angle(sample_to_detector)
     scale_to_absolute_intensity(data2d, empty, sample_transmission, sample_thickness, pixel_solid_angle)
 
-    intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, center, n_bins)
+    intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, sample_to_detector, center, n_bins)
     radii = [0.7*b for b in bins]
     angles = [math.atan(r/sample_to_detector) for r in radii]
     qs = [4 * np.pi / 3.1 * math.sin(theta / 2) for theta in angles]

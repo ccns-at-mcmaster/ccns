@@ -10,12 +10,12 @@ from math import sqrt, cos, atan
 from numpy import linspace, zeros, pi
 
 
-def angular_correction_factor(theta):
+def _wide_angle_correction_factor(theta):
     """
     Returns the wide-angle correction factor of intensity for a given scattering angle. This function should be called
     during radial averaging.
 
-    :param theta: The scattering angle.
+    :param theta: The scattering angle in degrees.
     :return:
     """
     return 1/cos(theta) - 1
@@ -56,31 +56,43 @@ def get_radial_bin(img, outer_radius, inner_radius, center):
     return indices
 
 
-def get_average_intensity(img, indices):
+def _get_average_intensity(img, indices, center, distance, calibration=0.7):
     """
     This function takes a 2D array of counts and a list of (row, col) indices. It returns the average of counts found at
     points corresponding to the list of indices and returns an integer of intensity.
 
-    :param img: A 2D array of counts, usually array data.
-    :param indices: A list of (row, col) tuples corresponding to valid indices with img.
-    :return intensity: The sum of all elements within img whose indices (row, col) can be found within the param
-                       'indices'.
+    :param img:         A 2D array of counts, usually array data.
+    :param indices:     A list of (row, col) tuples corresponding to valid indices with img.
+    :param center:      A (row, col) tuple containing indices corresponding to the pixel closest to the center of the
+                        beam.
+    :param distance:    Sample-to-detector distance in cm.
+    :param calibration: The real size of the detector pixel in cm. This should be 0.7 cm for the Mirrotron 2D
+                        detector.
+    :return intensity:  The sum of all elements within img whose indices (row, col) can be found within the param
+                        'indices'.
     """
+
     intensity = 0
     for y, row in enumerate(img):
         for x, val in enumerate(row):
             point = (y, x)
             if point in indices:
-                intensity += val
+                dx = x - center[1]
+                dy = y - center[0]
+                radius = sqrt(dx * dx + dy * dy)
+                radius *= calibration
+                scattering_angle = atan(radius / distance)
+                intensity += val * _wide_angle_correction_factor(scattering_angle)
     intensity = intensity / len(indices)
     return intensity
 
 
-def get_intensity_as_a_function_of_radius_in_pixels(img, center=(0, 0), n_bins=100):
+def get_intensity_as_a_function_of_radius_in_pixels(img, distance, center=(0, 0), n_bins=100):
     """
     Returns a list of radially averaged scattered intensities and their associated radial bins in pixels.
 
     :param img:          A 2D array of image data.
+    :param distance:     Sample-to-detector distance in cm.
     :param center:       A tuple of the (row, col) index of the pixel at the center of the beam center or other point of
                          interest.
     :param n_bins:       The number of bins used by radial binning methods.
@@ -105,7 +117,7 @@ def get_intensity_as_a_function_of_radius_in_pixels(img, center=(0, 0), n_bins=1
         if i == (len(bins) - 1):
             continue
         radial_bin = get_radial_bin(img, bins[i+1], bins[i], center)
-        average_intensity = get_average_intensity(img, radial_bin)
+        average_intensity = _get_average_intensity(img, radial_bin, center, distance)
         intensities.append(average_intensity)
     return intensities, bins
 
