@@ -137,3 +137,28 @@ def solid_angle_correction(img, center, distance, calibration=0.7):
             theta = atan(radius/distance)
             img[y][x] *= cos(theta) * cos(theta) * cos(theta)
     return
+
+
+def scale_to_absolute_intensity(measured_img, empty_img, sample_transmission, sample_thickness, pixel_solid_angle):
+    """
+    Scale the SANS data to form the macroscopic scattering cross section (units of cm^-1). The result is the absolute
+    intensity.
+
+    :param measured_img:        2D array of scattering measured with a sample
+    :param empty_img:           2D array of scattering measured with an empty beam
+    :param sample_transmission: The neutron sample transmission T
+    :param sample_thickness:    The thickness of the sample in cm.
+    :param pixel_solid_angle:   The solid angle subtended by a pixel.
+    :return scaled_img:         A 2D array of absolute intensity (units of cm^-1)
+    """
+
+    if measured_img.shape != empty_img.shape:
+        raise Exception("The shape of the measured scattering intensity with the sample %s must match the shape of the "
+                        "empty beam measure %s" % (measured_img.shape, empty_img.shape))
+
+    scaled_img = measured_img.copy()
+    for y, row in enumerate(scaled_img):
+        for x, val in enumerate(row):
+            m = (empty_img[y][x] * sample_transmission * sample_thickness * pixel_solid_angle)
+            scaled_img[y][x] = measured_img[y][x] / m
+    return scaled_img

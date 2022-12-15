@@ -13,6 +13,8 @@ if __name__ == '__main__':
     sample_aperture_diameter = 1.27
     source_aperture_to_sample = 537
     sample_to_detector = 800
+    sample_transmission = 0.9
+    sample_thickness = 0.5
 
     data1d = caget('sans:mirr2d[sans_det]-Getim2DDAQ_RBV.AVAL')
     data2d = np.reshape(data1d, (147,147), order='F')
@@ -20,7 +22,8 @@ if __name__ == '__main__':
     n_bins = 100
 
     solid_angle_correction(data2d, center, sample_to_detector)
-    #scale_scattering_intensity(data2d, data1d, 1, 1, 1)
+    pixel_solid_angle = get_pixel_solid_angle(sample_to_detector)
+    scaled_img = scale_to_absolute_intensity(data2d, data2d, sample_transmission, sample_thickness, pixel_solid_angle)
 
     """
         intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, center, n_bins)
