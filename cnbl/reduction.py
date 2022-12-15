@@ -12,7 +12,8 @@ from numpy import linspace, zeros, pi
 
 def angular_correction_factor(theta):
     """
-    Returns the angular correction for a given scattering angle. This function should be called during radial averaging.
+    Returns the wide-angle correction factor of intensity for a given scattering angle. This function should be called
+    during radial averaging.
 
     :param theta: The scattering angle.
     :return:
