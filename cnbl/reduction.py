@@ -10,6 +10,16 @@ from math import sqrt, cos, atan
 from numpy import linspace, zeros, pi
 
 
+def angular_correction_factor(theta):
+    """
+    Returns the angular correction for a given scattering angle. This function should be called during radial averaging.
+
+    :param theta: The scattering angle.
+    :return:
+    """
+    return (1/cos(theta) - 1)
+
+
 def get_radial_bin(img, outer_radius, inner_radius, center):
     """
     This function is used for radial binning of SANS data. It returns a list of (row, col) indices corresponding to
