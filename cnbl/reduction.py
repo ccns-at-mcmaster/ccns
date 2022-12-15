@@ -1,3 +1,15 @@
+"""
+Methods intended for reduction of raw SANS data collected at the MacSANS laboratory at McMaster Nuclear Reactor.
+
+    Author: Devin Burke
+
+(c) Copyright 2022, McMaster University
+"""
+
+from math import sqrt
+from numpy import linspace
+
+
 def circular_binning(img, radius, center=(0, 0)):
     """
     Pixels that fall within a circle of radius r about a center point at (m1, m2):
@@ -77,7 +89,6 @@ def get_intensity_as_a_function_of_radius_in_pixels(img, center=(0, 0), n_bins=1
     :return bins: A list defining the edges (in units of pixels) of radial bins used for averaging.
     """
     # Get the distance to the pixel farthest from the center point
-    from math import sqrt
     distance_to_farthest_pixel = 0.0
     for y, row in enumerate(img):
         for x, _ in enumerate(row):
@@ -87,7 +98,6 @@ def get_intensity_as_a_function_of_radius_in_pixels(img, center=(0, 0), n_bins=1
             if distance > distance_to_farthest_pixel:
                 distance_to_farthest_pixel = distance
     # Make list of tuples where each element contains in inner and outer diameter of a ring
-    from numpy import linspace
     bins = linspace(0.0, distance_to_farthest_pixel, num=n_bins)
 
     # Use bins as ring boundaries to calculate a list of intensities
