@@ -17,26 +17,24 @@ if __name__ == '__main__':
     data1d = caget('sans:mirr2d[sans_det]-Getim2DDAQ_RBV.AVAL')
     data2d = np.reshape(data1d, (147,147), order='F')
     center = (75, 111)
-    n_bins = 25
+    n_bins = 100
+
+    solid_angle_correction(data2d, center, sample_to_detector)
+    #scale_scattering_intensity(data2d, data1d, 1, 1, 1)
+
     """
-    intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, center, n_bins)
-    radii = [0.7*b for b in bins]
-    angles = [math.atan(r/sample_to_detector) for r in radii]
-    qs = [4 * np.pi / 3.1 * math.sin(theta / 2) for theta in angles]
+        intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, center, n_bins)
+        radii = [0.7*b for b in bins]
+        angles = [math.atan(r/sample_to_detector) for r in radii]
+        qs = [4 * np.pi / 3.1 * math.sin(theta / 2) for theta in angles]
 
-    fig, ax = plt.subplots()
-    ax.bar(qs[:-1], intensities, align='edge', width=qs[1]-qs[0])
-    ax.set_xlabel("Q (/ang)")
-    ax.set_ylabel("Scattered Intensity")
-    ax.set_xscale('log')
+        fig, ax = plt.subplots()
+        ax.bar(qs[:-1], intensities, align='edge', width=qs[1]-qs[0])
+        ax.set_xlabel("Q (/ang)")
+        ax.set_ylabel("Scattered Intensity")
+        ax.set_xscale('log')
 
-    plt.show()
-    """
-    outer_radius = 30
-    inner_radius = 25
-    ring = get_ring(data2d, outer_radius, inner_radius, center)
+        plt.show()
+        """
 
-    empty = np.zeros_like(data2d)
-    for pixel in ring:
-        empty[pixel[0]][pixel[1]] = 100
-    print_impact_matrix(empty)
+

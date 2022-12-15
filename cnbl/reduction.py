@@ -6,7 +6,7 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 (c) Copyright 2022, McMaster University
 """
 
-from math import sqrt
+from math import sqrt, cos, atan
 from numpy import linspace
 
 
@@ -85,7 +85,7 @@ def get_intensity_as_a_function_of_radius_in_pixels(img, center=(0, 0), n_bins=1
             distance = sqrt(dx * dx + dy * dy)
             if distance > distance_to_farthest_pixel:
                 distance_to_farthest_pixel = distance
-    # Make list of tuples where each element contains in inner and outer diameter of a ring
+    # Define the bounds of radial bins out to the
     bins = linspace(0.0, distance_to_farthest_pixel, num=n_bins)
 
     # Use bins as ring boundaries to calculate a list of intensities
@@ -93,9 +93,7 @@ def get_intensity_as_a_function_of_radius_in_pixels(img, center=(0, 0), n_bins=1
     for i, _ in enumerate(bins):
         if i == (len(bins) - 1):
             continue
-        outer_radius = (img, bins[i+1], center)
-        inner_radius = (img, bins[i], center)
-        radial_bin = get_radial_bin(img, outer_radius, inner_radius, center)
+        radial_bin = get_radial_bin(img, bins[i+1], bins[i], center)
         average_intensity = get_average_intensity(img, radial_bin)
         intensities.append(average_intensity)
     return intensities, bins
@@ -113,3 +111,29 @@ def get_pixel_solid_angle(distance, pixel_dim=(0.7, 0.7)):
     pixel_area = pixel_dim[0] * pixel_dim[1]
     solid_angle = pixel_area / (distance * distance)
     return solid_angle
+
+
+def solid_angle_correction(img, center, distance, calibration=0.7):
+    """
+    Perform solid angle correction of SANS data for planar detectors. This is usually the first step in data correction.
+    The value of each pixel is multiplied by a geometric correction factor cos^3(theta). This function operates on the
+    2D array you pass to it and returns None.
+
+    :param img:            A 2D array of detector pixel values
+    :param center:         A (row, col) tuple containing indices corresponding to the pixel closest to the center of the
+                           beam.
+    :param distance:       Sample-to-detector distance in cm.
+    :param calibration:    The real size of the detector pixel in cm. This should be 0.7 cm for the Mirrotron 2D
+                           detector.
+    :return
+    """
+
+    for y, row in enumerate(img):
+        for x, _ in enumerate(row):
+            dx = x - center[1]
+            dy = y - center[0]
+            radius = sqrt(dx * dx + dy * dy)
+            radius *= calibration
+            theta = atan(radius/distance)
+            img[y][x] *= cos(theta) * cos(theta) * cos(theta)
+    return
