@@ -60,7 +60,7 @@ def get_average_intensity(img, indices):
         for x, val in enumerate(row):
             point = (y, x)
             if point in indices:
-                intensity += int(val)
+                intensity += val
     intensity = intensity / len(indices)
     return intensity
 
@@ -156,12 +156,11 @@ def scale_to_absolute_intensity(measured_img, empty_img, sample_transmission, sa
         raise Exception("The shape of the measured scattering intensity with the sample %s must match the shape of the "
                         "empty beam measure %s" % (measured_img.shape, empty_img.shape))
 
-    scaled_img = measured_img.copy()
-    for y, row in enumerate(scaled_img):
+    for y, row in enumerate(measured_img):
         for x, val in enumerate(row):
             m = (empty_img[y][x] * sample_transmission * sample_thickness * pixel_solid_angle)
-            scaled_img[y][x] = measured_img[y][x] / m
-    return scaled_img
+            measured_img[y][x] *= 1 / m
+    return measured_img
 
 
 def estimate_incoherent_scattering(distance, sample_transmission, shape=(147, 147)):

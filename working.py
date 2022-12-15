@@ -21,21 +21,21 @@ if __name__ == '__main__':
     center = (75, 111)
     n_bins = 100
 
-    #solid_angle_correction(data2d, center, sample_to_detector)
-    #pixel_solid_angle = get_pixel_solid_angle(sample_to_detector)
-    #scaled_img = scale_to_absolute_intensity(data2d, data2d, sample_transmission, sample_thickness, pixel_solid_angle)
+    #Assume perfect empty beam
+    empty = np.ones_like(data2d, dtype='float32')
+    solid_angle_correction(data2d, center, sample_to_detector)
+    pixel_solid_angle = get_pixel_solid_angle(sample_to_detector)
+    scale_to_absolute_intensity(data2d, empty, sample_transmission, sample_thickness, pixel_solid_angle)
 
-    """
-        intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, center, n_bins)
-        radii = [0.7*b for b in bins]
-        angles = [math.atan(r/sample_to_detector) for r in radii]
-        qs = [4 * np.pi / 3.1 * math.sin(theta / 2) for theta in angles]
+    intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, center, n_bins)
+    radii = [0.7*b for b in bins]
+    angles = [math.atan(r/sample_to_detector) for r in radii]
+    qs = [4 * np.pi / 3.1 * math.sin(theta / 2) for theta in angles]
 
-        fig, ax = plt.subplots()
-        ax.bar(qs[:-1], intensities, align='edge', width=qs[1]-qs[0])
-        ax.set_xlabel("Q (/ang)")
-        ax.set_ylabel("Scattered Intensity")
-        ax.set_xscale('log')
+    fig, ax = plt.subplots()
+    ax.bar(qs[:-1], intensities, align='edge', width=qs[1]-qs[0])
+    ax.set_xlabel("Q (ang^-1)")
+    ax.set_ylabel("Scattered Intensity (cm^-1)")
+    ax.set_xscale('log')
 
-        plt.show()
-        """
+    plt.show()
