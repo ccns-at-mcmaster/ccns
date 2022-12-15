@@ -18,7 +18,7 @@ def angular_correction_factor(theta):
     :param theta: The scattering angle.
     :return:
     """
-    return (1/cos(theta) - 1)
+    return 1/cos(theta) - 1
 
 
 def get_radial_bin(img, outer_radius, inner_radius, center):
