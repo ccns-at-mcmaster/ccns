@@ -16,8 +16,9 @@ if __name__ == '__main__':
 
     data1d = caget('sans:mirr2d[sans_det]-Getim2DDAQ_RBV.AVAL')
     data2d = np.reshape(data1d, (147,147), order='F')
-    center = (111, 75)
+    center = (75, 111)
     n_bins = 25
+    """
     intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, center, n_bins)
     radii = [0.7*b for b in bins]
     angles = [math.atan(r/sample_to_detector) for r in radii]
@@ -30,3 +31,12 @@ if __name__ == '__main__':
     ax.set_xscale('log')
 
     plt.show()
+    """
+    outer_radius = 30
+    inner_radius = 25
+    ring = get_ring(data2d, outer_radius, inner_radius, center)
+
+    empty = np.zeros_like(data2d)
+    for pixel in ring:
+        empty[pixel[0]][pixel[1]] = 100
+    print_impact_matrix(empty)
