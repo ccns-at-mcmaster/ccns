@@ -139,9 +139,8 @@ dmypy.json
 cython_debug/
 
 # Pycharm workspace
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/*.iws
+.idea/*
+.idea
 
 #Temporary files
 working.py
