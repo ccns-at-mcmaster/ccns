@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/cnbl.iml" filepath="$PROJECT_DIR$/.idea/cnbl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../nexus/.idea/nexus.iml" filepath="$PROJECT_DIR$/../nexus/.idea/nexus.iml" />
     </modules>
   </component>
 </project>

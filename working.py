@@ -34,8 +34,9 @@ if __name__ == '__main__':
 
     fig, ax = plt.subplots()
     ax.bar(qs[:-1], intensities, align='edge', width=qs[1]-qs[0])
-    ax.set_xlabel("Q (ang^-1)")
-    ax.set_ylabel("Scattered Intensity (cm^-1)")
+    ax.set_xlabel("Q (1/angstrom)")
+    ax.set_ylabel("Scattered Intensity (1/cm)")
     ax.set_xscale('log')
+    #ax.set_yscale('log')
 
     plt.show()
