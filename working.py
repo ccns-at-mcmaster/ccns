@@ -5,9 +5,12 @@ import matplotlib.pyplot as plt
 import math
 
 if __name__ == '__main__':
+    # Load nexus file and read it
     filepath = "raw_data/rocktest0000.raw"
     file = get_nexus_file(filepath)
     data = read_sans_raw(file)
+
+    #Extract useful information from the data dictionary
     data2d = data['data']
     center = (int(data['beam_center_y'][0]), int(data['beam_center_x'][0]))
     sample_to_detector = data['sdd'][0] * 100
@@ -16,6 +19,7 @@ if __name__ == '__main__':
     counting_time = data['metadata_counting_time'][0]
     monitor_counts = data['monitor_integral'][0]
 
+    #These values may not be in the data dict, they will be implemented in the future
     if 'metadata_sample_transmission' in data:
         if not data['metadata_sample_transmission']:
             data['metadata_sample_transmission'] = 0.90
