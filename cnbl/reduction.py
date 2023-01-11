@@ -185,8 +185,7 @@ def scale_to_absolute_intensity(measured_img, empty_img, sample_transmission, sa
                         "empty beam measure %s" % (measured_img.shape, empty_img.shape))
 
     # The effective counting time should be re-normalized to give 10^8 monitor counts
-    rate = monitor_counts / counting_time
-    effective_counting_time = 100000000.0 / rate
+    effective_counting_time = (100000000.0 / monitor_counts) * counting_time
 
     for y, row in enumerate(measured_img):
         for x, val in enumerate(row):
