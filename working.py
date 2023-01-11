@@ -1,10 +1,8 @@
-from epics import caget
 import numpy as np
 from cnbl.reduction import *
 from cnbl.loader import *
 import matplotlib.pyplot as plt
 import math
-from cnbl.utils import print_impact_matrix
 
 if __name__ == '__main__':
     filepath = "C:\\Users\\burkeds\\Desktop\\working\\rocktest0000.raw"

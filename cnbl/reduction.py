@@ -194,7 +194,8 @@ def estimate_incoherent_scattering(distance, sample_transmission, shape=(147, 14
     :param sample_transmission:    The neutron sample transmission T
     :param shape:                  The shape of the returned array. Defaults to (147, 147) for the Mirrotron 2D neutron
                                    detector.
-    :return incoherent_scattering: An estimate of the incoherent scattering of the sample.
+    :return incoherent_scattering: An estimate of the incoherent scattering of the sample. It is a 2D array with shape
+                                   specified by the shape parameter.
     """
     incoherent_scattering = zeros(shape, order='F')
     for y, row in enumerate(incoherent_scattering):
