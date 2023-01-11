@@ -6,7 +6,7 @@ import math
 
 if __name__ == '__main__':
     # Load nexus file and read it
-    filepath = "raw_data/rocktest0000.raw"
+    filepath = "raw_data/agbeh.raw"
     file = get_nexus_file(filepath)
     data = read_sans_raw(file)
 
@@ -16,27 +16,29 @@ if __name__ == '__main__':
     sample_to_detector = data['sdd'][0] * 100
     pixel_size = data['x_pixel_size'][()][0]
     wavelength = data['monochromator_wavelength'][()][0]
-    counting_time = data['metadata_counting_time'][0]
-    monitor_counts = data['monitor_integral'][0]
+    #counting_time = data['metadata_counting_time'][0]
+    counting_time = 600
+    #monitor_counts = data['monitor_integral'][0]
+    monitor_counts = 8.42128E+06
 
     #These values may not be in the data dict, they will be implemented in the future
     if 'metadata_sample_transmission' in data:
         if not data['metadata_sample_transmission']:
-            data['metadata_sample_transmission'] = 0.90
+            data['metadata_sample_transmission'] = 1.0
     else:
-        data['metadata_sample_transmission'] = 0.90
+        data['metadata_sample_transmission'] = 1.0
 
     if 'metadata_sample_thickness' in data:
         if not data['metadata_sample_thickness']:
-            data['metadata_sample_thickness'] = 0.5
+            data['metadata_sample_thickness'] = 0.2
     else:
-        data['metadata_sample_thickness'] = 0.5
+        data['metadata_sample_thickness'] = 0.2
 
     if 'metadata_sample_area' in data:
         if not data['metadata_sample_area']:
-            data['metadata_sample_area'] = 20.27
+            data['metadata_sample_area'] = 3.14
     else:
-        data['metadata_sample_area'] = 20.27
+        data['metadata_sample_area'] = 3.14
 
     if 'detector_efficiency' in data:
         if not data['detector_efficiency']:
