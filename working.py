@@ -13,6 +13,8 @@ if __name__ == '__main__':
     sample_to_detector = data['sdd'][0] * 100
     pixel_size = data['x_pixel_size'][()][0]
     wavelength = data['monochromator_wavelength'][()][0]
+    counting_time = data['metadata_counting_time'][0]
+    monitor_counts = data['monitor_integral'][0]
 
     if not data['metadata_sample_transmission']:
         data['metadata_sample_transmission'] = 0.90
@@ -20,12 +22,17 @@ if __name__ == '__main__':
     if not data['metadata_sample_thickness']:
         data['metadata_sample_thickness'] = 0.5
 
+    if not data['metadata_sample_area']:
+        data['metadata_sample_area'] = 20.27
+
+    if not data['detector_efficiency']:
+        data['detector_efficiency'] = 0.7
+
     sample_transmission = data['metadata_sample_transmission']
     sample_thickness = data['metadata_sample_thickness']
-    efficiency = 0.7
-    illuminated_sample_area = 20.27
-    counting_time = data['metadata_counting_time'][0]
-    monitor_counts = data['monitor_integral'][0]
+    illuminated_sample_area = data['metadata_sample_area']
+    efficiency = data['efficiency']
+
     n_bins = 100
 
     # Assume empty beam results in one count in each pixel
