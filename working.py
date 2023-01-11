@@ -16,22 +16,34 @@ if __name__ == '__main__':
     counting_time = data['metadata_counting_time'][0]
     monitor_counts = data['monitor_integral'][0]
 
-    if not data['metadata_sample_transmission']:
+    if 'metadata_sample_transmission' in data:
+        if not data['metadata_sample_transmission']:
+            data['metadata_sample_transmission'] = 0.90
+    else:
         data['metadata_sample_transmission'] = 0.90
 
-    if not data['metadata_sample_thickness']:
+    if 'metadata_sample_thickness' in data:
+        if not data['metadata_sample_thickness']:
+            data['metadata_sample_thickness'] = 0.5
+    else:
         data['metadata_sample_thickness'] = 0.5
 
-    if not data['metadata_sample_area']:
+    if 'metadata_sample_area' in data:
+        if not data['metadata_sample_area']:
+            data['metadata_sample_area'] = 20.27
+    else:
         data['metadata_sample_area'] = 20.27
 
-    if not data['detector_efficiency']:
+    if 'detector_efficiency' in data:
+        if not data['detector_efficiency']:
+            data['detector_efficiency'] = 0.7
+    else:
         data['detector_efficiency'] = 0.7
 
     sample_transmission = data['metadata_sample_transmission']
     sample_thickness = data['metadata_sample_thickness']
     illuminated_sample_area = data['metadata_sample_area']
-    efficiency = data['efficiency']
+    efficiency = data['detector_efficiency']
 
     n_bins = 100
 
