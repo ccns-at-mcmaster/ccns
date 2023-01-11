@@ -162,26 +162,37 @@ def solid_angle_correction(img, center, distance, calibration=0.7):
     return
 
 
-def scale_to_absolute_intensity(measured_img, empty_img, sample_transmission, sample_thickness, pixel_solid_angle):
+def scale_to_absolute_intensity(measured_img, empty_img, sample_transmission, sample_thickness, pixel_solid_angle,
+                                illuminated_sample_area, detector_efficiency, counting_time, monitor_counts):
     """
     Scale the SANS data to form the macroscopic scattering cross section (units of cm^-1). The result is the absolute
     intensity.
 
-    :param measured_img:        2D array of scattering measured with a sample
-    :param empty_img:           2D array of scattering measured with an empty beam
-    :param sample_transmission: The neutron sample transmission T
-    :param sample_thickness:    The thickness of the sample in cm.
-    :param pixel_solid_angle:   The solid angle subtended by a pixel.
-    :return scaled_img:         A 2D array of absolute intensity (units of cm^-1)
+    :param measured_img:            2D array of scattering measured with a sample.
+    :param empty_img:               2D array of scattering measured with an empty beam.
+    :param sample_transmission:     The neutron sample transmission T.
+    :param sample_thickness:        The thickness of the sample in cm.
+    :param pixel_solid_angle:       The solid angle subtended by a pixel.
+    :param illuminated_sample_area: Area of sample illuminated by probe beam in units of cm^2.
+    :param detector_efficiency:     Efficiency at monochromator wavelength (nominally 0.7).
+    :param counting_time:           Counting time in seconds.
+    :param monitor_counts:          Integral counts of detector events during counting_time.
+    :return scaled_img:             A 2D array of absolute intensity (units of cm^-1)
     """
 
     if measured_img.shape != empty_img.shape:
         raise Exception("The shape of the measured scattering intensity with the sample %s must match the shape of the "
                         "empty beam measure %s" % (measured_img.shape, empty_img.shape))
 
+    # The effective counting time should be re-normalized to give 10^8 monitor counts
+    rate = monitor_counts / counting_time
+    effective_counting_time = 100000000.0 / rate
+
     for y, row in enumerate(measured_img):
         for x, val in enumerate(row):
-            m = (empty_img[y][x] * sample_transmission * sample_thickness * pixel_solid_angle)
+            empty_beam_transmission = (empty_img[y][x] * illuminated_sample_area * detector_efficiency
+                                       * effective_counting_time)
+            m = (empty_beam_transmission * sample_transmission * sample_thickness * pixel_solid_angle)
             measured_img[y][x] *= 1 / m
     return measured_img
 
