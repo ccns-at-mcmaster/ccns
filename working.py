@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import math
 
 if __name__ == '__main__':
-    filepath = "C:\\Users\\burkeds\\Desktop\\working\\rocktest0000.raw"
+    filepath = "raw_data/rocktest0000.raw"
     file = get_nexus_file(filepath)
     data = read_sans_raw(file)
     data2d = data['data']
