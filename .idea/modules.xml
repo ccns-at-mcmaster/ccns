@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CNBC_PY_INTERFACE/.idea/CNBC_PY_INTERFACE.iml" filepath="$PROJECT_DIR$/../CNBC_PY_INTERFACE/.idea/CNBC_PY_INTERFACE.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/cnbl.iml" filepath="$PROJECT_DIR$/.idea/cnbl.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../nexus/.idea/nexus.iml" filepath="$PROJECT_DIR$/../nexus/.idea/nexus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../macsans-reductus-private/.idea/macsans-reductus-private.iml" filepath="$PROJECT_DIR$/../macsans-reductus-private/.idea/macsans-reductus-private.iml" />
     </modules>
   </component>
 </project>

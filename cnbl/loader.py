@@ -41,7 +41,7 @@ def read_sans_raw(file):
 
 
 if __name__ == '__main__':
-    filepath = "C:\\Users\\dburk\\OneDrive\\Desktop\\working\\"
+    filepath = "C:\\Users\\burkeds\\Desktop\\working\\"
     filename = "rocktest0000.raw"
 
     nexus = h5py.File(filepath+filename, 'r')
