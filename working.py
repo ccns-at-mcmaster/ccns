@@ -72,8 +72,7 @@ if __name__ == '__main__':
 
     # Get the solid angle of a pixel as scattering angle zero.
     # Scale data to absolute intensity
-    pixel_solid_angle = get_pixel_solid_angle(sample_to_detector)
-    scale_to_absolute_intensity(data2d, empty, sample_transmission, sample_thickness, pixel_solid_angle,
+    scale_to_absolute_intensity(data2d, empty, sample_transmission, sample_thickness, sample_to_detector,
                                 illuminated_sample_area, efficiency, counting_time, monitor_counts)
 
     # Create estimate of incoherent scattering from sample transmission and subtract from the measured values
