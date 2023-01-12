@@ -173,13 +173,13 @@ def scale_to_absolute_intensity(measured_img, empty_img, data):
     :param data:                    The dictionary of experiment data and metadata.
     :return scaled_img:             A 2D array of absolute intensity (units of cm^-1)
     """
-    sample_transmission = data['metadata_sample_transmission'][()]
-    sample_thickness = data['metadata_sample_thickness'][()]
+    sample_transmission = data['metadata_sample_transmission'][0]
+    sample_thickness = data['metadata_sample_thickness'][0]
     sample_detector_distance = data['sdd'][0]
-    illuminated_sample_area = data['metadata_sample_area'][()]
-    detector_efficiency = data['detector_efficiency'][()]
-    counting_time = data['metadata_counting_time'][()]
-    monitor_counts = int(data['monitor_integral'][()])
+    illuminated_sample_area = data['metadata_sample_area'][0]
+    detector_efficiency = data['detector_efficiency'][0]
+    counting_time = data['metadata_counting_time'][0]
+    monitor_counts = int(data['monitor_integral'][0])
 
     pixel_solid_angle = _pixel_solid_angle(sample_detector_distance)
 
@@ -211,7 +211,7 @@ def estimate_incoherent_scattering(data, shape=(147, 147)):
     """
 
     distance = data['sdd'][0]
-    sample_transmission = data['metadata_sample_transmission'][()]
+    sample_transmission = data['metadata_sample_transmission'][0]
     incoherent_scattering = zeros(shape, order='F')
     for y, row in enumerate(incoherent_scattering):
         for x, val in enumerate(row):

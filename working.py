@@ -20,33 +20,33 @@ if __name__ == '__main__':
     wavelength = data['monochromator_wavelength'][0]
 
     # Set some data arbitrarily
-    data['metadata_counting_time'] = np.array(600, dtype=np.float32)
-    data['monitor_integral'] = np.array(8.42128E+06, dtype=np.float32)
+    data['metadata_counting_time'] = np.array([600.0])
+    data['monitor_integral'] = np.array([8.42128E+06])
 
     # These values may not be in the data dict, they will be implemented in the future
     if 'metadata_sample_transmission' in data:
         if not data['metadata_sample_transmission']:
-            data['metadata_sample_transmission'] = np.array(1.0, dtype=np.float32)
+            data['metadata_sample_transmission'] = np.array([1.0])
     else:
-        data['metadata_sample_transmission'] = np.array(1.0, dtype=np.float32)
+        data['metadata_sample_transmission'] = np.array([1.0])
 
     if 'metadata_sample_thickness' in data:
         if not data['metadata_sample_thickness']:
-            data['metadata_sample_thickness'] = np.array(0.2, dtype=np.float32)
+            data['metadata_sample_thickness'] = np.array([0.2])
     else:
-        data['metadata_sample_thickness'] = np.array(0.2, dtype=np.float32)
+        data['metadata_sample_thickness'] = np.array([0.2])
 
     if 'metadata_sample_area' in data:
         if not data['metadata_sample_area']:
-            data['metadata_sample_area'] = np.array(3.14, dtype=np.float32)
+            data['metadata_sample_area'] = np.array([3.14])
     else:
-        data['metadata_sample_area'] = np.array(3.14, dtype=np.float32)
+        data['metadata_sample_area'] = np.array([3.14])
 
     if 'detector_efficiency' in data:
         if not data['detector_efficiency']:
-            data['detector_efficiency'] = np.array(0.7, dtype=np.float32)
+            data['detector_efficiency'] = np.array([0.7])
     else:
-        data['detector_efficiency'] = np.array(0.7, dtype=np.float32)
+        data['detector_efficiency'] = np.array([0.7])
 
     n_bins = 100
 
