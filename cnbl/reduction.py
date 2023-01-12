@@ -199,18 +199,17 @@ def scale_to_absolute_intensity(measured_img, empty_img, data):
     return measured_img
 
 
-def estimate_incoherent_scattering(data, shape=(147, 147)):
+def estimate_incoherent_scattering(data):
     """
     This function estimates the incoherent scattering assuming that incoherent scattering dominates.
 
     :param data:                   The dictionary of experiment data and metadata.
-    :param shape:                  The shape of the returned array. Defaults to (147, 147) for the Mirrotron 2D neutron
-                                   detector.
     :return incoherent_scattering: An estimate of the incoherent scattering of the sample. It is a 2D array with shape
                                    specified by the shape parameter.
     """
 
     distance = data['sdd'][0]
+    shape = data['data'].shape
     sample_transmission = data['metadata_sample_transmission'][0]
     incoherent_scattering = zeros(shape, order='F')
     for y, row in enumerate(incoherent_scattering):

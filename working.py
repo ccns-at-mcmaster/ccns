@@ -70,7 +70,7 @@ if __name__ == '__main__':
     scale_to_absolute_intensity(data2d, empty, data)
 
     # Create estimate of incoherent scattering from sample transmission and subtract from the measured values
-    incoherent = estimate_incoherent_scattering(data, shape=data2d.shape)
+    incoherent = estimate_incoherent_scattering(data)
     data2d = np.subtract(data2d, incoherent)
 
     # Get a histogram of radially averaged intensities
