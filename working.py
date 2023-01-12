@@ -1,8 +1,9 @@
-import numpy as np
 from cnbl.reduction import *
 from cnbl.loader import *
+from cnbl.masking import *
 import matplotlib.pyplot as plt
 import math
+from cnbl.utils import print_impact_matrix
 
 if __name__ == '__main__':
     # Load nexus file and read it
@@ -10,18 +11,18 @@ if __name__ == '__main__':
     file = get_nexus_file(filepath)
     data = read_sans_raw(file)
 
-    #Extract useful information from the data dictionary
+    # Extract useful information from the data dictionary
     data2d = data['data']
     center = (int(data['beam_center_y'][0]), int(data['beam_center_x'][0]))
     sample_to_detector = data['sdd'][0] * 100
     pixel_size = data['x_pixel_size'][()][0]
     wavelength = data['monochromator_wavelength'][()][0]
-    #counting_time = data['metadata_counting_time'][0]
+    # counting_time = data['metadata_counting_time'][0]
     counting_time = 600
-    #monitor_counts = data['monitor_integral'][0]
+    # monitor_counts = data['monitor_integral'][0]
     monitor_counts = 8.42128E+06
 
-    #These values may not be in the data dict, they will be implemented in the future
+    # These values may not be in the data dict, they will be implemented in the future
     if 'metadata_sample_transmission' in data:
         if not data['metadata_sample_transmission']:
             data['metadata_sample_transmission'] = 1.0
@@ -53,6 +54,16 @@ if __name__ == '__main__':
 
     n_bins = 100
 
+    # Visualize the raw data
+    print_impact_matrix(data2d)
+
+    # Demonstrate masking
+    rectangular_mask = get_mask('rectangle', x_width=30, y_width=30, origin=(50, 50))
+    circular_mask = get_mask('circle', outer_radius=30, origin=(50, 50))
+    ring_mask = get_mask('ring', inner_radius=15, outer_radius=30, origin=(50, 50))
+    # apply_mask(data2d, ring_mask)
+    # print_impact_matrix(data2d)
+    
     # Assume empty beam results in one count in each pixel
     empty = np.ones_like(data2d, dtype='float32')
 

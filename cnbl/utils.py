@@ -1,11 +1,21 @@
+"""
+Utility functions useful when performing data analysis, visualization, and reduction. Intended for use at the MacSANS
+laboratory at McMaster University
+
+    Author: Devin Burke
+
+(c) Copyright 2022, McMaster University
+"""
+
+
 def print_impact_matrix(dat):
     import matplotlib.pyplot as plt
-    H = dat
+    h = dat
     fig = plt.figure(figsize=(6, 3.2))
 
     ax = fig.add_subplot(111)
     ax.set_title('Impact Matrix')
-    plt.imshow(H)
+    plt.imshow(h)
     ax.set_aspect('equal')
 
     cax = fig.add_axes([0.12, 0.1, 0.78, 0.8])

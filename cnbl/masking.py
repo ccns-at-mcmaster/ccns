@@ -130,3 +130,13 @@ def get_mask(mask_shape, array_shape=(147, 147), x_width=None, y_width=None, ori
             raise Exception("A ring mask requires an inner and outer radius as well as an origin (center) point.")
         _ring_mask(mask, outer_radius, inner_radius, origin)
         return mask
+
+
+def apply_mask(data, mask):
+    if data.shape == mask.shape:
+        for y, row in enumerate(data):
+            for x, _ in enumerate(row):
+                if not mask[y][x]:
+                    data[y][x] = 0
+    else:
+        raise Exception('The data array and the mask array must have the same shape.')
