@@ -4,6 +4,7 @@ from cnbl.masking import *
 import matplotlib.pyplot as plt
 import math
 from cnbl.utils import print_impact_matrix
+import numpy as np
 
 if __name__ == '__main__':
     # Load nexus file and read it
@@ -13,44 +14,39 @@ if __name__ == '__main__':
 
     # Extract useful information from the data dictionary
     data2d = data['data']
-    center = (int(data['beam_center_y'][0]), int(data['beam_center_x'][0]))
-    sample_to_detector = data['sdd'][0] * 100
-    pixel_size = data['x_pixel_size'][()][0]
-    wavelength = data['monochromator_wavelength'][()][0]
-    # counting_time = data['metadata_counting_time'][0]
-    counting_time = 600
-    # monitor_counts = data['monitor_integral'][0]
-    monitor_counts = 8.42128E+06
+    data['sdd'][0] *= 100
+    sample_to_detector = data['sdd'][0]
+    pixel_size = data['x_pixel_size'][0]
+    wavelength = data['monochromator_wavelength'][0]
+
+    # Set some data arbitrarily
+    data['metadata_counting_time'] = np.array(600, dtype=np.float32)
+    data['monitor_integral'] = np.array(8.42128E+06, dtype=np.float32)
 
     # These values may not be in the data dict, they will be implemented in the future
     if 'metadata_sample_transmission' in data:
         if not data['metadata_sample_transmission']:
-            data['metadata_sample_transmission'] = 1.0
+            data['metadata_sample_transmission'] = np.array(1.0, dtype=np.float32)
     else:
-        data['metadata_sample_transmission'] = 1.0
+        data['metadata_sample_transmission'] = np.array(1.0, dtype=np.float32)
 
     if 'metadata_sample_thickness' in data:
         if not data['metadata_sample_thickness']:
-            data['metadata_sample_thickness'] = 0.2
+            data['metadata_sample_thickness'] = np.array(0.2, dtype=np.float32)
     else:
-        data['metadata_sample_thickness'] = 0.2
+        data['metadata_sample_thickness'] = np.array(0.2, dtype=np.float32)
 
     if 'metadata_sample_area' in data:
         if not data['metadata_sample_area']:
-            data['metadata_sample_area'] = 3.14
+            data['metadata_sample_area'] = np.array(3.14, dtype=np.float32)
     else:
-        data['metadata_sample_area'] = 3.14
+        data['metadata_sample_area'] = np.array(3.14, dtype=np.float32)
 
     if 'detector_efficiency' in data:
         if not data['detector_efficiency']:
-            data['detector_efficiency'] = 0.7
+            data['detector_efficiency'] = np.array(0.7, dtype=np.float32)
     else:
-        data['detector_efficiency'] = 0.7
-
-    sample_transmission = data['metadata_sample_transmission']
-    sample_thickness = data['metadata_sample_thickness']
-    illuminated_sample_area = data['metadata_sample_area']
-    efficiency = data['detector_efficiency']
+        data['detector_efficiency'] = np.array(0.7, dtype=np.float32)
 
     n_bins = 100
 
@@ -68,20 +64,18 @@ if __name__ == '__main__':
     empty = np.ones_like(data2d, dtype='float32')
 
     # Perform solid angle correction on data
-    solid_angle_correction(data2d, center, sample_to_detector)
+    solid_angle_correction(data2d, data)
 
-    # Get the solid angle of a pixel as scattering angle zero.
     # Scale data to absolute intensity
-    scale_to_absolute_intensity(data2d, empty, sample_transmission, sample_thickness, sample_to_detector,
-                                illuminated_sample_area, efficiency, counting_time, monitor_counts)
+    scale_to_absolute_intensity(data2d, empty, data)
 
     # Create estimate of incoherent scattering from sample transmission and subtract from the measured values
-    incoherent = estimate_incoherent_scattering(sample_to_detector, sample_transmission, shape=data2d.shape)
+    incoherent = estimate_incoherent_scattering(data, shape=data2d.shape)
     data2d = np.subtract(data2d, incoherent)
 
     # Get a histogram of radially averaged intensities
     # Wide angle correction is performed during radial averaging.
-    intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, sample_to_detector, center, n_bins)
+    intensities, bins = get_intensity_as_a_function_of_radius_in_pixels(data2d, data, n_bins)
 
     # Convert bins in units of pixels to physical lengths
     radii = [pixel_size*b for b in bins]

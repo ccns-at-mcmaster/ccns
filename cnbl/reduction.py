@@ -21,7 +21,7 @@ def _wide_angle_correction_factor(theta):
     return 1/cos(theta) - 1
 
 
-def get_radial_bin(img, outer_radius, inner_radius, center):
+def _get_radial_bin(img, outer_radius, inner_radius, center):
     """
     This function is used for radial binning of SANS data. It returns a list of (row, col) indices corresponding to
     pixels that fall within a ring of arbitrary thickness about an arbitrary center point. This function defines two
@@ -87,18 +87,19 @@ def _get_average_intensity(img, indices, center, distance, calibration=0.7):
     return intensity
 
 
-def get_intensity_as_a_function_of_radius_in_pixels(img, distance, center=(0, 0), n_bins=100):
+def get_intensity_as_a_function_of_radius_in_pixels(img, data, n_bins=100):
     """
     Returns a list of radially averaged scattered intensities and their associated radial bins in pixels.
 
     :param img:          A 2D array of image data.
-    :param distance:     Sample-to-detector distance in cm.
-    :param center:       A tuple of the (row, col) index of the pixel at the center of the beam center or other point of
-                         interest.
+    :param data:         The dictionary of experiment data and metadata.
     :param n_bins:       The number of bins used by radial binning methods.
     :return intensities: A list of radially averaged intensities.
     :return bins:        A list defining the edges (in units of pixels) of radial bins used for averaging.
     """
+
+    distance = data['sdd'][0]
+    center = (int(data['beam_center_x'][0]), int(data['beam_center_y'][0]))
     # Get the distance to the pixel farthest from the center point
     distance_to_farthest_pixel = 0.0
     for y, row in enumerate(img):
@@ -116,13 +117,13 @@ def get_intensity_as_a_function_of_radius_in_pixels(img, distance, center=(0, 0)
     for i, _ in enumerate(bins):
         if i == (len(bins) - 1):
             continue
-        radial_bin = get_radial_bin(img, bins[i+1], bins[i], center)
+        radial_bin = _get_radial_bin(img, bins[i + 1], bins[i], center)
         average_intensity = _get_average_intensity(img, radial_bin, center, distance)
         intensities.append(average_intensity)
     return intensities, bins
 
 
-def get_pixel_solid_angle(distance, pixel_dim=(0.7, 0.7)):
+def _pixel_solid_angle(distance, pixel_dim=(0.7, 0.7)):
     """
     Returns the solid angle subtended by a detector pixel orthogonal to and centered on the beam axis.
 
@@ -136,20 +137,20 @@ def get_pixel_solid_angle(distance, pixel_dim=(0.7, 0.7)):
     return solid_angle
 
 
-def solid_angle_correction(img, center, distance, calibration=0.7):
+def solid_angle_correction(img, data):
     """
     Perform solid angle correction of SANS data for planar detectors. This is usually the first step in data correction.
     The value of each pixel is multiplied by a geometric correction factor cos^3(theta). This function operates on the
     2D array you pass to it and returns None.
 
-    :param img:            A 2D array of detector pixel values
-    :param center:         A (row, col) tuple containing indices corresponding to the pixel closest to the center of the
-                           beam.
-    :param distance:       Sample-to-detector distance in cm.
-    :param calibration:    The real size of the detector pixel in cm. This should be 0.7 cm for the Mirrotron 2D
-                           detector.
+    :param img:            A 2D array of detector pixel values.
+    :param data:           The dictionary of experiment data and metadata.
     :return
     """
+
+    distance = data['sdd'][0]
+    center = (int(data['beam_center_x'][0]), int(data['beam_center_y'][0]))
+    calibration = data['x_pixel_size'][0]
 
     for y, row in enumerate(img):
         for x, _ in enumerate(row):
@@ -162,26 +163,25 @@ def solid_angle_correction(img, center, distance, calibration=0.7):
     return
 
 
-def scale_to_absolute_intensity(measured_img, empty_img, sample_transmission, sample_thickness,
-                                sample_detector_distance, illuminated_sample_area, detector_efficiency, counting_time,
-                                monitor_counts):
+def scale_to_absolute_intensity(measured_img, empty_img, data):
     """
     Scale the SANS data to form the macroscopic scattering cross section (units of cm^-1). The result is the absolute
     intensity.
 
     :param measured_img:            2D array of scattering measured with a sample.
     :param empty_img:               2D array of scattering measured with an empty beam.
-    :param sample_transmission:     The neutron sample transmission T.
-    :param sample_thickness:        The thickness of the sample in cm.
-    :param sample_detector_distance:The solid angle subtended by a pixel.
-    :param illuminated_sample_area: Area of sample illuminated by probe beam in units of cm^2.
-    :param detector_efficiency:     Efficiency at monochromator wavelength (nominally 0.7).
-    :param counting_time:           Counting time in seconds.
-    :param monitor_counts:          Integral counts of detector events during counting_time.
+    :param data:                    The dictionary of experiment data and metadata.
     :return scaled_img:             A 2D array of absolute intensity (units of cm^-1)
     """
+    sample_transmission = data['metadata_sample_transmission'][()]
+    sample_thickness = data['metadata_sample_thickness'][()]
+    sample_detector_distance = data['sdd'][0]
+    illuminated_sample_area = data['metadata_sample_area'][()]
+    detector_efficiency = data['detector_efficiency'][()]
+    counting_time = data['metadata_counting_time'][()]
+    monitor_counts = int(data['monitor_integral'][()])
 
-    pixel_solid_angle = get_pixel_solid_angle(sample_detector_distance)
+    pixel_solid_angle = _pixel_solid_angle(sample_detector_distance)
 
     if measured_img.shape != empty_img.shape:
         raise Exception("The shape of the measured scattering intensity with the sample %s must match the shape of the "
@@ -199,17 +199,19 @@ def scale_to_absolute_intensity(measured_img, empty_img, sample_transmission, sa
     return measured_img
 
 
-def estimate_incoherent_scattering(distance, sample_transmission, shape=(147, 147)):
+def estimate_incoherent_scattering(data, shape=(147, 147)):
     """
     This function estimates the incoherent scattering assuming that incoherent scattering dominates.
 
-    :param distance:               Sample-to-detector distance
-    :param sample_transmission:    The neutron sample transmission T
+    :param data:                   The dictionary of experiment data and metadata.
     :param shape:                  The shape of the returned array. Defaults to (147, 147) for the Mirrotron 2D neutron
                                    detector.
     :return incoherent_scattering: An estimate of the incoherent scattering of the sample. It is a 2D array with shape
                                    specified by the shape parameter.
     """
+
+    distance = data['sdd'][0]
+    sample_transmission = data['metadata_sample_transmission'][()]
     incoherent_scattering = zeros(shape, order='F')
     for y, row in enumerate(incoherent_scattering):
         for x, val in enumerate(row):
