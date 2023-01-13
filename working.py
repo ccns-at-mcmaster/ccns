@@ -61,6 +61,9 @@ if __name__ == '__main__':
     irregular_mask = get_mask('irregular', (147,147), irregular_pixels=masked_pixel_list)
     # apply_mask(data2d, ring_mask)
     # print_impact_matrix(data2d)
+
+    # Trim 5 pixels from the edges of the data
+    trim_edges(data2d, 5)
     
     # Assume empty beam results in one count in each pixel
     empty = np.ones_like(data2d, dtype='float32')

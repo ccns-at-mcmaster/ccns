@@ -157,6 +157,15 @@ def get_mask(mask_shape, array_shape=(147, 147), x_width=None, y_width=None, ori
 
 
 def apply_mask(data, mask):
+    """
+    This method applies a mask to experimental data. The mask is a boolean array with the same shape as data. The mask
+    is used to filter the data by setting the pixel values in data to zero if the corresponding pixel in the mask is
+    '0'.
+
+    :param data: A 2D numpy array containing experimental SANS array data.
+    :param mask: A 2D numpy array of boolean values.
+    :return:
+    """
     if data.shape == mask.shape:
         for y, row in enumerate(data):
             for x, _ in enumerate(row):
@@ -164,3 +173,29 @@ def apply_mask(data, mask):
                     data[y][x] = 0
     else:
         raise Exception('The data array and the mask array must have the same shape.')
+
+
+def trim_edges(data, trim_width):
+    """
+    This method trims the edges of the data by setting the pixel values of pixels within trim_width pixels of the edge
+    to zero.
+
+    :param data: A 2D numpy array containing experimental SANS array data.
+    :param trim_width: The width, in pixels, which will be trimmed from the edges of the data.
+    :return:
+    """
+    if type(trim_width) is int:
+        height = data.shape[0]
+        width = data.shape[1]
+        indices = []
+        for y, row in enumerate(data):
+            for x, _ in enumerate(row):
+                if (y in range(0, trim_width)) or (x in range(0, trim_width)):
+                    indices.append((y, x))
+                if (y in range(height - trim_width, height)) or (x in range(width - trim_width, width)):
+                    indices.append((y, x))
+        mask = get_mask('irregular', data.shape, irregular_pixels=indices)
+        apply_mask(data, mask)
+    else:
+        raise Exception('The trim_width must be an integer number of pixels.')
+    return
