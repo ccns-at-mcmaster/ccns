@@ -89,30 +89,48 @@ def _ring_mask(mask, outer_radius, inner_radius, center):
     return
 
 
+def _irregular_mask(mask, pixels):
+    """
+    This acts on an array and sets the values within an arbitrary list of pixels to zero.
+
+    :param mask: A 2D numpy array.
+    :param pixels: A list of (row, col) tuples whose indices correspond to pixels that will make up the mask feature.
+    :return:
+    """
+    for pixel in pixels:
+        if (type(pixel) is tuple) and (type(pixel[0]) is int) and (type(pixel[1]) is int):
+            mask[pixel[0]][pixel[1]] = 0
+        else:
+            raise Exception('The list of masked pixels must be composed of integer (row, col) tuples.')
+    return
+
+
 def get_mask(mask_shape, array_shape=(147, 147), x_width=None, y_width=None, origin=None, inner_radius=None,
-             outer_radius=None):
+             outer_radius=None, irregular_pixels=None):
     """
     This method returns a boolean array of shape array_shape. This boolean array has '0' values within a geometric area
     defined by input parameters in the shape of a rectangle, a circle, or a ring. This is a mask which can be applied to
-    a data array to ignore part of the data during reduction.
+    a data array to ignore part of the data during reduction. If an 'irregular' mask shape is specified, a mask can be
+    returned to exclude an arbitrary list of pixels.
 
-    :param mask_shape: The desired geometric shape of the '0' values of the mask. Must one of 'rectangle', 'circle', or
-                       'ring'.
+    :param mask_shape: The desired geometric shape of the '0' values of the mask. Must one of 'rectangle', 'circle',
+                       'ring', or 'irregular'.
     :param array_shape: The desired shape of the return mask array. This is (147, 147) by default.
     :param x_width: The column width in pixels used to create a rectangular mask. Must be an integer.
     :param y_width: The row width in pixels used to create a rectangular mask. Must be an integer.
     :param origin: A (row, col) tuple of indices corresponding to the placement of the origin point of the mask.
     :param inner_radius: The inner radius in pixels used to create a ring mask. Must be an integer.
     :param outer_radius: The outer radius in pixels used to create a ring mask. Must be an integer.
+    :param irregular_pixels: A list of (row, col) tuples containing indices that correspond to pixels. A mask made from
+                             this list will return '0' values at each specified pixel.
     :return:
     """
 
-    possible_mask_shapes = ['rectangle', 'circle', 'ring']
+    possible_mask_shapes = ['rectangle', 'circle', 'ring', 'irregular']
     mask = np.ones(array_shape)
 
     if mask_shape.lower() not in possible_mask_shapes:
-        raise Exception("The mask shape must be either 'rectangle', 'circle', or 'ring'")
-
+        raise Exception("The mask shape must be either 'rectangle', 'circle', 'ring', or 'irregular'.")
     if mask_shape.lower() == 'rectangle':
         if (not y_width) or (not x_width) or (not origin):
             raise Exception("A rectangular mask requires x and y dimensional widths as well as an origin point.")
@@ -129,6 +147,12 @@ def get_mask(mask_shape, array_shape=(147, 147), x_width=None, y_width=None, ori
         if (not outer_radius) or (not inner_radius) or (not origin):
             raise Exception("A ring mask requires an inner and outer radius as well as an origin (center) point.")
         _ring_mask(mask, outer_radius, inner_radius, origin)
+        return mask
+
+    if mask_shape.lower() == 'irregular':
+        if not irregular_pixels:
+            raise Exception("An irregular masks requires a list of (row, col) tuples representing pixels.")
+        _irregular_mask(mask, irregular_pixels)
         return mask
 
 
