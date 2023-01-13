@@ -151,7 +151,7 @@ def get_mask(mask_shape, array_shape=(147, 147), x_width=None, y_width=None, ori
 
     if mask_shape.lower() == 'irregular':
         if not irregular_pixels:
-            raise Exception("An irregular masks requires a list of (row, col) tuples representing pixels.")
+            raise Exception("An irregular mask requires a list of (row, col) tuples representing pixels.")
         _irregular_mask(mask, irregular_pixels)
         return mask
 
