@@ -58,7 +58,7 @@ if __name__ == '__main__':
     circular_mask = get_mask('circle', outer_radius=30, origin=(50, 50))
     ring_mask = get_mask('ring', inner_radius=15, outer_radius=30, origin=(50, 50))
     masked_pixel_list = [(50, 51), (51, 50), (52, 50), (52, 51), (52, 52), (53, 50), (53, 51), (53, 52)]
-    irregular_mask = get_mask('irregular', masked_pixel_list)
+    irregular_mask = get_mask('irregular', (147,147), irregular_pixels=masked_pixel_list)
     # apply_mask(data2d, ring_mask)
     # print_impact_matrix(data2d)
     
