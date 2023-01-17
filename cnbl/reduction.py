@@ -10,6 +10,7 @@ from math import sqrt, cos, exp, erf, sin, atan
 from numpy import linspace, zeros, pi
 import scipy.constants as const
 from scipy.special import gammainc, iv
+from scipy.integrate import quad
 from cnbl.utils import print_impact_matrix
 
 def _wide_angle_correction_factor(theta):
@@ -305,8 +306,7 @@ def _numerical_response_function(r, r0, sigma_d):
 
 
 def _numerical_annulus_response_function(r, r0, sigma_d, dr):
-    import scipy.integrate as integ
-    response_rdca = integ.quad(lambda z: _numerical_response_function(10.1, r0+z, sigma_d), -0.5*dr, 0.5*dr)
+    response_rdca = quad(lambda z: _numerical_response_function(10.1, r0+z, sigma_d), -0.5*dr, 0.5*dr)
     return response_rdca[0]
 
 
