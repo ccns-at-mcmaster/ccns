@@ -6,13 +6,12 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 (c) Copyright 2022, McMaster University
 """
 
-from math import sqrt, cos, atan
+from math import sqrt, cos, exp, erf, sin, atan
 from numpy import linspace, zeros, pi
-import math
-import numpy as np
 import scipy.constants as const
-from scipy.special import gammainc
+from scipy.special import gammainc, iv
 from cnbl.utils import print_impact_matrix
+from sympy import integrate, Symbol
 
 def _wide_angle_correction_factor(theta):
     """
@@ -221,6 +220,7 @@ def estimate_incoherent_scattering(data):
             incoherent_scattering[y][x] = 1 / (4 * pi * distance) * (1 - sample_transmission) / sample_transmission
     return incoherent_scattering
 
+
 def _radial_variance_beam_gaussian(L1, L2, S1, S2):
     Lp = 1 / ((1 / L1) + (1 / L2))
     Vrb = (S1 * S1 * L2 * L2 / (4 * Lp * Lp))
@@ -231,11 +231,13 @@ def _radial_variance_detector_gaussian(sigma_d, delta_r):
     Vrd = sigma_d ** 2 + (delta_r ** 2 / 12)
     return Vrd
 
+
 def _radial_variance_gravity_gaussian(wavelength, wavelength_spread, L1, L2):
     v_neutron = const.h / (const.m_n * wavelength) * 1E12
     Yg = (const.g * 100 / (2 * v_neutron ** 2)) * L2 * (L1 + L2)
     Vrg = 2 * Yg ** 2 * wavelength_spread ** 2
     return Vrg
+
 
 def _q_variance_gaussian(q, Vr, r, Vw, w):
     try:
@@ -248,19 +250,19 @@ def _q_variance_gaussian(q, Vr, r, Vw, w):
 
 
 def get_q(w, theta):
-    q = 4 * math.pi / w * math.sin(theta/2)
+    q = 4 * pi / w * sin(theta/2)
     return q
 
 
 def _reduction_in_pixel_efficiency_caused_by_beam_stop_shadow(r, Bs, Vrd):
-    delta_r = (r - Bs) / math.sqrt(2 * Vrd)
-    fs = 0.5 * (1 + math.erf(delta_r))
+    delta_r = (r - Bs) / sqrt(2 * Vrd)
+    fs = 0.5 * (1 + erf(delta_r))
     return fs, delta_r
 
 
 def _fractional_shift_in_mean_distance_caused_by_beam_stop_shadow(sigma_d, delta, r, fs):
-    x = sigma_d * math.exp(-1 * delta ** 2)
-    y = r * fs * math.sqrt(2 * np.pi)
+    x = sigma_d * exp(-1 * delta ** 2)
+    y = r * fs * sqrt(2 * pi)
     try:
         fr = 1 + x/y
     except ZeroDivisionError:
@@ -269,7 +271,7 @@ def _fractional_shift_in_mean_distance_caused_by_beam_stop_shadow(sigma_d, delta
 
 
 def _fractional_shift_in_radial_variance_detector(fs, delta, r, Vrd, fr):
-    x = 1 / (fs * math.sqrt(np.pi)) * (1-gammainc(3/2, delta**2))
+    x = 1 / (fs * sqrt(pi)) * (1-gammainc(3/2, delta**2))
     y = (r ** 2 / Vrd) * ((fr - 1) ** 2)
     fv = x - y
     return fv
@@ -292,8 +294,22 @@ def second_order_size_effects(fr, r, vrs):
 
 
 def _response_function(v_q, q, mean_q):
-    response = 1 / math.sqrt(2 * np.pi * v_q) * math.exp((-1 * (q-mean_q) ** 2) / (2 * v_q))
+    response = 1 / sqrt(2 * pi * v_q) * exp((-1 * (q-mean_q) ** 2) / (2 * v_q))
     return response
+
+
+def _numerical_response_function(r, r0, sigma_d):
+    response_rdc = (r / sigma_d**2)
+    response_rdc *= math.exp(-1 * (r**2 + r0**2) / (2 * sigma_d**2))
+    response_rdc *= iv(0, r*r0/(sigma_d**2))
+    return response_rdc
+
+
+def _numerical_annulus_response_function(r, r0, sigma_d, dr):
+    z = Symbol("z")
+    response_rdca = integrate(((r0 + z) * _numerical_response_function(r, r0+z, sigma_d)), (z, -0.5*dr, 0.5*dr))
+    return response_rdca
+
 
 if __name__ == "__main__":
     """
@@ -318,9 +334,10 @@ if __name__ == "__main__":
 
     #data2d = data['data']
 
-    data2d = np.zeros((128, 128))
-    data2d_var = np.zeros(data2d.shape)
-    response_function = np.zeros(data2d.shape)
+    data2d = zeros((128, 128))
+    data2d_var = zeros(data2d.shape)
+    response_function = zeros(data2d.shape)
+    numerical_response_function = zeros(data2d.shape)
 
     # Gaussian method
     wavelength_variance = (wavelength_spread * wavelength) ** 2
@@ -350,8 +367,8 @@ if __name__ == "__main__":
             # Second-order size effects
             mean_radius, Vr = second_order_size_effects(fr, radius, Vrs)
 
-            mean_theta = math.atan(mean_radius / sample_to_detector)
-            theta = math.atan(radius / sample_to_detector)
+            mean_theta = atan(mean_radius / sample_to_detector)
+            theta = atan(radius / sample_to_detector)
 
             nominal_q = get_q(wavelength, theta)
             mean_q = get_q(wavelength, mean_theta)
@@ -359,7 +376,7 @@ if __name__ == "__main__":
             var_q = _q_variance_gaussian(nominal_q, Vr, radius, wavelength_variance, wavelength)
             data2d_var[y][x] = var_q
             response_function[y][x] = _response_function(var_q, nominal_q, mean_q)
-
+    """
     print_impact_matrix(data2d, 'Scattering Vector Q')
     print_impact_matrix(data2d_var, 'Q Variance')
     print_impact_matrix(response_function, 'Response Function')
@@ -377,4 +394,7 @@ if __name__ == "__main__":
     plt.plot(response_function_profile[64:])
     plt.title('Response function')
     plt.show()
+    """
+    print(_numerical_annulus_response_function(10.1, 10, detector_res_sd, annulus_width))
+    #print(_numerical_response_function(10.1, 10, detector_res_sd))
 
