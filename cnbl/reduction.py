@@ -8,6 +8,11 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 
 from math import sqrt, cos, atan
 from numpy import linspace, zeros, pi
+import math
+import numpy as np
+import scipy.constants as const
+from scipy.special import gammainc
+from cnbl.loader import *
 
 
 def _wide_angle_correction_factor(theta):
@@ -216,3 +221,136 @@ def estimate_incoherent_scattering(data):
         for x, val in enumerate(row):
             incoherent_scattering[y][x] = 1 / (4 * pi * distance) * (1 - sample_transmission) / sample_transmission
     return incoherent_scattering
+
+def _radial_variance_beam_gaussian(L1, L2, S1, S2):
+    Lp = 1 / ((1 / L1) + (1 / L2))
+    Vrb = (S1 * S1 * L2 * L2 / (4 * Lp * Lp))
+    return Vrb
+
+
+def _radial_variance_detector_gaussian(sigma_d, delta_r):
+    Vrd = sigma_d ** 2 + (delta_r ** 2 / 12)
+    return Vrd
+
+def _radial_variance_gravity_gaussian(wavelength, wavelength_spread, L1, L2):
+    v_neutron = const.h / (const.m_n * wavelength) * 1E12
+    Yg = (const.g * 100 / (2 * v_neutron ** 2)) * L2 * (L1 + L2)
+    Vrg = 2 * Yg ** 2 * wavelength_spread ** 2
+    return Vrg
+
+def _q_variance_gaussian(q, Vr, r, Vw, w):
+    try:
+        x = Vr / (r * r)
+        y = Vw / (w * w)
+        Vq = q * q * (x + y)
+    except ZeroDivisionError:
+        return 0
+    return Vq
+
+
+def get_q(w, theta):
+    q = 4 * math.pi / w * math.sin(theta/2)
+    return q
+
+
+def _reduction_in_pixel_efficiency_caused_by_beam_stop_shadow(r, Bs, Vrd):
+    delta_r = (r - Bs) / math.sqrt(2 * Vrd)
+    fs = 0.5 * (1 + math.erf(delta_r))
+    return fs, delta_r
+
+
+def _fractional_shift_in_mean_distance_caused_by_beam_stop_shadow(sigma_d, delta, r, fs):
+    x = sigma_d * math.exp(-1 * delta ** 2)
+    y = r * fs * math.sqrt(2 * np.pi)
+    try:
+        fr = 1 + x/y
+    except ZeroDivisionError:
+        return 1
+    return fr
+
+
+def _fractional_shift_in_radial_variance_detector(fs, delta, r, Vrd, fr):
+    x = 1 / (fs * math.sqrt(np.pi)) * (1-gammainc(3/2, delta**2))
+    y = (r ** 2 / Vrd) * ((fr - 1) ** 2)
+    fv = x - y
+    return fv
+
+
+def beam_stop_correction(r, b_s, sigma_d, v_rd, v_rb, v_rg):
+    fs, delta_r = _reduction_in_pixel_efficiency_caused_by_beam_stop_shadow(r, b_s, v_rd)
+    fr = _fractional_shift_in_mean_distance_caused_by_beam_stop_shadow(sigma_d, delta_r, r, fs)
+    fv = _fractional_shift_in_radial_variance_detector(fs, delta_r, r, v_rd, fr)
+    v_rds = fv * v_rd
+    v_rs = v_rb + v_rds + v_rg
+    return v_rs, fr
+
+
+def second_order_size_effects(fr, r, vrs):
+    rd = fr * r
+    corrected_r = rd + (vrs / (2 * rd))
+    corrected_vr = vrs - (vrs * vrs / (2 * rd * rd))
+    return corrected_r, corrected_vr
+
+if __name__ == "__main__":
+    """
+    Example smearing calculation from Barker 1995.
+    """
+
+    wavelength = 5
+    wavelength_spread = 0.15
+    detector_res_sd = 0.425
+    annulus_width = 0.5
+    beamstop_radius = 2.5
+    beamstop_distance = 15
+    slit_one = 1.1
+    slit_two = 0.6
+    source_to_sample = 1630
+    sample_to_detector = 1530
+    center = (75, 110)
+
+    #filepath = "../raw_data/agbeh.raw"
+    #file = get_nexus_file(filepath)
+    #data = read_sans_raw(file)
+
+    #data2d = data['data']
+
+    data2d = np.zeros((147, 147))
+    data2d_var = np.zeros((147, 147))
+
+    # Gaussian method
+    wavelength_variance = (wavelength_spread * wavelength) ** 2
+
+    Vrb = _radial_variance_beam_gaussian(source_to_sample, sample_to_detector, slit_one, slit_two)
+    Vrd = _radial_variance_detector_gaussian(detector_res_sd, annulus_width)
+    Vrg = _radial_variance_gravity_gaussian(wavelength, wavelength_spread, source_to_sample, sample_to_detector)
+    Vr = Vrb + Vrd + Vrg
+
+    effective_Bs = beamstop_radius * sample_to_detector/(sample_to_detector - beamstop_distance)
+
+    for y, row in enumerate(data2d):
+        for x, _ in enumerate(row):
+            dx = x - center[1]
+            dy = y - center[0]
+            radius = sqrt(dx * dx + dy * dy)
+            radius *= 0.7
+            theta = math.atan(radius / sample_to_detector)
+            if (y, x) == center:
+                data2d[y][x] = 0.0
+                data2d[y][x] = 0.0
+                continue
+
+            # Beam stop correction
+            Vrs, fr = beam_stop_correction(radius, effective_Bs, detector_res_sd, Vrd, Vrb, Vrg)
+
+            # Second-order size effects
+            radius, Vr = second_order_size_effects(fr, radius, Vrs)
+
+            q = get_q(wavelength, theta)
+            data2d[y][x] = q
+            var_q = _q_variance_gaussian(q, Vr, radius, wavelength_variance, wavelength)
+            data2d_var[y][x] = var_q
+
+    from cnbl.utils import print_impact_matrix
+    print_impact_matrix(data2d)
+    print_impact_matrix(data2d_var)
+
