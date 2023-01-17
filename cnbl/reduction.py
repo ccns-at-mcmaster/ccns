@@ -12,8 +12,7 @@ import math
 import numpy as np
 import scipy.constants as const
 from scipy.special import gammainc
-from cnbl.loader import *
-
+from cnbl.utils import print_impact_matrix
 
 def _wide_angle_correction_factor(theta):
     """
@@ -291,6 +290,11 @@ def second_order_size_effects(fr, r, vrs):
     corrected_vr = vrs - (vrs * vrs / (2 * rd * rd))
     return corrected_r, corrected_vr
 
+
+def _response_function(v_q, q, mean_q):
+    response = 1 / math.sqrt(2 * np.pi * v_q) * math.exp((-1 * (q-mean_q) ** 2) / (2 * v_q))
+    return response
+
 if __name__ == "__main__":
     """
     Example smearing calculation from Barker 1995.
@@ -306,7 +310,7 @@ if __name__ == "__main__":
     slit_two = 0.6
     source_to_sample = 1630
     sample_to_detector = 1530
-    center = (75, 110)
+    center = (64, 64)
 
     #filepath = "../raw_data/agbeh.raw"
     #file = get_nexus_file(filepath)
@@ -314,8 +318,9 @@ if __name__ == "__main__":
 
     #data2d = data['data']
 
-    data2d = np.zeros((147, 147))
-    data2d_var = np.zeros((147, 147))
+    data2d = np.zeros((128, 128))
+    data2d_var = np.zeros(data2d.shape)
+    response_function = np.zeros(data2d.shape)
 
     # Gaussian method
     wavelength_variance = (wavelength_spread * wavelength) ** 2
@@ -333,24 +338,43 @@ if __name__ == "__main__":
             dy = y - center[0]
             radius = sqrt(dx * dx + dy * dy)
             radius *= 0.7
-            theta = math.atan(radius / sample_to_detector)
+
             if (y, x) == center:
                 data2d[y][x] = 0.0
-                data2d[y][x] = 0.0
+                data2d_var[y][x] = 0.0
                 continue
 
             # Beam stop correction
             Vrs, fr = beam_stop_correction(radius, effective_Bs, detector_res_sd, Vrd, Vrb, Vrg)
 
             # Second-order size effects
-            radius, Vr = second_order_size_effects(fr, radius, Vrs)
+            mean_radius, Vr = second_order_size_effects(fr, radius, Vrs)
 
-            q = get_q(wavelength, theta)
-            data2d[y][x] = q
-            var_q = _q_variance_gaussian(q, Vr, radius, wavelength_variance, wavelength)
+            mean_theta = math.atan(mean_radius / sample_to_detector)
+            theta = math.atan(radius / sample_to_detector)
+
+            nominal_q = get_q(wavelength, theta)
+            mean_q = get_q(wavelength, mean_theta)
+            data2d[y][x] = nominal_q
+            var_q = _q_variance_gaussian(nominal_q, Vr, radius, wavelength_variance, wavelength)
             data2d_var[y][x] = var_q
+            response_function[y][x] = _response_function(var_q, nominal_q, mean_q)
 
-    from cnbl.utils import print_impact_matrix
-    print_impact_matrix(data2d)
-    print_impact_matrix(data2d_var)
+    print_impact_matrix(data2d, 'Scattering Vector Q')
+    print_impact_matrix(data2d_var, 'Q Variance')
+    print_impact_matrix(response_function, 'Response Function')
+
+    q_profile = data2d[64]
+    var_q_profile = data2d_var[64]
+    response_function_profile = response_function[64]
+    import matplotlib.pyplot as plt
+    plt.plot(q_profile[64:])
+    plt.title('Q Profile')
+    plt.show()
+    plt.plot(var_q_profile[64:])
+    plt.title('Q Variance')
+    plt.show()
+    plt.plot(response_function_profile[64:])
+    plt.title('Response function')
+    plt.show()
 

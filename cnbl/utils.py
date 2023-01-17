@@ -8,13 +8,16 @@ laboratory at McMaster University
 """
 
 
-def print_impact_matrix(dat):
+def print_impact_matrix(dat, title=None):
     import matplotlib.pyplot as plt
     h = dat
     fig = plt.figure(figsize=(6, 3.2))
 
     ax = fig.add_subplot(111)
-    ax.set_title('Impact Matrix')
+    if title:
+        ax.set_title(title)
+    else:
+        ax.set_title('Impact Matrix')
     plt.imshow(h)
     ax.set_aspect('equal')
 
