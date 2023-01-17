@@ -11,7 +11,6 @@ from numpy import linspace, zeros, pi
 import scipy.constants as const
 from scipy.special import gammainc, iv
 from cnbl.utils import print_impact_matrix
-from sympy import integrate, Symbol
 
 def _wide_angle_correction_factor(theta):
     """
@@ -300,15 +299,15 @@ def _response_function(v_q, q, mean_q):
 
 def _numerical_response_function(r, r0, sigma_d):
     response_rdc = (r / sigma_d**2)
-    response_rdc *= math.exp(-1 * (r**2 + r0**2) / (2 * sigma_d**2))
+    response_rdc *= exp(-1 * (r**2 + r0**2) / (2 * sigma_d**2))
     response_rdc *= iv(0, r*r0/(sigma_d**2))
     return response_rdc
 
 
 def _numerical_annulus_response_function(r, r0, sigma_d, dr):
-    z = Symbol("z")
-    response_rdca = integrate(((r0 + z) * _numerical_response_function(r, r0+z, sigma_d)), (z, -0.5*dr, 0.5*dr))
-    return response_rdca
+    import scipy.integrate as integ
+    response_rdca = integ.quad(lambda z: _numerical_response_function(10.1, r0+z, sigma_d), -0.5*dr, 0.5*dr)
+    return response_rdca[0]
 
 
 if __name__ == "__main__":
@@ -395,6 +394,6 @@ if __name__ == "__main__":
     plt.title('Response function')
     plt.show()
     """
-    print(_numerical_annulus_response_function(10.1, 10, detector_res_sd, annulus_width))
-    #print(_numerical_response_function(10.1, 10, detector_res_sd))
+    num = _numerical_annulus_response_function(10.1, 10+0.5, detector_res_sd, annulus_width)
+    print(num)
 
