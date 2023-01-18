@@ -166,7 +166,7 @@ def solid_angle_correction(img, data):
     return
 
 
-def scale_to_absolute_intensity(measured_img, empty_img, data):
+def scale_to_absolute_intensity(measured_img, empty_img, data, normalize_time=False):
     """
     Scale the SANS data to form the macroscopic scattering cross section (units of cm^-1). The result is the absolute
     intensity.
@@ -174,6 +174,8 @@ def scale_to_absolute_intensity(measured_img, empty_img, data):
     :param measured_img:            2D array of scattering measured with a sample.
     :param empty_img:               2D array of scattering measured with an empty beam.
     :param data:                    The dictionary of experiment data and metadata.
+    :param normalize_time:          A boolean value. If true the counting time will be normalized to 10^8 monitor
+                                    counts.
     :return scaled_img:             A 2D array of absolute intensity (units of cm^-1)
     """
     sample_transmission = data['metadata_sample_transmission'][0]
@@ -189,14 +191,14 @@ def scale_to_absolute_intensity(measured_img, empty_img, data):
     if measured_img.shape != empty_img.shape:
         raise Exception("The shape of the measured scattering intensity with the sample %s must match the shape of the "
                         "empty beam measure %s" % (measured_img.shape, empty_img.shape))
-
-    # The effective counting time should be re-normalized to give 10^8 monitor counts
-    effective_counting_time = (100000000.0 / monitor_counts) * counting_time
+    if normalize_time:
+        # The effective counting time should be re-normalized to give 10^8 monitor counts
+        counting_time *= (100000000.0 / monitor_counts)
 
     for y, row in enumerate(measured_img):
         for x, val in enumerate(row):
             empty_beam_transmission = (empty_img[y][x] * illuminated_sample_area * detector_efficiency
-                                       * effective_counting_time)
+                                       * counting_time)
             m = (empty_beam_transmission * sample_transmission * sample_thickness * pixel_solid_angle)
             measured_img[y][x] *= 1 / m
     return measured_img
