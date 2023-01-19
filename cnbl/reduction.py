@@ -319,13 +319,20 @@ def _beam_profile_function(r, s1, s2, l1, l2):
     a2 = 0.5 * (d1+d2)
     x_star = (r**2 + d1**2 - d2**2) / (2 * r)
 
+    # This breaks unless r is between 0.27 and 4.39
+    # r must be greater than d2-d1
+    # Is the correct? I should draw out the geometry
+    print(r, a1, d2-d1)
     beam_profile_function = 0
     if r < a1:
         beam_profile_function = 1
-    if a1 <= r <= a2:
+    if r < (d2-d1):
+        beam_profile_function = 1
+    if (a1 <= r <= a2) and (not (r < (d2-d1))):
         al = (pi * d1 ** 2 / 2) - x_star * sqrt(d1 ** 2 - x_star ** 2) - d1 ** 2 * asin(x_star / d1)
         ar = (pi * d2 ** 2 / 2) - (r - x_star) * sqrt((d2 ** 2 - (r - x_star) ** 2)) - d2 ** 2 * asin((r - x_star) / d2)
         beam_profile_function = 4 * (al + ar) / (pi*d**2)
+    print(beam_profile_function)
     return beam_profile_function
 
 
@@ -363,9 +370,9 @@ if __name__ == "__main__":
     pixel_size = 0.7
 
     annulus_radius = 0.0
-    n_bins = 100
 
-    distances = linspace(0, 50, n_bins)
+    #distances = linspace(0, 50, 100)
+    distances = linspace(0, 5, 1000)
     beam_profile = []
     for r in distances[1:]:
         m = _beam_profile_function(r, s1, s2, l1, l2)
