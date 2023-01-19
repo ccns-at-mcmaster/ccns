@@ -6,8 +6,9 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 (c) Copyright 2022, McMaster University
 """
 
-from math import sqrt, cos, exp, erf, sin, atan
+from math import sqrt, cos, exp, erf, sin, atan, asin, acos
 from numpy import linspace, zeros, pi
+import numpy
 import scipy.constants as const
 from scipy.special import gammainc, iv
 from scipy.integrate import quad
@@ -42,19 +43,17 @@ def _get_radial_bin(img, outer_radius, inner_radius, center):
     """
     if inner_radius >= outer_radius:
         raise Exception('The inner radius of the radial binning ring must be less than the outer radius.')
-    inner_radius = float(inner_radius)
-    outer_radius = float(outer_radius)
+    inner_radius = inner_radius
+    outer_radius = outer_radius
     indices = []
-    outer_radius_squared = outer_radius * outer_radius
-    inner_radius_squared = inner_radius * inner_radius
 
     for y, row in enumerate(img):
         for x, _ in enumerate(row):
             dx = x - center[1]
             dy = y - center[0]
-            distance_squared = float(dx * dx + dy * dy)
+            distance = sqrt(dx * dx + dy * dy)
 
-            if inner_radius_squared <= distance_squared <= outer_radius_squared:
+            if inner_radius <= distance <= outer_radius:
                 indices.append((y, x))
     return indices
 
@@ -307,95 +306,76 @@ def _numerical_response_function(r, r0, sigma_d):
     return response_rdc
 
 
-def _numerical_annulus_response_function(r, r0, sigma_d, dr):
-    response_rdca = quad(lambda z: _numerical_response_function(10.1, r0+z, sigma_d), -0.5*dr, 0.5*dr)
+def _detector_resolution_function(r, r0, sigma_d, dr):
+    response_rdca = quad(lambda z: (r0+z)*_numerical_response_function(r, r0+z, sigma_d), -0.5*dr, 0.5*dr)
     return response_rdca[0]
+
+
+def _beam_profile_function(r, s1, s2, l1, l2):
+    d1 = 2 * s1 * l2 / l1
+    d2 = 2 * s2 * (l1 + l2) / l1
+    d = min([d1, d2])
+    a1 = 0.5 * abs(d1-d2)
+    a2 = 0.5 * (d1+d2)
+    x_star = (r**2 + d1**2 - d2**2) / (2 * r)
+
+    beam_profile_function = 0
+    if r < a1:
+        beam_profile_function = 1
+    if a1 <= r <= a2:
+        al = (pi * d1 ** 2 / 2) - x_star * sqrt(d1 ** 2 - x_star ** 2) - d1 ** 2 * asin(x_star / d1)
+        ar = (pi * d2 ** 2 / 2) - (r - x_star) * sqrt((d2 ** 2 - (r - x_star) ** 2)) - d2 ** 2 * asin((r - x_star) / d2)
+        beam_profile_function = 4 * (al + ar) / (pi*d**2)
+    return beam_profile_function
+
+
+def _rb_function(r, r0, psi):
+    rb = sqrt(r**2 + r0**2 - 2 * r0 * r * cos(psi))
+    return rb
+
+
+def _resolution_function(r, r0, s1, s2, l1, l2):
+    d1 = 2 * s1 * l2 / l1
+    d2 = 2 * s2 * (l1 + l2) / l1
+    a2 = 0.5 * (d1 + d2)
+    psi_max = acos((r0**2 + r**2 - a2**2)/(2*r0*r))
+    #res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), s1, s1, l1, l2), 0, psi_max)
+    res_function = quad(lambda psi: r * _rb_function(r, r0, psi) * _beam_profile_function(r, s1, s1, l1, l2), 0, psi_max)
+    return res_function
 
 
 if __name__ == "__main__":
     """
     Example smearing calculation from Barker 1995.
     """
-
-    wavelength = 5
+    from cnbl.loader import *
+    wavelength = 5.0
     wavelength_spread = 0.15
     detector_res_sd = 0.425
     annulus_width = 0.5
     beamstop_radius = 2.5
     beamstop_distance = 15
-    slit_one = 1.1
-    slit_two = 0.6
-    source_to_sample = 1630
-    sample_to_detector = 1530
+    s1 = slit_one = 1.1
+    s2 = slit_two = 0.6
+    l1 = source_to_sample = 1630
+    l2 = sample_to_detector = 1530
     center = (64, 64)
+    pixel_size = 0.7
 
-    #filepath = "../raw_data/agbeh.raw"
-    #file = get_nexus_file(filepath)
-    #data = read_sans_raw(file)
+    annulus_radius = 0.0
+    n_bins = 100
 
-    #data2d = data['data']
+    distances = linspace(0, 50, n_bins)
+    beam_profile = []
+    for r in distances[1:]:
+        m = _beam_profile_function(r, s1, s2, l1, l2)
+        beam_profile.append(m)
 
-    data2d = zeros((128, 128))
-    data2d_var = zeros(data2d.shape)
-    response_function = zeros(data2d.shape)
-    numerical_response_function = zeros(data2d.shape)
-
-    # Gaussian method
-    wavelength_variance = (wavelength_spread * wavelength) ** 2
-
-    Vrb = _radial_variance_beam_gaussian(source_to_sample, sample_to_detector, slit_one, slit_two)
-    Vrd = _radial_variance_detector_gaussian(detector_res_sd, annulus_width)
-    Vrg = _radial_variance_gravity_gaussian(wavelength, wavelength_spread, source_to_sample, sample_to_detector)
-    Vr = Vrb + Vrd + Vrg
-
-    effective_Bs = beamstop_radius * sample_to_detector/(sample_to_detector - beamstop_distance)
-
-    for y, row in enumerate(data2d):
-        for x, _ in enumerate(row):
-            dx = x - center[1]
-            dy = y - center[0]
-            radius = sqrt(dx * dx + dy * dy)
-            radius *= 0.7
-
-            if (y, x) == center:
-                data2d[y][x] = 0.0
-                data2d_var[y][x] = 0.0
-                continue
-
-            # Beam stop correction
-            Vrs, fr = beam_stop_correction(radius, effective_Bs, detector_res_sd, Vrd, Vrb, Vrg)
-
-            # Second-order size effects
-            mean_radius, Vr = second_order_size_effects(fr, radius, Vrs)
-
-            mean_theta = atan(mean_radius / sample_to_detector)
-            theta = atan(radius / sample_to_detector)
-
-            nominal_q = get_q(wavelength, theta)
-            mean_q = get_q(wavelength, mean_theta)
-            data2d[y][x] = nominal_q
-            var_q = _q_variance_gaussian(nominal_q, Vr, radius, wavelength_variance, wavelength)
-            data2d_var[y][x] = var_q
-            response_function[y][x] = _response_function(var_q, nominal_q, mean_q)
-    """
-    print_impact_matrix(data2d, 'Scattering Vector Q')
-    print_impact_matrix(data2d_var, 'Q Variance')
-    print_impact_matrix(response_function, 'Response Function')
-
-    q_profile = data2d[64]
-    var_q_profile = data2d_var[64]
-    response_function_profile = response_function[64]
     import matplotlib.pyplot as plt
-    plt.plot(q_profile[64:])
-    plt.title('Q Profile')
+    fig, ax = plt.subplots()
+    ax.bar(distances[:-1], beam_profile, align='edge', width=distances[1] - distances[0])
+    ax.set_xlabel("r")
+    ax.set_ylabel("Beam profile")
+    #ax.set_xscale('log')
+    # ax.set_yscale('log')
     plt.show()
-    plt.plot(var_q_profile[64:])
-    plt.title('Q Variance')
-    plt.show()
-    plt.plot(response_function_profile[64:])
-    plt.title('Response function')
-    plt.show()
-    """
-    num = _numerical_annulus_response_function(10.1, 10+0.5, detector_res_sd, annulus_width)
-    print(num)
-
