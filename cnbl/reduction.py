@@ -8,11 +8,9 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 
 from math import sqrt, cos, exp, erf, sin, atan, asin, acos
 from numpy import linspace, zeros, pi
-import numpy
 import scipy.constants as const
 from scipy.special import gammainc, iv
 from scipy.integrate import quad
-from cnbl.utils import print_impact_matrix
 
 def _wide_angle_correction_factor(theta):
     """
@@ -299,25 +297,23 @@ def _response_function(v_q, q, mean_q):
     return response
 
 
-def _numerical_response_function(r, r0, sigma_d):
-    response_rdc = (r / sigma_d**2)
-    response_rdc *= exp(-1 * (r**2 + r0**2) / (2 * sigma_d**2))
-    response_rdc *= iv(0, r*r0/(sigma_d**2))
+def _pixel_response_function(r, r0, sig_d):
+    response_rdc = (r / sig_d**2)
+    response_rdc *= exp(-1 * (r**2 + r0**2) / (2 * sig_d**2))
+    response_rdc *= iv(0, r*r0/(sig_d**2))
     return response_rdc
 
 
-def _detector_resolution_function(r, r0, sigma_d, dr):
-    response_rdca = quad(lambda z: (r0+z)*_numerical_response_function(r, r0+z, sigma_d), -0.5*dr, 0.5*dr)
+def _circle_of_pixels_response_function(r, r0, sig_d, dr):
+    response_rdca = quad(lambda z: (r0+z)*_pixel_response_function(r, r0+z, sig_d), -0.5*dr, 0.5*dr)
     return response_rdca[0]
 
 
-def _beam_profile_function(r, s1, s2, l1, l2):
-    d1 = 2 * s1 * l2 / l1
-    d2 = 2 * s2 * (l1 + l2) / l1
+def _beam_profile_function(r, d1, d2):
     d = min([d1, d2])
+    x_star = (r**2 + d1**2 - d2**2) / (2 * r)
     # a1 = 0.5 * abs(d1-d2)
     # a2 = 0.5 * (d1+d2)
-    x_star = (r**2 + d1**2 - d2**2) / (2 * r)
 
     # The commented lines are limits specified by Barker 1995. The 1/2 term in A1 and A2 when added to the limit
     # produces a complex value of the sqrt term in AL. The argument of the square root is positive so long as
@@ -344,17 +340,6 @@ def _beam_profile_function(r, s1, s2, l1, l2):
         a_e = (al + ar) / (pi * d ** 2)
         # a_e = 4 * (al + ar) / (pi * d ** 2)
 
-    """
-    if r < a1:
-        a_e = 1
-    if r > a2:
-        a_e = 0
-    if a1 <= r <= a2:
-        al = (pi * d1 ** 2 / 2) - x_star * sqrt(d1 ** 2 - x_star ** 2) - d1 ** 2 * asin(x_star / d1)
-        ar = (pi * d2 ** 2 / 2) - (r - x_star) * sqrt((d2 ** 2 - (r - x_star) ** 2)) - d2 ** 2 * asin((r - x_star) / d2)
-        a_e = 4 * (al + ar) / (pi * d ** 2)
-    """
-
     return a_e
 
 
@@ -363,48 +348,30 @@ def _rb_function(r, r0, psi):
     return rb
 
 
-def _resolution_function(r, r0, s1, s2, l1, l2):
-    d1 = 2 * s1 * l2 / l1
-    d2 = 2 * s2 * (l1 + l2) / l1
-    a2 = 0.5 * (d1 + d2)
-    psi_max = acos((r0**2 + r**2 - a2**2)/(2*r0*r))
-    #res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), s1, s1, l1, l2), 0, psi_max)
-    res_function = quad(lambda psi: r * _rb_function(r, r0, psi) * _beam_profile_function(r, s1, s1, l1, l2), 0, psi_max)
-    return res_function
+def _resolution_function(r, r0, d1, d2):
+    a2 = 0.5 * (d1+d2)
+    z = (r0**2 + r**2 - a2**2)/(2*r0*r)
+    if -1 <= z <= 1:
+        psi_max = acos(z)
+    else:
+        return 0
+    res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), d1, d2), 0, psi_max)
+    return res_function[0]
 
 
 if __name__ == "__main__":
     """
     Example smearing calculation from Barker 1995.
     """
-    from cnbl.loader import *
-    wavelength = 5.0
-    wavelength_spread = 0.15
-    detector_res_sd = 0.425
-    annulus_width = 0.5
+    w = wavelength = 5.0
+    dw = wavelength_spread = 0.15
+    sigma_d = detector_res_sd = 0.425
+    d_r = annulus_width = 0.5
     beamstop_radius = 2.5
     beamstop_distance = 15
     s1 = slit_one = 1.1
     s2 = slit_two = 0.6
     l1 = source_to_sample = 1630
     l2 = sample_to_detector = 1530
-    center = (64, 64)
-    pixel_size = 0.7
-
-    annulus_radius = 0.0
-
-    distances = linspace(0, 10, 1000)
-    #distances = linspace(0, 5, 1000)
-    beam_profile = []
-    for r in distances[1:]:
-        m = _beam_profile_function(r, s1, s2, l1, l2)
-        beam_profile.append(m)
-
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots()
-    ax.bar(distances[:-1], beam_profile, align='edge', width=distances[1] - distances[0])
-    ax.set_xlabel("r")
-    ax.set_ylabel("Beam profile")
-    #ax.set_xscale('log')
-    # ax.set_yscale('log')
-    plt.show()
+    d_1 = 2 * s1 * l2 / l1
+    d_2 = 2 * s2 * (l1 + l2) / l1
