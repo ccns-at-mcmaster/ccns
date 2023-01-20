@@ -348,7 +348,7 @@ def _rb_function(r, r0, psi):
     return rb
 
 
-def _resolution_function(r, r0, d1, d2):
+def _beam_resolution_function(r, r0, d1, d2):
     a2 = 0.5 * (d1+d2)
     z = (r0**2 + r**2 - a2**2)/(2*r0*r)
     if -1 <= z <= 1:
@@ -357,6 +357,30 @@ def _resolution_function(r, r0, d1, d2):
         return 0
     res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), d1, d2), 0, psi_max)
     return res_function[0]
+
+
+def _f1(r, r0, d1, d2, u, psi, sig_d):
+    a2 = 0.5 * (d1+d2)
+    rb = _rb_function(r, r0, psi)
+    Rrb = _beam_profile_function
+    Rrd = _pixel_response_function
+    return quad(lambda phi: r * Rrb(rb, d1, d2) * (r + u) * Rrd(_rb_function(r, r0, phi), r0, sig_d) * cos(psi), 0, 2*pi)[0]
+
+
+def _f2(r, r0, d1, d2, u, sig_d):
+    a2 = 0.5 * (d1+d2)
+    psi_max = acos(((r+u)**2 + r**2 - a2**2) / (2 * (r + u) * r))
+    return quad(lambda psi: _f1(r, r0, d1, d2, u, psi, sig_d), 0, psi_max)[0]
+
+
+def _f3(r, r0, d1, d2, sig_d):
+    a2 = 0.5 * (d1 + d2)
+    # rdp radial detection limit for the pixel. What is this?
+    rdp = sqrt(r**2 + r0**2 - 2 * r * r0 * cos(pi))
+    u_min = max([-a2, r - r0 - rdp])
+    u_max = min([a2, r - r0 + rdp])
+    return quad(lambda u: _f2(r, r0, d1, d2, u, sig_d), u_min, u_max)[0]
+
 
 
 if __name__ == "__main__":
@@ -375,3 +399,8 @@ if __name__ == "__main__":
     l2 = sample_to_detector = 1530
     d_1 = 2 * s1 * l2 / l1
     d_2 = 2 * s2 * (l1 + l2) / l1
+
+    r_0 = 10
+    distances = linspace(r_0 - d_r, r_0 + d_r, 100)
+    for r in distances:
+        print(_f3(r, r_0, d_1, d_2, sigma_d))
