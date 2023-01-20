@@ -315,25 +315,47 @@ def _beam_profile_function(r, s1, s2, l1, l2):
     d1 = 2 * s1 * l2 / l1
     d2 = 2 * s2 * (l1 + l2) / l1
     d = min([d1, d2])
-    a1 = 0.5 * abs(d1-d2)
-    a2 = 0.5 * (d1+d2)
+    # a1 = 0.5 * abs(d1-d2)
+    # a2 = 0.5 * (d1+d2)
     x_star = (r**2 + d1**2 - d2**2) / (2 * r)
 
-    # This breaks unless r is between 0.27 and 4.39
-    # r must be greater than d2-d1
-    # Is the correct? I should draw out the geometry
-    print(r, a1, d2-d1)
-    beam_profile_function = 0
+    # The commented lines are limits specified by Barker 1995. The 1/2 term in A1 and A2 when added to the limit
+    # produces a complex value of the sqrt term in AL. The argument of the square root is positive so long as
+    # |D1 - D2| <= r <= (D1 + D2). These should be the limits.
+    # The argument of the sqrt term in AL is D1^2-[(r^2+D1^2-D2^2)/(2r)]^2.
+    # Solving the expression (D1^2-[(r^2+D1^2-D2^2)/(2r)]^2) >= 0
+    # Yields |D1-D2|<=r<=(D1+D2)
+    # If you investigate the limit 0.5*|D1-D2| <= r <= 0.5*(D1+D2)
+    # If A1 <= r <= (2A1 = |D1-D2|) the sqrt term is complex.
+    # When calculating A_e, the paper says the expression is 4(AL+AR)/(pi*D^2). I removed the factor of 4
+    # so that A_e = 1 at r = |D1-D2|
+    # I suspect that the algebra treats D1 and D2 as radii instead of diameter in places.
+    a_e = 0
+    # if r < a1:
+    if r < abs(d1-d2):
+        a_e = 1
+    # if r > a2:
+    if r > d1 + d2:
+        a_e = 0
+    # if a1 <= r <= a2:
+    if abs(d1 - d2) <= r <= d1+d2:
+        al = (pi * d1**2 / 2) - (x_star * sqrt(d1**2 - x_star**2)) - d1**2 * asin(x_star / d1)
+        ar = (pi * d2**2 / 2) - (r - x_star) * sqrt((d2**2 - (r - x_star)**2)) - d2**2 * asin((r - x_star) / d2)
+        a_e = (al + ar) / (pi * d ** 2)
+        # a_e = 4 * (al + ar) / (pi * d ** 2)
+
+    """
     if r < a1:
-        beam_profile_function = 1
-    if r < (d2-d1):
-        beam_profile_function = 1
-    if (a1 <= r <= a2) and (not (r < (d2-d1))):
+        a_e = 1
+    if r > a2:
+        a_e = 0
+    if a1 <= r <= a2:
         al = (pi * d1 ** 2 / 2) - x_star * sqrt(d1 ** 2 - x_star ** 2) - d1 ** 2 * asin(x_star / d1)
         ar = (pi * d2 ** 2 / 2) - (r - x_star) * sqrt((d2 ** 2 - (r - x_star) ** 2)) - d2 ** 2 * asin((r - x_star) / d2)
-        beam_profile_function = 4 * (al + ar) / (pi*d**2)
-    print(beam_profile_function)
-    return beam_profile_function
+        a_e = 4 * (al + ar) / (pi * d ** 2)
+    """
+
+    return a_e
 
 
 def _rb_function(r, r0, psi):
@@ -371,8 +393,8 @@ if __name__ == "__main__":
 
     annulus_radius = 0.0
 
-    #distances = linspace(0, 50, 100)
-    distances = linspace(0, 5, 1000)
+    distances = linspace(0, 10, 1000)
+    #distances = linspace(0, 5, 1000)
     beam_profile = []
     for r in distances[1:]:
         m = _beam_profile_function(r, s1, s2, l1, l2)
