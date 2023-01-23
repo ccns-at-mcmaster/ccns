@@ -7,7 +7,7 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 """
 
 from math import sqrt, cos, exp, erf, sin, atan, asin, acos
-from numpy import linspace, zeros, pi
+from numpy import linspace, zeros, pi, array, isnan
 import scipy.constants as const
 from scipy.special import gammainc, iv
 from scipy.integrate import quad
@@ -355,31 +355,45 @@ def _beam_resolution_function(r, r0, d1, d2):
         psi_max = acos(z)
     else:
         return 0
-    res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), d1, d2), 0, psi_max)
+    res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), d1, d2), 0, psi_max)[0]
     return res_function[0]
 
-
+def nan_check(tup):
+    for x in tup:
+        if x:
+            return True
+    return False
 def _f1(r, r0, d1, d2, u, psi, sig_d):
-    a2 = 0.5 * (d1+d2)
     rb = _rb_function(r, r0, psi)
     Rrb = _beam_profile_function
     Rrd = _pixel_response_function
-    return quad(lambda phi: r * Rrb(rb, d1, d2) * (r + u) * Rrd(_rb_function(r, r0, phi), r0, sig_d) * cos(psi), 0, 2*pi)[0]
+    z = quad(lambda phi: r * Rrb(rb, d1, d2) * (r + u) * Rrd(_rb_function(r, r0, phi), r0, sig_d) * cos(psi), 0, 2*pi)
+    if nan_check(z):
+        raise Exception('f1', r, r0, u, psi, sig_d)
+    return z[0]
 
 
 def _f2(r, r0, d1, d2, u, sig_d):
     a2 = 0.5 * (d1+d2)
     psi_max = acos(((r+u)**2 + r**2 - a2**2) / (2 * (r + u) * r))
-    return quad(lambda psi: _f1(r, r0, d1, d2, u, psi, sig_d), 0, psi_max)[0]
+    print('psi_max', psi_max)
+    z = quad(lambda psi: _f1(r, r0, d1, d2, u, psi, sig_d), 0, psi_max)
+    if nan_check(z):
+        raise Exception('f2', r, r0, d1, d2, u, sig_d)
+    return z[0]
 
 
-def _f3(r, r0, d1, d2, sig_d):
+def _f3(r, r0, d1, d2, sig_d, bs):
     a2 = 0.5 * (d1 + d2)
     # rdp radial detection limit for the pixel. What is this?
     rdp = sqrt(r**2 + r0**2 - 2 * r * r0 * cos(pi))
-    u_min = max([-a2, r - r0 - rdp])
+    u_min = max([-a2, r - r0 - rdp, bs - r])
     u_max = min([a2, r - r0 + rdp])
-    return quad(lambda u: _f2(r, r0, d1, d2, u, sig_d), u_min, u_max)[0]
+    print('u limits', u_min, u_max)
+    z = quad(lambda u: _f2(r, r0, d1, d2, u, sig_d), u_min, u_max)
+    if nan_check(z):
+        raise Exception('f3', r, r0, d1, d2, sig_d, u_min, u_max)
+    return z[0]
 
 
 
@@ -391,16 +405,19 @@ if __name__ == "__main__":
     dw = wavelength_spread = 0.15
     sigma_d = detector_res_sd = 0.425
     d_r = annulus_width = 0.5
-    beamstop_radius = 2.5
-    beamstop_distance = 15
-    s1 = slit_one = 1.1
-    s2 = slit_two = 0.6
-    l1 = source_to_sample = 1630
-    l2 = sample_to_detector = 1530
-    d_1 = 2 * s1 * l2 / l1
-    d_2 = 2 * s2 * (l1 + l2) / l1
+    b_s = beamstop_radius = 2.5
+    l_b = beamstop_distance = 15
+    s_1 = slit_one = 1.1
+    s_2 = slit_two = 0.6
+    l_1 = source_to_sample = 1630
+    l_2 = sample_to_detector = 1530
+    d_1 = 2 * s_1 * l_2 / l_1
+    d_2 = 2 * s_2 * (l_1 + l_2) / l_1
+    # Effective beam stop radius
+    b_s = b_s * l_2 / (l_2 - l_b)
 
     r_0 = 10
     distances = linspace(r_0 - d_r, r_0 + d_r, 100)
-    for r in distances:
-        print(_f3(r, r_0, d_1, d_2, sigma_d))
+    for radius in distances:
+        func = _f3(radius, r_0, d_1, d_2, sigma_d, b_s)
+        print(func)
