@@ -355,7 +355,6 @@ def _beam_profile_function(r, d1, d2):
 
 
 def _rb_function(r, r0, psi):
-    print('psi in _rb_', psi)
     rb = sqrt(r**2 + r0**2 - 2 * r0 * r * cos(psi))
     return rb
 
@@ -378,39 +377,38 @@ def nan_check(tup):
     return False
 
 
-def __f1(r, r0, d1, d2, u, psi, sig_d):
-    rb = _rb_function(r, r0, psi)
+def __resolution_function_arg(r, r0, d1, d2, dr, sig_d, u):
     Rrb = _beam_profile_function
-    Rrd = _pixel_response_function
-    z = quad(lambda phi: r * Rrb(rb, d1, d2) * (r + u) * Rrd(rd, sig_d) * cos(psi), 0, 2*pi)
+    Rdca = _circle_of_pixels_response_function
+    rb = _rb_function
+    a2 = 0.5 * (d1 + d2)
+    print(r, u, a2)
+    val = ((r + u) ** 2 + r ** 2 - a2 ** 2) / (2 * (r + u) * r)
+    if val < -1 or val > 1:
+        print(r, u, a2, val)
+    psi_max = acos(val)
+    z = quad(lambda psi: r*Rrb(rb(r, r0, psi), d1, d2)*(r+u)*Rdca(r+u, r0, sig_d, dr)*cos(psi), 0, psi_max)
     if nan_check(z):
-        raise Exception('f1', r, r0, u,d1, d2, psi, sig_d, z)
+        raise Exception(r, r0, d1, d2, dr, sig_d, u)
     return z[0]
 
 
-def __f2(r, r0, d1, d2, u, sig_d):
-    a2 = 0.5 * (d1+d2)
-    psi_max = acos(((r+u)**2 + r**2 - a2**2) / (2 * (r + u) * r))
-    print('psi_max', psi_max)
-    print('u', u)
-    z = quad(lambda psi: __f1(r, r0, d1, d2, u, psi, sig_d), 0, psi_max)
-    if nan_check(z):
-        raise Exception('f2', r, r0, d1, d2, u, sig_d)
-    return z[0]
-
-
-def _f3(r, r0, d1, d2, sig_d, bs):
+def _simple_detector_resolution_function(r, r0, d1, d2, dr, bs, sig_d, pixel_size = 0.7):
     a2 = 0.5 * (d1 + d2)
     # rdp radial detection limit for the pixel. What is this?
-    rdp = sqrt(r**2 + r0**2 - 2 * r * r0 * cos(pi))
+    # rdp = sqrt(r ** 2 + r0 ** 2 - 2 * r * r0 * cos(pi))
+    rdp = pixel_size/2
     u_min = max([-a2, r - r0 - rdp, bs - r])
     u_max = min([a2, r - r0 + rdp])
-    print('u limits', u_min, u_max)
-    z = quad(lambda u: __f2(r, r0, d1, d2, u, sig_d), u_min, u_max)
+    print('u_min:', u_min)
+    print(-a2, r-r0-rdp, bs-r)
+    print('u_max:', u_max)
+    print(a2, r-r0+rdp)
+    arg = __resolution_function_arg
+    z = quad(lambda u: arg(r, r0, d1, d2, dr, sig_d, u), u_min, u_max)
     if nan_check(z):
-        raise Exception('f3', r, r0, d1, d2, sig_d, u_min, u_max)
+        raise Exception(r, r0, d1, d2, dr, sig_d, u_min, u_max)
     return z[0]
-
 
 
 if __name__ == "__main__":
@@ -431,9 +429,12 @@ if __name__ == "__main__":
     d_2 = 2 * s_2 * (l_1 + l_2) / l_1
     # Effective beam stop radius
     b_s = b_s * l_2 / (l_2 - l_b)
+    pixel = 0.7
 
     r_0 = 10
     distances = linspace(r_0 - d_r, r_0 + d_r, 100)
+    func = []
     for radius in distances:
-        func = _f3(radius, r_0, d_1, d_2, sigma_d, b_s)
-        print(func)
+        val = _simple_detector_resolution_function(radius, r_0, d_1, d_2, d_r, b_s, sigma_d, pixel)
+        func.append(val)
+    print(func)
