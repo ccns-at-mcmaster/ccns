@@ -7,10 +7,13 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 """
 
 from math import sqrt, cos, exp, erf, sin, atan, asin, acos
-from numpy import linspace, zeros, pi, array, isnan
+from numpy import linspace, zeros, pi
 import scipy.constants as const
 from scipy.special import gammainc, iv
 from scipy.integrate import quad
+
+# Set precision
+prec = 6
 
 def _wide_angle_correction_factor(theta):
     """
@@ -297,15 +300,23 @@ def _response_function(v_q, q, mean_q):
     return response
 
 
-def _pixel_response_function(r, r0, sig_d):
-    response_rdc = (r / sig_d**2)
-    response_rdc *= exp(-1 * (r**2 + r0**2) / (2 * sig_d**2))
-    response_rdc *= iv(0, r*r0/(sig_d**2))
-    return response_rdc
+def _pixel_response_function(rd, sig_d):
+    pixel_response = 1 / sqrt(2 * pi * sig_d**2)
+    pixel_response *= exp(-1 * rd**2 / (2 * sig_d**2))
+    return pixel_response
+
+
+def __circle_of_pixels_argument(r, r0, sig_d):
+    f0 = (r / sig_d ** 2)
+    f0 *= exp(-1 * (r ** 2 + r0 ** 2) / (2 * sig_d ** 2))
+    # print(r, r0, sig_d)
+    f0 *= iv(0, r * r0 / (sig_d ** 2))
+    return f0
 
 
 def _circle_of_pixels_response_function(r, r0, sig_d, dr):
-    response_rdca = quad(lambda z: (r0+z)*_pixel_response_function(r, r0+z, sig_d), -0.5*dr, 0.5*dr)
+    arg = __circle_of_pixels_argument
+    response_rdca = quad(lambda z: (r0+z)*arg(r, r0+z, sig_d), -0.5*dr, 0.5*dr)
     return response_rdca[0]
 
 
@@ -344,6 +355,7 @@ def _beam_profile_function(r, d1, d2):
 
 
 def _rb_function(r, r0, psi):
+    print('psi in _rb_', psi)
     rb = sqrt(r**2 + r0**2 - 2 * r0 * r * cos(psi))
     return rb
 
@@ -358,26 +370,30 @@ def _beam_resolution_function(r, r0, d1, d2):
     res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), d1, d2), 0, psi_max)[0]
     return res_function[0]
 
+
 def nan_check(tup):
     for x in tup:
         if x:
             return True
     return False
-def _f1(r, r0, d1, d2, u, psi, sig_d):
+
+
+def __f1(r, r0, d1, d2, u, psi, sig_d):
     rb = _rb_function(r, r0, psi)
     Rrb = _beam_profile_function
     Rrd = _pixel_response_function
-    z = quad(lambda phi: r * Rrb(rb, d1, d2) * (r + u) * Rrd(_rb_function(r, r0, phi), r0, sig_d) * cos(psi), 0, 2*pi)
+    z = quad(lambda phi: r * Rrb(rb, d1, d2) * (r + u) * Rrd(rd, sig_d) * cos(psi), 0, 2*pi)
     if nan_check(z):
-        raise Exception('f1', r, r0, u, psi, sig_d)
+        raise Exception('f1', r, r0, u,d1, d2, psi, sig_d, z)
     return z[0]
 
 
-def _f2(r, r0, d1, d2, u, sig_d):
+def __f2(r, r0, d1, d2, u, sig_d):
     a2 = 0.5 * (d1+d2)
     psi_max = acos(((r+u)**2 + r**2 - a2**2) / (2 * (r + u) * r))
     print('psi_max', psi_max)
-    z = quad(lambda psi: _f1(r, r0, d1, d2, u, psi, sig_d), 0, psi_max)
+    print('u', u)
+    z = quad(lambda psi: __f1(r, r0, d1, d2, u, psi, sig_d), 0, psi_max)
     if nan_check(z):
         raise Exception('f2', r, r0, d1, d2, u, sig_d)
     return z[0]
@@ -390,7 +406,7 @@ def _f3(r, r0, d1, d2, sig_d, bs):
     u_min = max([-a2, r - r0 - rdp, bs - r])
     u_max = min([a2, r - r0 + rdp])
     print('u limits', u_min, u_max)
-    z = quad(lambda u: _f2(r, r0, d1, d2, u, sig_d), u_min, u_max)
+    z = quad(lambda u: __f2(r, r0, d1, d2, u, sig_d), u_min, u_max)
     if nan_check(z):
         raise Exception('f3', r, r0, d1, d2, sig_d, u_min, u_max)
     return z[0]
