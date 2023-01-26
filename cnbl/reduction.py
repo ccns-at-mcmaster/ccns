@@ -6,11 +6,15 @@ Methods intended for reduction of raw SANS data collected at the MacSANS laborat
 (c) Copyright 2022, McMaster University
 """
 
-from math import sqrt, cos, exp, erf, sin, atan, asin, acos
-from numpy import linspace, zeros, pi
+from math import sqrt, cos, erf, sin, atan, asin, acos
+from numpy import linspace, zeros, pi, isnan
+from numpy import exp as exp
 import scipy.constants as const
 from scipy.special import gammainc, iv
-from scipy.integrate import quad
+from scipy.integrate import quad, cumtrapz
+from sympy.functions.elementary.exponential import exp as symexp
+from sympy.functions.special.bessel import besseli
+from sympy import N
 
 # Set precision
 prec = 6
@@ -307,16 +311,22 @@ def _pixel_response_function(rd, sig_d):
 
 
 def __circle_of_pixels_argument(r, r0, sig_d):
-    f0 = (r / sig_d ** 2)
-    f0 *= exp(-1 * (r ** 2 + r0 ** 2) / (2 * sig_d ** 2))
-    # print(r, r0, sig_d)
-    f0 *= iv(0, r * r0 / (sig_d ** 2))
+    #f = float(symexp(-1 * (r ** 2 + r0 ** 2) / (2 * sig_d ** 2)) * besseli(0, r * r0 / (sig_d ** 2)).evalf())
+    #f *= (r / (sig_d ** 2))
+    #return f
+    f0 = (r / (sig_d ** 2))
+    a = -1 * (r ** 2 + r0 ** 2)
+    b = r * r0 / (sig_d ** 2)
+    num = N((symexp(a) * besseli(0, b)))
+    f0 *= num
     return f0
 
 
-def _circle_of_pixels_response_function(r, r0, sig_d, dr):
+def _annulus_of_pixels_response_function(r, r0, sig_d, dr):
     arg = __circle_of_pixels_argument
     response_rdca = quad(lambda z: (r0+z)*arg(r, r0+z, sig_d), -0.5*dr, 0.5*dr)
+    if nan_check(response_rdca):
+        raise Exception(r, r0, sig_d, dr)
     return response_rdca[0]
 
 
@@ -367,25 +377,26 @@ def _beam_resolution_function(r, r0, d1, d2):
     else:
         return 0
     res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), d1, d2), 0, psi_max)[0]
+    if not res_function[0]:
+        raise Exception(r, r0, d1, d2)
     return res_function[0]
 
 
 def nan_check(tup):
     for x in tup:
-        if x:
+        if not x or isnan(x):
             return True
     return False
 
 
-def __resolution_function_arg(r, r0, d1, d2, dr, sig_d, u):
+def __resolution_function_arg(r, r0, d1, d2, dr, bs, sig_d, u):
     Rrb = _beam_profile_function
-    Rdca = _circle_of_pixels_response_function
+    Rdca = _annulus_of_pixels_response_function
     rb = _rb_function
     a2 = 0.5 * (d1 + d2)
-    print(r, u, a2)
     val = ((r + u) ** 2 + r ** 2 - a2 ** 2) / (2 * (r + u) * r)
     if val < -1 or val > 1:
-        print(r, u, a2, val)
+        print('val', val, 'r', r, 'u', u, 'a2', a2)
     psi_max = acos(val)
     z = quad(lambda psi: r*Rrb(rb(r, r0, psi), d1, d2)*(r+u)*Rdca(r+u, r0, sig_d, dr)*cos(psi), 0, psi_max)
     if nan_check(z):
@@ -395,17 +406,17 @@ def __resolution_function_arg(r, r0, d1, d2, dr, sig_d, u):
 
 def _simple_detector_resolution_function(r, r0, d1, d2, dr, bs, sig_d, pixel_size = 0.7):
     a2 = 0.5 * (d1 + d2)
-    # rdp radial detection limit for the pixel. What is this?
-    # rdp = sqrt(r ** 2 + r0 ** 2 - 2 * r * r0 * cos(pi))
-    rdp = pixel_size/2
-    u_min = max([-a2, r - r0 - rdp, bs - r])
+    # rdp radial detection limit for the pixel.
+    rdp = sqrt(2 * (pixel_size/2) ** 2)
+    if r0 + dr < bs:
+        return 0.0
+    u_min = max([-a2, r - r0 - rdp, bs-r])
     u_max = min([a2, r - r0 + rdp])
-    print('u_min:', u_min)
-    print(-a2, r-r0-rdp, bs-r)
-    print('u_max:', u_max)
-    print(a2, r-r0+rdp)
+    #if u_max < u_min then the pixel is fully shadowed by the beam stop
+    if u_max < u_min:
+        return 0.0
     arg = __resolution_function_arg
-    z = quad(lambda u: arg(r, r0, d1, d2, dr, sig_d, u), u_min, u_max)
+    z = quad(lambda u: arg(r, r0, d1, d2, dr, bs, sig_d, u), u_min, u_max)
     if nan_check(z):
         raise Exception(r, r0, d1, d2, dr, sig_d, u_min, u_max)
     return z[0]
@@ -431,10 +442,27 @@ if __name__ == "__main__":
     b_s = b_s * l_2 / (l_2 - l_b)
     pixel = 0.7
 
-    r_0 = 10
-    distances = linspace(r_0 - d_r, r_0 + d_r, 100)
-    func = []
-    for radius in distances:
+    r_0 = 100
+    func=[]
+    ordinate=[]
+    radii = linspace(r_0 - (d_r/2), r_0+(d_r/2), 100)
+
+    for radius in radii:
+        print(radius)
+        if radius == 0.0:
+            func.append(0.0)
+            continue
         val = _simple_detector_resolution_function(radius, r_0, d_1, d_2, d_r, b_s, sigma_d, pixel)
         func.append(val)
-    print(func)
+        ordinate.append(radius)
+    integral = cumtrapz(func).sum()
+    if integral == 0.0:
+        norm = [0.0] * len(ordinate)
+    else:
+        norm = [float(k)/integral for k in func]
+    import matplotlib.pyplot as plt
+    x_axis = ordinate
+    y_axis = norm
+    plt.plot(x_axis, y_axis)
+    plt.title('r0='+str(r_0))
+    plt.show()
