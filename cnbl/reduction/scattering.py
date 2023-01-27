@@ -225,8 +225,8 @@ def estimate_incoherent_scattering(data):
 
 def beam_stop_factor(r, b_s, l_b, l_2):
     """
-    If the beam-stop is centered on the beam, this method return '1' for some point at distance r from the beam center
-    across the detector plane if that point lies in the shadow of the beam-stop. It returns '0' otherwise.
+    If the beam-stop is centered on the beam, this method return '0' for some point at distance r from the beam center
+    across the detector plane if that point lies in the shadow of the beam-stop. It returns '1' otherwise.
 
     :param r: The distance between some point on the detector face and the beam center.
     :param b_s: The radius of the beam-stop.
@@ -236,6 +236,6 @@ def beam_stop_factor(r, b_s, l_b, l_2):
     """
     b_eff = b_s * l_2 / (l_2 - l_b)
     if r <= b_eff:
-        return 1
-    else:
         return 0
+    else:
+        return 1
