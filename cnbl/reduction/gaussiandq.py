@@ -220,24 +220,32 @@ def radially_averaged_resolution_function(r, r_0, b_s, wl, wl_spread, sigma_d, l
     :return response: The value of the resolution function at point R(q, q_mean)
     :return v_q: The variance of the resolution function in q
     """
-
+    # Get the variance contributions from the beam and from gravity
     v_rb = _vrb(l_1, l_2, s_1, s_2)
     v_rg = _vrg(wl, wl_spread, l_1, l_2)
 
+    # Get the variance contribution from the detector and correct for the presence of the beamstop
     v_rd = _vrd(sigma_d, wl)
     v_rds = _beam_stop_correction(v_rd, r_0, b_s, sigma_d)
+
+    # Calculate the total variance in distance
     v_rs = _vr(v_rb, v_rds, v_rg)
 
+    # Calculate the fractional correction to the mean distance from the beam-stop and second order effects
     f_r = _fr(v_rd, r_0, b_s, sigma_d)[0]
     r_mean, v_r = _second_order_size_effects(f_r, r_0, v_rs)
 
+    # Convert to momentum transfer space
     q = _get_q(r, l_2, wl)
     q_mean = _get_q(r_mean, l_2, wl)
+
+    # Get the variance of the resolution function
     v_q = _q_variance(q_mean, v_r, r_0, wl_spread)
 
-    response = 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - q_mean)**2 / (2*v_q))
+    # Get the value of the resolution function R at point (q, q_mean)
+    resolution = 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - q_mean)**2 / (2*v_q))
 
-    return response, v_q
+    return resolution, v_q
 
 
 """
