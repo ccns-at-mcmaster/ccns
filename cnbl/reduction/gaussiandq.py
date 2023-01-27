@@ -203,31 +203,36 @@ def _get_q(r, l2, wl):
     return q
 
 
-def radially_averaged_resolution_function(r, r_0, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
+def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_b, l_1, l_2, s_1, s_2):
     """
-    Returns the resolution function around nominal momentum transfer Q_0 and its variance. Resolution function values
-    produced by this method are not normalized.
+    Returns the mean momentum transfer and its variance for an annulus with radius r_0 and width d_r after beam-stop and
+    second order corrections.
 
-    :param r: Distance between a point within the annular bin and the beam center
-    :param r_0: Nominal scattering distance. The center of the annular bin.
-    :param b_s: Effective size of the beam-stop shadow on the detector face.
+    :param r_0: Radius of the annulus
+    :param d_r: Width of the annulus
+    :param b_s: Radius of the beam-stop.
     :param wl: The mean neutron wavelength.
     :param wl_spread: The standard deviation of the neutron wavelength distribution expressed as a fraction of its mean.
     :param sigma_d: Standard deviation of detector intrinsic spatial resolution
+    :param l_b: distance between the beam-stop and the detector plane.
     :param l_1: source-aperture-to-sample-aperture distance
     :param l_2: sample-aperture-to-detector distance
     :param s_1: source aperture radius
     :param s_2: sample aperture radius
-    :return resolution: The value of the resolution function at point R(q, q_mean)
+    :return q_mean: The mean momentum transfer in the radial bin
     :return v_q: The variance of the resolution function in q
     """
+
+    # Effective beam stop radius
+    b_eff = b_s * l_2 / (l_2 - l_b)
+
     # Get the variance contributions from the beam and from gravity
     v_rb = _vrb(l_1, l_2, s_1, s_2)
     v_rg = _vrg(wl, wl_spread, l_1, l_2)
 
     # Get the variance contribution from the detector and correct for the presence of the beamstop
-    v_rd = _vrd(sigma_d, wl)
-    v_rds = _beam_stop_correction(v_rd, r_0, b_s, sigma_d)
+    v_rd = _vrd(sigma_d, d_r)
+    v_rds = _beam_stop_correction(v_rd, r_0, b_eff, sigma_d)
 
     # Calculate the total variance in distance
     v_rs = _vr(v_rb, v_rds, v_rg)
@@ -237,56 +242,26 @@ def radially_averaged_resolution_function(r, r_0, b_s, wl, wl_spread, sigma_d, l
     r_mean, v_r = _second_order_size_effects(f_r, r_0, v_rs)
 
     # Convert to momentum transfer space
-    q = _get_q(r, l_2, wl)
+    # q = _get_q(r, l_2, wl)
     q_mean = _get_q(r_mean, l_2, wl)
 
     # Get the variance of the resolution function
     v_q = _q_variance(q_mean, v_r, r_0, wl_spread)
 
     # Get the value of the resolution function R at point (q, q_mean)
-    resolution = 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - q_mean)**2 / (2*v_q))
+    # resolution = 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - q_mean)**2 / (2*v_q))
 
-    return resolution, v_q
+    return q_mean, v_q
 
 
-"""
-# When run as main, this prints the resolution function for a radial bin centered at r0.
+def resolution_function(q, mean_q, v_q):
+    """
+    Returns the un-normalized value of the resolution function at point (q, mean_q). Values of this function should be
+    normalized such at the integral of R(q, q0) over all q is equal to one.
 
-if __name__ == "__main__":
-    from cnbl.utils import normalize
-    
-    w = wavelength = 5.0
-    dw = wavelength_spread = 0.15
-    sigma_d = detector_res_sd = 0.425
-    d_r = annulus_width = 0.5
-    b_s = beamstop_radius = 2.5
-    l_b = beamstop_distance = 15
-    s_1 = slit_one = 1.1
-    s_2 = slit_two = 0.6
-    l_1 = source_to_sample = 1630
-    l_2 = sample_to_detector = 1530
-    # Effective beam stop radius
-    b_s = b_s * l_2 / (l_2 - l_b)
-
-    r_0 = 10
-    distances = numpy.linspace(r_0 - d_r, r_0 + d_r, 100)
-    value = []
-    ordinate = []
-    for r in distances:
-        if r == 0.0:
-            value.append(0)
-            ordinate.append(r)
-            continue
-        value.append(radially_averaged_resolution_function(r, r_0, b_s, w, dw, sigma_d, l_1, l_2, s_1, s_2)[0])
-        ordinate.append(r)
-    resolution_function = normalize(value)
-
-    import matplotlib.pyplot as plt
-    x_axis = ordinate
-    y_axis = resolution_function
-    print(len(x_axis))
-    print(len(y_axis))
-    plt.plot(x_axis, y_axis)
-    plt.title('r0=' + str(r_0))
-    plt.show()
-"""
+    :param q: momentum transfer at some point r within an annulus of radius r_0 and width d_r.
+    :param mean_q: mean momentum transfer within an annulus.
+    :param v_q: variance of the momentum transfer within the annulus
+    :return: The value of R(q, mean_q)
+    """
+    return 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - mean_q)**2 / (2*v_q))
