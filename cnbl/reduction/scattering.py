@@ -1,23 +1,19 @@
 """
 Methods intended for reduction of raw SANS data collected at the MacSANS laboratory at McMaster Nuclear Reactor.
+These methods are used to calculate scattering vector quantities and absolute intensity.
 
     Author: Devin Burke
 
 (c) Copyright 2022, McMaster University
+
+Method from:
+Barker, J. G., and J. S. Pedersen. "Instrumental smearing effects in radially symmetric small-angle neutron scattering
+by numerical and analytical methods." Journal of applied crystallography 28.2 (1995): 105-114.
 """
 
-from math import sqrt, cos, erf, sin, atan, asin, acos
-from numpy import linspace, zeros, pi, isnan
-from numpy import exp as exp
-import scipy.constants as const
-from scipy.special import gammainc, iv
-from scipy.integrate import quad, cumtrapz
-from sympy.functions.elementary.exponential import exp as symexp
-from sympy.functions.special.bessel import besseli
-from sympy import N
+import math
+import numpy
 
-# Set precision
-prec = 6
 
 def _wide_angle_correction_factor(theta):
     """
@@ -27,7 +23,7 @@ def _wide_angle_correction_factor(theta):
     :param theta: The scattering angle in degrees.
     :return:
     """
-    return 1/cos(theta) - 1
+    return 1/math.cos(theta) - 1
 
 
 def _get_radial_bin(img, outer_radius, inner_radius, center):
@@ -56,7 +52,7 @@ def _get_radial_bin(img, outer_radius, inner_radius, center):
         for x, _ in enumerate(row):
             dx = x - center[1]
             dy = y - center[0]
-            distance = sqrt(dx * dx + dy * dy)
+            distance = math.sqrt(dx * dx + dy * dy)
 
             if inner_radius <= distance <= outer_radius:
                 indices.append((y, x))
@@ -86,9 +82,9 @@ def _get_average_intensity(img, indices, center, distance, calibration=0.7):
             if point in indices:
                 dx = x - center[1]
                 dy = y - center[0]
-                radius = sqrt(dx * dx + dy * dy)
+                radius = math.sqrt(dx * dx + dy * dy)
                 radius *= calibration
-                scattering_angle = atan(radius / distance)
+                scattering_angle = math.atan(radius / distance)
                 intensity += val * _wide_angle_correction_factor(scattering_angle)
     intensity = intensity / len(indices)
     return intensity
@@ -113,11 +109,11 @@ def get_intensity_as_a_function_of_radius_in_pixels(img, data, n_bins=100):
         for x, _ in enumerate(row):
             dx = x - center[1]
             dy = y - center[0]
-            distance = sqrt(dx * dx + dy * dy)
+            distance = math.sqrt(dx * dx + dy * dy)
             if distance > distance_to_farthest_pixel:
                 distance_to_farthest_pixel = distance
     # Define the bounds of radial bins out to the
-    bins = linspace(0.0, distance_to_farthest_pixel, num=n_bins)
+    bins = numpy.linspace(0.0, distance_to_farthest_pixel, num=n_bins)
 
     # Use bins as ring boundaries to calculate a list of intensities
     intensities = []
@@ -163,10 +159,10 @@ def solid_angle_correction(img, data):
         for x, _ in enumerate(row):
             dx = x - center[1]
             dy = y - center[0]
-            radius = sqrt(dx * dx + dy * dy)
+            radius = math.sqrt(dx * dx + dy * dy)
             radius *= calibration
-            theta = atan(radius/distance)
-            img[y][x] *= cos(theta) * cos(theta) * cos(theta)
+            theta = math.atan(radius/distance)
+            img[y][x] *= math.cos(theta) * math.cos(theta) * math.cos(theta)
     return
 
 
@@ -220,249 +216,8 @@ def estimate_incoherent_scattering(data):
     distance = data['sdd'][0]
     shape = data['data'].shape
     sample_transmission = data['metadata_sample_transmission'][0]
-    incoherent_scattering = zeros(shape, order='F')
+    incoherent_scattering = numpy.zeros(shape, order='F')
     for y, row in enumerate(incoherent_scattering):
         for x, val in enumerate(row):
-            incoherent_scattering[y][x] = 1 / (4 * pi * distance) * (1 - sample_transmission) / sample_transmission
+            incoherent_scattering[y][x] = 1 / (4*numpy.pi*distance) * (1 - sample_transmission) / sample_transmission
     return incoherent_scattering
-
-
-def _radial_variance_beam_gaussian(L1, L2, S1, S2):
-    Lp = 1 / ((1 / L1) + (1 / L2))
-    Vrb = (S1 * S1 * L2 * L2 / (4 * Lp * Lp))
-    return Vrb
-
-
-def _radial_variance_detector_gaussian(sigma_d, delta_r):
-    Vrd = sigma_d ** 2 + (delta_r ** 2 / 12)
-    return Vrd
-
-
-def _radial_variance_gravity_gaussian(wavelength, wavelength_spread, L1, L2):
-    v_neutron = const.h / (const.m_n * wavelength) * 1E12
-    Yg = (const.g * 100 / (2 * v_neutron ** 2)) * L2 * (L1 + L2)
-    Vrg = 2 * Yg ** 2 * wavelength_spread ** 2
-    return Vrg
-
-
-def _q_variance_gaussian(q, Vr, r, Vw, w):
-    try:
-        x = Vr / (r * r)
-        y = Vw / (w * w)
-        Vq = q * q * (x + y)
-    except ZeroDivisionError:
-        return 0
-    return Vq
-
-
-def get_q(w, theta):
-    q = 4 * pi / w * sin(theta/2)
-    return q
-
-
-def _reduction_in_pixel_efficiency_caused_by_beam_stop_shadow(r, Bs, Vrd):
-    delta_r = (r - Bs) / sqrt(2 * Vrd)
-    fs = 0.5 * (1 + erf(delta_r))
-    return fs, delta_r
-
-
-def _fractional_shift_in_mean_distance_caused_by_beam_stop_shadow(sigma_d, delta, r, fs):
-    x = sigma_d * exp(-1 * delta ** 2)
-    y = r * fs * sqrt(2 * pi)
-    try:
-        fr = 1 + x/y
-    except ZeroDivisionError:
-        return 1
-    return fr
-
-
-def _fractional_shift_in_radial_variance_detector(fs, delta, r, Vrd, fr):
-    x = 1 / (fs * sqrt(pi)) * (1-gammainc(3/2, delta**2))
-    y = (r ** 2 / Vrd) * ((fr - 1) ** 2)
-    fv = x - y
-    return fv
-
-
-def beam_stop_correction(r, b_s, sigma_d, v_rd, v_rb, v_rg):
-    fs, delta_r = _reduction_in_pixel_efficiency_caused_by_beam_stop_shadow(r, b_s, v_rd)
-    fr = _fractional_shift_in_mean_distance_caused_by_beam_stop_shadow(sigma_d, delta_r, r, fs)
-    fv = _fractional_shift_in_radial_variance_detector(fs, delta_r, r, v_rd, fr)
-    v_rds = fv * v_rd
-    v_rs = v_rb + v_rds + v_rg
-    return v_rs, fr
-
-
-def second_order_size_effects(fr, r, vrs):
-    rd = fr * r
-    corrected_r = rd + (vrs / (2 * rd))
-    corrected_vr = vrs - (vrs * vrs / (2 * rd * rd))
-    return corrected_r, corrected_vr
-
-
-def _response_function(v_q, q, mean_q):
-    response = 1 / sqrt(2 * pi * v_q) * exp((-1 * (q-mean_q) ** 2) / (2 * v_q))
-    return response
-
-
-def _pixel_response_function(rd, sig_d):
-    pixel_response = 1 / sqrt(2 * pi * sig_d**2)
-    pixel_response *= exp(-1 * rd**2 / (2 * sig_d**2))
-    return pixel_response
-
-
-def __circle_of_pixels_argument(r, r0, sig_d):
-    #f = float(symexp(-1 * (r ** 2 + r0 ** 2) / (2 * sig_d ** 2)) * besseli(0, r * r0 / (sig_d ** 2)).evalf())
-    #f *= (r / (sig_d ** 2))
-    #return f
-    f0 = (r / (sig_d ** 2))
-    a = -1 * (r ** 2 + r0 ** 2) / (2 * sig_d ** 2)
-    b = r * r0 / (sig_d ** 2)
-    num = N((symexp(a) * besseli(0, b)))
-    f0 *= num
-    return f0
-
-
-def _annulus_of_pixels_response_function(r, r0, sig_d, dr):
-    arg = __circle_of_pixels_argument
-    response_rdca = quad(lambda z: (r0+z)*arg(r, r0+z, sig_d), -0.5*dr, 0.5*dr)
-    if nan_check(response_rdca):
-        raise Exception(r, r0, sig_d, dr)
-    return response_rdca[0]
-
-
-def _beam_profile_function(r, d1, d2):
-    d = min([d1, d2])
-    x_star = (r**2 + d1**2 - d2**2) / (2 * r)
-    # a1 = 0.5 * abs(d1-d2)
-    # a2 = 0.5 * (d1+d2)
-
-    # The commented lines are limits specified by Barker 1995. The 1/2 term in A1 and A2 when added to the limit
-    # produces a complex value of the sqrt term in AL. The argument of the square root is positive so long as
-    # |D1 - D2| <= r <= (D1 + D2). These should be the limits.
-    # The argument of the sqrt term in AL is D1^2-[(r^2+D1^2-D2^2)/(2r)]^2.
-    # Solving the expression (D1^2-[(r^2+D1^2-D2^2)/(2r)]^2) >= 0
-    # Yields |D1-D2|<=r<=(D1+D2)
-    # If you investigate the limit 0.5*|D1-D2| <= r <= 0.5*(D1+D2)
-    # If A1 <= r <= (2A1 = |D1-D2|) the sqrt term is complex.
-    # When calculating A_e, the paper says the expression is 4(AL+AR)/(pi*D^2). I removed the factor of 4
-    # so that A_e = 1 at r = |D1-D2|
-    # I suspect that the algebra treats D1 and D2 as radii instead of diameter in places.
-    a_e = 0
-    # if r < a1:
-    if r < abs(d1-d2):
-        a_e = 1
-    # if r > a2:
-    if r > d1 + d2:
-        a_e = 0
-    # if a1 <= r <= a2:
-    if abs(d1 - d2) <= r <= d1+d2:
-        al = (pi * d1**2 / 2) - (x_star * sqrt(d1**2 - x_star**2)) - d1**2 * asin(x_star / d1)
-        ar = (pi * d2**2 / 2) - (r - x_star) * sqrt((d2**2 - (r - x_star)**2)) - d2**2 * asin((r - x_star) / d2)
-        a_e = (al + ar) / (pi * d ** 2)
-        # a_e = 4 * (al + ar) / (pi * d ** 2)
-
-    return a_e
-
-
-def _rb_function(r, r0, psi):
-    rb = sqrt(r**2 + r0**2 - 2 * r0 * r * cos(psi))
-    return rb
-
-
-def _beam_resolution_function(r, r0, d1, d2):
-    a2 = 0.5 * (d1+d2)
-    z = (r0**2 + r**2 - a2**2)/(2*r0*r)
-    if -1 <= z <= 1:
-        psi_max = acos(z)
-    else:
-        return 0
-    res_function = quad(lambda psi: r * _beam_profile_function(_rb_function(r, r0, psi), d1, d2), 0, psi_max)[0]
-    if not res_function[0]:
-        raise Exception(r, r0, d1, d2)
-    return res_function[0]
-
-
-def nan_check(tup):
-    for x in tup:
-        if not x or isnan(x):
-            return True
-    return False
-
-
-def __resolution_function_arg(r, r0, d1, d2, dr, bs, sig_d, u):
-    Rrb = _beam_profile_function
-    Rdca = _annulus_of_pixels_response_function
-    rb = _rb_function
-    a2 = 0.5 * (d1 + d2)
-    val = ((r + u) ** 2 + r ** 2 - a2 ** 2) / (2 * (r + u) * r)
-    if val < -1 or val > 1:
-        print('val', val, 'r', r, 'u', u, 'a2', a2)
-    psi_max = acos(val)
-    z = quad(lambda psi: r*Rrb(rb(r, r0, psi), d1, d2)*(r+u)*Rdca(r+u, r0, sig_d, dr)*cos(psi), 0, psi_max)
-    if nan_check(z):
-        raise Exception(r, r0, d1, d2, dr, sig_d, u)
-    return z[0]
-
-
-def _simple_detector_resolution_function(r, r0, d1, d2, dr, bs, sig_d, pixel_size = 0.7):
-    a2 = 0.5 * (d1 + d2)
-    # rdp radial detection limit for the pixel.
-    rdp = sqrt(2 * (pixel_size/2) ** 2)
-    if r0 + dr < bs:
-        return 0.0
-    u_min = max([-a2, r - r0 - rdp, bs-r])
-    u_max = min([a2, r - r0 + rdp])
-    #if u_max < u_min then the pixel is fully shadowed by the beam stop
-    if u_max < u_min:
-        return 0.0
-    arg = __resolution_function_arg
-    z = quad(lambda u: arg(r, r0, d1, d2, dr, bs, sig_d, u), u_min, u_max)
-    if nan_check(z):
-        raise Exception(r, r0, d1, d2, dr, sig_d, u_min, u_max)
-    return z[0]
-
-
-if __name__ == "__main__":
-    """
-    Example smearing calculation from Barker 1995.
-    """
-    w = wavelength = 5.0
-    dw = wavelength_spread = 0.15
-    sigma_d = detector_res_sd = 0.425
-    d_r = annulus_width = 0.5
-    b_s = beamstop_radius = 2.5
-    l_b = beamstop_distance = 15
-    s_1 = slit_one = 1.1
-    s_2 = slit_two = 0.6
-    l_1 = source_to_sample = 1630
-    l_2 = sample_to_detector = 1530
-    d_1 = 2 * s_1 * l_2 / l_1
-    d_2 = 2 * s_2 * (l_1 + l_2) / l_1
-    # Effective beam stop radius
-    b_s = b_s * l_2 / (l_2 - l_b)
-    pixel = 0.7
-
-    r_0 = 100
-    func=[]
-    ordinate=[]
-    radii = linspace(r_0 - (d_r/2), r_0+(d_r/2), 100)
-
-    for radius in radii:
-        print(radius)
-        if radius == 0.0:
-            func.append(0.0)
-            continue
-        val = _simple_detector_resolution_function(radius, r_0, d_1, d_2, d_r, b_s, sigma_d, pixel)
-        func.append(val)
-        ordinate.append(radius)
-    integral = cumtrapz(func).sum()
-    if integral == 0.0:
-        norm = [0.0] * len(ordinate)
-    else:
-        norm = [float(k)/integral for k in func]
-    import matplotlib.pyplot as plt
-    x_axis = ordinate
-    y_axis = norm
-    plt.plot(x_axis, y_axis)
-    plt.title('r0='+str(r_0))
-    plt.show()
