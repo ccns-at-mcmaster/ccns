@@ -7,6 +7,7 @@ laboratory at McMaster University
 (c) Copyright 2022, McMaster University
 """
 
+from scipy.integrate import cumtrapz
 
 def print_impact_matrix(dat, title=None):
     import matplotlib.pyplot as plt
@@ -28,3 +29,8 @@ def print_impact_matrix(dat, title=None):
     cax.set_frame_on(False)
     plt.colorbar(orientation='vertical')
     plt.show()
+
+def normalize(array):
+    integral = cumtrapz(array).sum()
+    normalized_array = [float(i)/float(integral) for i in array]
+    return normalized_array
