@@ -15,7 +15,6 @@ import math
 import numpy
 import scipy.constants as const
 from scipy.special import gammainc
-from cnbl.utils import normalize
 
 
 def _vrb(l1, l2, s1, s2):
@@ -239,10 +238,14 @@ def radially_averaged_resolution_function(r, r_0, b_s, wl, wl_spread, sigma_d, l
     response = 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - q_mean)**2 / (2*v_q))
 
     return response, v_q
+
+
 """
 # When run as main, this prints the resolution function for a radial bin centered at r0.
 
 if __name__ == "__main__":
+    from cnbl.utils import normalize
+    
     w = wavelength = 5.0
     dw = wavelength_spread = 0.15
     sigma_d = detector_res_sd = 0.425
