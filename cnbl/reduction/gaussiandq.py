@@ -205,7 +205,8 @@ def _get_q(r, l2, wl):
 
 def radially_averaged_resolution_function(r, r_0, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
     """
-    Returns the resolution function around nominal momentum transfer Q_0 and its variance.
+    Returns the resolution function around nominal momentum transfer Q_0 and its variance. Resolution function values
+    produced by this method are not normalized.
 
     :param r: Distance between a point within the annular bin and the beam center
     :param r_0: Nominal scattering distance. The center of the annular bin.
