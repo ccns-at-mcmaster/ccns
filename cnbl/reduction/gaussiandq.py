@@ -218,7 +218,7 @@ def radially_averaged_resolution_function(r, r_0, b_s, wl, wl_spread, sigma_d, l
     :param l_2: sample-aperture-to-detector distance
     :param s_1: source aperture radius
     :param s_2: sample aperture radius
-    :return response: The value of the resolution function at point R(q, q_mean)
+    :return resolution: The value of the resolution function at point R(q, q_mean)
     :return v_q: The variance of the resolution function in q
     """
     # Get the variance contributions from the beam and from gravity
