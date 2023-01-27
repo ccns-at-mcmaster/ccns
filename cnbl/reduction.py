@@ -315,7 +315,7 @@ def __circle_of_pixels_argument(r, r0, sig_d):
     #f *= (r / (sig_d ** 2))
     #return f
     f0 = (r / (sig_d ** 2))
-    a = -1 * (r ** 2 + r0 ** 2)
+    a = -1 * (r ** 2 + r0 ** 2) / (2 * sig_d ** 2)
     b = r * r0 / (sig_d ** 2)
     num = N((symexp(a) * besseli(0, b)))
     f0 *= num
