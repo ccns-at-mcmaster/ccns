@@ -1,9 +1,8 @@
-from cnbl.reduction.scattering import *
 from cnbl.loader import *
 from cnbl.masking import *
 from cnbl.utils import print_impact_matrix
-import numpy as np
-from cnbl.reduction.gaussiandq import get_q_statistics
+import numpy
+from cnbl.reduction import *
 
 if __name__ == '__main__':
     # Load nexus file and read it
@@ -22,7 +21,7 @@ if __name__ == '__main__':
     s_2 = slit_two = 1.91
     l_1 = source_to_sample = 1600
     l_2 = sample_to_detector = 508
-    pixel_size = data['x_pixel_size'][0]
+    pixel_dim = (data['y_pixel_size'][0], data['x_pixel_size'][0])
     center = (int(data['beam_center_y'][0]), int(data['beam_center_x'][0]))
     sample_transmission = 1.0
     sample_thickness = 0.2
@@ -54,7 +53,7 @@ if __name__ == '__main__':
     empty = np.ones_like(data2d, dtype='float32')
 
     # Perform solid angle correction on data
-    solid_angle_correction(data2d, l_2, center, pixel_size)
+    solid_angle_correction(data2d, l_2, center, pixel_dim)
 
     # Scale data to absolute intensity
     scale_to_absolute_intensity(data2d,
@@ -78,7 +77,7 @@ if __name__ == '__main__':
     # Start analysis
     d_r = annulus_width = 0.5
     # Generate list of annular radii
-    detector_axis_length = data2d.shape[0] * pixel_size
+    detector_axis_length = data2d.shape[0] * pixel_dim[0]
     n_bins = int(detector_axis_length / annulus_width)
     radii = numpy.linspace(0, detector_axis_length, n_bins)
 
@@ -96,7 +95,7 @@ if __name__ == '__main__':
         reduced_data['Q'] = numpy.append(reduced_data['Q'], q)
         reduced_data['Q_variance'] = numpy.append(reduced_data['Q_variance'], v_q)
 
-        intensity, intensity_std = get_scattered_intensity(data2d, center, r_0, d_r)
+        intensity, intensity_std = get_scattered_intensity(data2d, center, r_0, d_r, l_2)
         reduced_data['scattered_intensity'] = numpy.append(reduced_data['scattered_intensity'], intensity)
         reduced_data['scattered_intensity_std'] = numpy.append(reduced_data['scattered_intensity_std'], intensity_std)
 

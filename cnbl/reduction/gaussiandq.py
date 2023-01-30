@@ -16,6 +16,18 @@ import numpy
 import scipy.constants as const
 from scipy.special import gammainc
 
+__all__ = ['_vrb',
+           '_vrd',
+           '_vrg',
+           '_vr',
+           '_q_variance',
+           '_fs',
+           '_fr',
+           '_fv',
+           '_beam_stop_correction',
+           '_second_order_size_effects',
+           '_get_q']
+
 
 def _vrb(l1, l2, s1, s2):
     """
@@ -201,63 +213,3 @@ def _get_q(r, l2, wl):
     theta = math.atan(r / l2)
     q = 4 * numpy.pi / wl * math.sin(theta/2)
     return q
-
-
-def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
-    """
-    Returns the mean momentum transfer and its variance for an annulus with radius r_0 and width d_r after beam-stop and
-    second order corrections.
-
-    :param r_0: Radius of the annulus
-    :param d_r: Width of the annulus
-    :param b_s: Radius of the beam-stop.
-    :param wl: The mean neutron wavelength.
-    :param wl_spread: The standard deviation of the neutron wavelength distribution expressed as a fraction of its mean.
-    :param sigma_d: Standard deviation of detector intrinsic spatial resolution
-    :param l_1: source-aperture-to-sample-aperture distance
-    :param l_2: sample-aperture-to-detector distance
-    :param s_1: source aperture radius
-    :param s_2: sample aperture radius
-    :return q_mean: The mean momentum transfer in the radial bin
-    :return v_q: The variance of the resolution function in q
-    """
-
-    # Get the variance contributions from the beam and from gravity
-    v_rb = _vrb(l_1, l_2, s_1, s_2)
-    v_rg = _vrg(wl, wl_spread, l_1, l_2)
-
-    # Get the variance contribution from the detector and correct for the presence of the beamstop
-    v_rd = _vrd(sigma_d, d_r)
-    v_rds = _beam_stop_correction(v_rd, r_0, b_s, sigma_d)
-
-    # Calculate the total variance in distance
-    v_rs = _vr(v_rb, v_rds, v_rg)
-
-    # Calculate the fractional correction to the mean distance from the beam-stop and second order effects
-    f_r = _fr(v_rd, r_0, b_s, sigma_d)[0]
-    r_mean, v_r = _second_order_size_effects(f_r, r_0, v_rs)
-
-    # Convert to momentum transfer space
-    # q = _get_q(r, l_2, wl)
-    q_mean = _get_q(r_mean, l_2, wl)
-
-    # Get the variance of the resolution function
-    v_q = _q_variance(q_mean, v_r, r_0, wl_spread)
-
-    # Get the value of the resolution function R at point (q, q_mean)
-    # resolution = 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - q_mean)**2 / (2*v_q))
-
-    return q_mean, v_q
-
-
-def resolution_function(q, mean_q, v_q):
-    """
-    Returns the un-normalized value of the resolution function at point (q, mean_q). Values of this function should be
-    normalized such at the integral of R(q, q0) over all q is equal to one.
-
-    :param q: momentum transfer at some point r within an annulus of radius r_0 and width d_r.
-    :param mean_q: mean momentum transfer within an annulus.
-    :param v_q: variance of the momentum transfer within the annulus
-    :return: The value of R(q, mean_q)
-    """
-    return 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - mean_q)**2 / (2*v_q))
