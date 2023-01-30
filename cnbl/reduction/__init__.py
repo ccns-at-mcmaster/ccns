@@ -229,6 +229,26 @@ def reduce(sans_data,
            sample_transmission,
            sample_thickness,
            pixel_dim=(0.7, 0.7)):
+    """
+
+    :param sans_data: 2D SANS data
+    :param annulus_width: Desired radial annulus width for radial averaging.
+    :param center: A (row, col) tuple containing the pixel indices of the pixel closest to the beam center
+    :param beamstop_radius: The radius of the beam-stop
+    :param neutron_wavelength: The mean neutron wavelength
+    :param wavelength_spread: The relative error in the mean neutron wavelength expressed as a decimal.
+    :param detector_resolution: The standard deviation of the intrinsic detector spatial resolution.
+    :param source_sample_distance: source-aperture-to-sample distance
+    :param sample_detector_distance: sample-aperture-to-detector distance
+    :param slit_one: Radius of the source aperture
+    :param slit_two: Radius of the sample aperture
+    :param sample_transmission: The neutron transmission factor of the sample
+    :param sample_thickness: The thickness of the sample
+    :param pixel_dim: A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
+    :return reduced data: A python dictionary with keys corresponding to reduced data. The value of each key is a numpy
+                          array of the data. The reduced data can be accessed with dict[key] where key is a string that
+                          can be 'Q', 'Q_variance', 'scattered_intensity', 'scattered_intensity_std', or 'BS'.
+    """
 
     dr = annulus_width
     bs = beamstop_radius
