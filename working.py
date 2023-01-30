@@ -80,7 +80,6 @@ if __name__ == '__main__':
     # Visualize the processed data
     print_impact_matrix(data2d, title="Processed Data")
 
-    from cnbl.reduction import reduce
     reduced_data = reduce(data2d,
                           0.5,
                           center,
