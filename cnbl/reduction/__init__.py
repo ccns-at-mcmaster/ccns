@@ -20,7 +20,8 @@ __all__ = ['solid_angle_correction',
            'get_scattered_intensity',
            'get_q_statistics',
            'resolution_function',
-           'reduce']
+           'reduce',
+           'rescale_with_empty_and_blocked_beams']
 
 
 def solid_angle_correction(img, l2, center, pixel_dim=(0.7, 0.7)):
@@ -230,6 +231,8 @@ def reduce(sans_data,
            sample_thickness,
            pixel_dim=(0.7, 0.7)):
     """
+    Returns a dictionary of reduced SANS data. The reduced data can be accessed with dict[key] where key is a string
+    that can be 'Q', 'Q_variance', 'scattered_intensity', 'scattered_intensity_std', or 'BS'.
 
     :param sans_data: 2D SANS data
     :param annulus_width: Desired radial annulus width for radial averaging.
@@ -289,3 +292,33 @@ def reduce(sans_data,
         reduced_data['BS'] = numpy.append(reduced_data['BS'], bs_factor)
         reduced_data['r0'] = numpy.append(reduced_data['r0'], r0)
     return reduced_data
+
+
+def rescale_with_empty_and_blocked_beams(sample_and_cell,
+                                         beam_blocked,
+                                         empty_cell,
+                                         transmission_sample_and_cell,
+                                         transmission_cell):
+    """
+    Uses the scattering matrices from the sample and cell together, an empty cell, and a blocked beam to rescale the
+    scattering data. The returned matrix is the scattering from just the sample. This does not normalize the matrices
+    so the user should make sure each matrix is collected at the same neutron flux and for the same counting time.
+    Otherwise, the user should normalize the matrices first.
+
+    :param sample_and_cell: A 2D numpy array. Scattering from both the sample and cell
+    :param beam_blocked: Scattering with the beam block
+    :param empty_cell: Scattering from just the empty_cell
+    :param transmission_sample_and_cell: Neutron transmission factor of the sample and cell
+    :param transmission_cell: Neutron transmission factor of the empty cell.
+    :return sample_scattering: A 2D numpy array of the scattering from the sample alone.
+    """
+
+    # Sample run
+    j = numpy.subtract(sample_and_cell, beam_blocked)
+    j = numpy.divide(j, transmission_sample_and_cell)
+    # Empty cell run
+    k = numpy.subtract(empty_cell, beam_blocked)
+    k = numpy.divide(k, transmission_cell)
+
+    sample_scattering = numpy.subtract(j, k)
+    return sample_scattering

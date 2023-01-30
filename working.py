@@ -51,6 +51,13 @@ if __name__ == '__main__':
     # Assume empty beam results in one count in each pixel
     empty = np.ones_like(data2d, dtype='float32')
 
+    # If you have empty and beam blocked matrices, you can rescale your data
+    # data2d = rescale_with_empty_and_blocked_beams(sample_and_cell,
+    #                                              beam_blocked,
+    #                                              empty_cell,
+    #                                              transmission_sample_and_cell,
+    #                                              transmission_cell)
+
     # Perform solid angle correction on data
     solid_angle_correction(data2d, l_2, center, pixel_dim)
 
