@@ -19,15 +19,24 @@ __all__ = ['_wide_angle_correction_factor',
            '_get_scattering_angle']
 
 
-def _wide_angle_correction_factor(theta):
+def _wide_angle_correction_factor(theta, transmission, sample_thickness):
     """
     Returns the wide-angle correction factor of intensity for a given scattering angle. This function should be called
     during radial averaging.
 
     :param theta: The scattering angle in degrees.
-    :return:
+    :param transmission: neutron transmission factor for the sample
+    :param sample_thickness: Thickness of the sample
+    :return factor: The wide angle correction factor for the scattered intensity
     """
-    return 1/math.cos(theta) - 1
+    a = (1 / math.cos(theta)) - 1
+    if transmission >= 1.0:
+        return a
+    T = transmission
+    d = sample_thickness
+    total_cross_section = math.log(T) * -1 / d
+    factor = T * d * (1 - math.pow(T, a)) / (a * total_cross_section * d)
+    return factor
 
 
 def _get_radial_bin(img, center, r0, dr):

@@ -124,7 +124,7 @@ def get_beam_stop_factor(r0, dr, b_s):
         return 0
 
 
-def get_scattered_intensity(abs_img, center, r0, dr, l2, pixel_dim=(0.7, 0.7)):
+def get_scattered_intensity(abs_img, center, r0, dr, transmission, thickness, l2, pixel_dim=(0.7, 0.7)):
     """
     Calculates the mean and standard deviation of the scattering intensity within an annulus of radius r0 with width dr.
 
@@ -132,6 +132,8 @@ def get_scattered_intensity(abs_img, center, r0, dr, l2, pixel_dim=(0.7, 0.7)):
     :param center:       A tuple designating the (row, col) indices of the center pixel of the radial bin
     :param r0:           Radius of the annulus centered on the beam.
     :param dr:           Width of the annulus
+    :param transmission: The neutron transmission factor of the sample.
+    :param thickness:    The sample thickness
     :param l2:           source-aperture-to-detector distance
     :param pixel_dim:    A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
     :return (mean, std): A tuple containing the mean and standard deviation of the scattered intensity within the
@@ -144,7 +146,7 @@ def get_scattered_intensity(abs_img, center, r0, dr, l2, pixel_dim=(0.7, 0.7)):
         row = pixel[0]
         col = pixel[1]
         theta = _get_scattering_angle(pixel, center, distance, pixel_dim)
-        wac = _wide_angle_correction_factor(theta)
+        wac = _wide_angle_correction_factor(theta, transmission, thickness)
         intensities = numpy.append(intensities, abs_img[row][col] * wac)
     if len(intensities) == 0:
         return 0, 0

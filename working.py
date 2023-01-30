@@ -23,7 +23,7 @@ if __name__ == '__main__':
     l_2 = sample_to_detector = 508
     pixel_dim = (data['y_pixel_size'][0], data['x_pixel_size'][0])
     center = (int(data['beam_center_y'][0]), int(data['beam_center_x'][0]))
-    sample_transmission = 1.0
+    sample_transmission = 0.99
     sample_thickness = 0.2
     illuminated_sample_area = 3.14
 
@@ -65,7 +65,7 @@ if __name__ == '__main__':
                                 detector_efficiency,
                                 counting_time,
                                 monitor_counts,
-                                normalize_time=False)
+                                normalize_time=True)
 
     # Create estimate of incoherent scattering from sample transmission and subtract from the measured values
     incoherent = estimate_incoherent_scattering(l_2, sample_transmission, data2d.shape)
@@ -95,7 +95,8 @@ if __name__ == '__main__':
         reduced_data['Q'] = numpy.append(reduced_data['Q'], q)
         reduced_data['Q_variance'] = numpy.append(reduced_data['Q_variance'], v_q)
 
-        intensity, intensity_std = get_scattered_intensity(data2d, center, r_0, d_r, l_2)
+        intensity, intensity_std = get_scattered_intensity(data2d, center, r_0, d_r, sample_transmission,
+                                                           sample_thickness, l_2)
         reduced_data['scattered_intensity'] = numpy.append(reduced_data['scattered_intensity'], intensity)
         reduced_data['scattered_intensity_std'] = numpy.append(reduced_data['scattered_intensity_std'], intensity_std)
 
