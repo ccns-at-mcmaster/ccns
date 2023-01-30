@@ -19,7 +19,8 @@ __all__ = ['solid_angle_correction',
            'get_beam_stop_factor',
            'get_scattered_intensity',
            'get_q_statistics',
-           'resolution_function']
+           'resolution_function',
+           'reduce']
 
 
 def solid_angle_correction(img, l2, center, pixel_dim=(0.7, 0.7)):
@@ -212,3 +213,59 @@ def resolution_function(q, mean_q, v_q):
     :return: The value of R(q, mean_q)
     """
     return 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - mean_q)**2 / (2*v_q))
+
+
+def reduce(sans_data,
+           annulus_width,
+           center,
+           beamstop_radius,
+           neutron_wavelength,
+           wavelength_spread,
+           detector_resolution,
+           source_sample_distance,
+           sample_detector_distance,
+           slit_one,
+           slit_two,
+           sample_transmission,
+           sample_thickness,
+           pixel_dim=(0.7, 0.7)):
+
+    dr = annulus_width
+    bs = beamstop_radius
+    wl = neutron_wavelength
+    wl_spread = wavelength_spread
+    sigma_d = detector_resolution
+    l1 = source_sample_distance
+    l2 = sample_detector_distance
+    s1 = slit_one
+    s2 = slit_two
+    T = sample_transmission
+    d = sample_thickness
+
+    # Generate list of annular radii
+    detector_axis_length = sans_data.shape[0] * pixel_dim[0]
+    n_bins = int(detector_axis_length / dr)
+    radii = numpy.linspace(0, detector_axis_length, n_bins)
+
+    reduced_data = {'Q': numpy.empty(0),
+                    'scattered_intensity': numpy.empty(0),
+                    'scattered_intensity_std': numpy.empty(0),
+                    'Q_variance': numpy.empty(0),
+                    'BS': numpy.empty(0, dtype=int),
+                    'r0': numpy.empty(0)}
+    for r0 in radii:
+        if r0 <= dr:
+            continue
+        q, v_q = get_q_statistics(r0, dr, bs, wl, wl_spread, sigma_d, l1, l2, s1, s2)
+        reduced_data['Q'] = numpy.append(reduced_data['Q'], q)
+        reduced_data['Q_variance'] = numpy.append(reduced_data['Q_variance'], v_q)
+
+        intensity, intensity_std = get_scattered_intensity(sans_data, center, r0, dr, T,
+                                                           d, l2)
+        reduced_data['scattered_intensity'] = numpy.append(reduced_data['scattered_intensity'], intensity)
+        reduced_data['scattered_intensity_std'] = numpy.append(reduced_data['scattered_intensity_std'], intensity_std)
+
+        bs_factor = get_beam_stop_factor(r0, dr, bs)
+        reduced_data['BS'] = numpy.append(reduced_data['BS'], bs_factor)
+        reduced_data['r0'] = numpy.append(reduced_data['r0'], r0)
+    return reduced_data

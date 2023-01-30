@@ -1,7 +1,6 @@
 from cnbl.loader import *
 from cnbl.masking import *
 from cnbl.utils import print_impact_matrix
-import numpy
 from cnbl.reduction import *
 
 if __name__ == '__main__':
@@ -74,33 +73,18 @@ if __name__ == '__main__':
     # Visualize the processed data
     print_impact_matrix(data2d, title="Processed Data")
 
-    # Start analysis
-    d_r = annulus_width = 0.5
-    # Generate list of annular radii
-    detector_axis_length = data2d.shape[0] * pixel_dim[0]
-    n_bins = int(detector_axis_length / annulus_width)
-    radii = numpy.linspace(0, detector_axis_length, n_bins)
-
-    reduced_data = {'Q': numpy.empty(0),
-                    'scattered_intensity': numpy.empty(0),
-                    'scattered_intensity_std': numpy.empty(0),
-                    '<Q>': numpy.empty(0),
-                    'Q_variance': numpy.empty(0),
-                    'BS': numpy.empty(0, dtype=int)}
-    ordinate = numpy.empty(0)
-    for r_0 in radii:
-        if r_0 <= d_r:
-            continue
-        q, v_q = get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2)
-        reduced_data['Q'] = numpy.append(reduced_data['Q'], q)
-        reduced_data['Q_variance'] = numpy.append(reduced_data['Q_variance'], v_q)
-
-        intensity, intensity_std = get_scattered_intensity(data2d, center, r_0, d_r, sample_transmission,
-                                                           sample_thickness, l_2)
-        reduced_data['scattered_intensity'] = numpy.append(reduced_data['scattered_intensity'], intensity)
-        reduced_data['scattered_intensity_std'] = numpy.append(reduced_data['scattered_intensity_std'], intensity_std)
-
-        bs_factor = get_beam_stop_factor(r_0, d_r, b_s)
-        reduced_data['BS'] = numpy.append(reduced_data['BS'], bs_factor)
-
-        ordinate = numpy.append(ordinate, r_0)
+    from cnbl.reduction import reduce
+    reduced_data = reduce(data2d,
+                          0.5,
+                          center,
+                          b_s,
+                          wl,
+                          wl_spread,
+                          sigma_d,
+                          l_1,
+                          l_2,
+                          s_1,
+                          s_2,
+                          sample_transmission,
+                          sample_thickness,
+                          pixel_dim)
