@@ -192,13 +192,12 @@ def get_scattered_intensity(abs_img, center, r0, dr):
                          annulus.
     """
     radial_bin = _get_radial_bin(abs_img, center, r0, dr)
-
-    intensities = numpy.empty(1)
+    intensities = numpy.empty(0)
     for pixel in radial_bin:
         row = pixel[0]
         col = pixel[1]
-        numpy.append(intensities, abs_img[row][col])
-    intensities = numpy.array(intensities)
-    mean = numpy.mean(intensities)
-    std = numpy.std(intensities)
-    return mean, std
+        intensities = numpy.append(intensities, abs_img[row][col])
+    if len(intensities) == 0:
+        return 0, 0
+    else:
+        return numpy.mean(intensities), numpy.std(intensities)

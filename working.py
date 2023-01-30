@@ -1,8 +1,6 @@
 from cnbl.reduction.scattering import *
 from cnbl.loader import *
 from cnbl.masking import *
-import matplotlib.pyplot as plt
-import math
 from cnbl.utils import print_impact_matrix
 import numpy as np
 from cnbl.reduction.gaussiandq import get_q_statistics
@@ -84,15 +82,15 @@ if __name__ == '__main__':
     n_bins = int(detector_axis_length / annulus_width)
     radii = numpy.linspace(0, detector_axis_length, n_bins)
 
-    reduced_data = {'Q': numpy.empty(1),
-                    'scattered_intensity': numpy.empty(1),
-                    'scattered_intensity_std': numpy.empty(1),
-                    '<Q>': numpy.empty(1),
-                    'Q_variance': numpy.empty(1),
-                    'BS': numpy.empty(1, dtype=int)}
-    ordinate = numpy.empty(1)
+    reduced_data = {'Q': numpy.empty(0),
+                    'scattered_intensity': numpy.empty(0),
+                    'scattered_intensity_std': numpy.empty(0),
+                    '<Q>': numpy.empty(0),
+                    'Q_variance': numpy.empty(0),
+                    'BS': numpy.empty(0, dtype=int)}
+    ordinate = numpy.empty(0)
     for r_0 in radii:
-        if r_0 == 0.0:
+        if r_0 <= d_r:
             continue
         q, v_q = get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2)
         reduced_data['Q'] = numpy.append(reduced_data['Q'], q)
