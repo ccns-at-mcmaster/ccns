@@ -275,7 +275,7 @@ def reduce(sans_data,
                     'scattered_intensity_std': numpy.empty(0),
                     'Q_variance': numpy.empty(0),
                     'BS': numpy.empty(0, dtype=int),
-                    'r0': numpy.empty(0)}
+                    'Q_0': numpy.empty(0)}
     for r0 in radii:
         if r0 <= dr:
             continue
@@ -290,7 +290,8 @@ def reduce(sans_data,
 
         bs_factor = get_beam_stop_factor(r0, dr, bs)
         reduced_data['BS'] = numpy.append(reduced_data['BS'], bs_factor)
-        reduced_data['r0'] = numpy.append(reduced_data['r0'], r0)
+        q_0 = _get_q(r0, l2, wl)
+        reduced_data['Q_0'] = numpy.append(reduced_data['Q_0'], q_0)
     return reduced_data
 
 
