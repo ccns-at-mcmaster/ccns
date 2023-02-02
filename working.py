@@ -10,21 +10,21 @@ if __name__ == '__main__':
     data = read_sans_raw(file)
 
     # Extract useful information from the data dictionary
+    # Create a copy of the 2D impact matrix to manipulate
     data2d = data['data'].copy()
-    # Get useful metadata for reduction
-    wl = 5.0
-    wl_spread = 0.14
-    sigma_d = 0.9
-    b_s = beamstop_radius = 2.5
-    s_1 = slit_one = 5.08
-    s_2 = slit_two = 1.91
-    l_1 = source_to_sample = 1600
-    l_2 = sample_to_detector = 508
+    wl = data['wavelength'][0]
+    wl_spread = data['wavelength_spread'][0]
+    sigma_d = data['x_resolution'][0]
+    b_s = data['beamstop_radius'][0]
+    s_1 = data['slit_one'][0]
+    s_2 = data['slit_two'][0]
+    l_1 = data['collimator_length'][0]
+    l_2 = sample_to_detector = data['sample_to_detector'][0] * 100 #Temporary, convert simulated rb to cm
     pixel_dim = (data['y_pixel_size'][0], data['x_pixel_size'][0])
     center = (int(data['beam_center_y'][0]), int(data['beam_center_x'][0]))
-    sample_transmission = 0.99
-    sample_thickness = 0.2
-    illuminated_sample_area = 3.14
+    sample_transmission = data['sample_transmission'][0]
+    sample_thickness = data['sample_thickness'][0]
+    illuminated_sample_area = data['illuminated_sample_area'][0]
 
     # This is done at the EPICS level, per pixel. I will keep it here now, but it may have to change. Now, efficiency is
     # accounting for at data acquisition and during reduction.
@@ -74,8 +74,8 @@ if __name__ == '__main__':
                                 normalize_time=True)
 
     # Create estimate of incoherent scattering from sample transmission and subtract from the measured values
-    incoherent = estimate_incoherent_scattering(l_2, sample_transmission, data2d.shape)
-    data2d = np.subtract(data2d, incoherent)
+    #incoherent = estimate_incoherent_scattering(l_2, sample_transmission, data2d.shape)
+    #data2d = np.subtract(data2d, incoherent)
 
     # Visualize the processed data
     print_impact_matrix(data2d, title="Processed Data")
