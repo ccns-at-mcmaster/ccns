@@ -97,7 +97,7 @@ if __name__ == '__main__':
 
     # Add keys for raw data and metadata to reduced_data. These are needed by the writer.
     reduced_data.update(data)
-
+    reduced_data['mask'] = numpy.zeros_like(reduced_data['I'])
     # Instantiate a data writer
     from cnbl.writers.nxcansas_writer import NXcanSASWriter
     filename = "C:\\Users\\burkeds\\Desktop\\working\\test"

@@ -111,6 +111,22 @@ def _h5_string(string):
     return numpy.array([numpy.string_(string)])
 
 
+def _h5_int(x):
+    """
+    Convert an int to an int in a numpy array.
+
+    :param x: Integer to be converted
+    :return: A numpy array containing the integer.
+    """
+    if x is None:
+        x = 0
+    if isinstance(x, numpy.ndarray):
+        return x
+    if not (isinstance(x, list)):
+        x = [x]
+    return numpy.array(x, dtype=numpy.int)
+
+
 class NXcanSASWriter(DataWriter):
     """
     A DataWriter inheritor class that writes HDF5 nexus files in the NXcanSAS format.
@@ -140,24 +156,26 @@ class NXcanSASWriter(DataWriter):
             sasentry = nexus.create_group("entry")
             sasentry.attrs["canSAS_class"] = "SASentry"
             sasentry.attrs["version"] = "1.1"
-            sasentry.attrs["default"] = "sasdata"
+            sasentry.attrs["default"] = "data"
             nexus['/entry/definition'] = _h5_string("NXcanSAS")
             nexus['/entry/title'] = _h5_string(reduced_data.get('title', 'none'))
-            nexus['/entry/run'] = _h5_string(reduced_data.get('run', 'none'))
+            nexus['/entry/run'] = _h5_int(reduced_data.get('run', 0))
             nexus['/entry/run'].attrs['name'] = _h5_string(reduced_data.get('run_name', 'none'))
 
             # /entry/data
-            sasdata = nexus.create_group("data")
+            sasdata = sasentry.create_group("data")
             sasdata.attrs["canSAS_class"] = "SASdata"
             sasdata.attrs["signal"] = "I"
-            sasdata.attrs["I_axes"] = ["Temperature", "Q", "Q", "Q", "Q"]
-            sasdata.attrs["Q_indices"] = [1, 2, 3, 4, 5]
+            sasdata.attrs["I_axes"] = ["Q"]
+            sasdata.attrs["Q_indices"] = [0]
             # Expects array where false is no mask and true is mask. I need to change
             # this in the masking methods.
-            sasdata.attrs["mask"] = "data_mask"
-            sasdata.attrs["Mask_indices"] = [1, 2, 3, 4]
+            sasdata.attrs["mask"] = "mask"
+            sasdata.attrs["Mask_indices"] = [0]
             # noinspection PyArgumentList
             sasdata.attrs["reduction_timestamp"] = _h5_string(reduced_data['reduction_timestamp'])
+
+            nexus['/entry/data/mask'] = reduced_data["mask"]
 
             # Need to rename Q_0 to Q in reduced data dict
             nexus['/entry/data/Q'] = reduced_data["Q"]
