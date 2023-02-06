@@ -10,6 +10,7 @@ called by these user functions and are not intended to be accessed directly by m
 
 import math
 import numpy
+import datetime
 from .scattering import *
 from .gaussiandq import *
 
@@ -196,11 +197,12 @@ def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
 
     # Get the variance of the resolution function
     v_q = _q_variance(q_mean, v_r, r_0, wl_spread)
+    q_std = math.sqrt(v_q)
 
     # Get the value of the resolution function R at point (q, q_mean)
     # resolution = 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - q_mean)**2 / (2*v_q))
 
-    return q_mean, v_q
+    return q_mean, q_std
 
 
 def resolution_function(q, mean_q, v_q):
@@ -271,22 +273,23 @@ def reduce(sans_data,
     radii = numpy.linspace(0, detector_axis_length, n_bins)
 
     reduced_data = {'Q': numpy.empty(0),
-                    'scattered_intensity': numpy.empty(0),
-                    'scattered_intensity_std': numpy.empty(0),
-                    'Q_variance': numpy.empty(0),
+                    'I': numpy.empty(0),
+                    'Idev': numpy.empty(0),
+                    'Qdev': numpy.empty(0),
                     'BS': numpy.empty(0, dtype=int),
-                    'Q_0': numpy.empty(0)}
+                    'Q_0': numpy.empty(0),
+                    'reduction_timestamp': datetime.datetime.now().isoformat()}
     for r0 in radii:
         if r0 <= dr:
             continue
         q, v_q = get_q_statistics(r0, dr, bs, wl, wl_spread, sigma_d, l1, l2, s1, s2)
         reduced_data['Q'] = numpy.append(reduced_data['Q'], q)
-        reduced_data['Q_variance'] = numpy.append(reduced_data['Q_variance'], v_q)
+        reduced_data['Qdev'] = numpy.append(reduced_data['Qdev'], v_q)
 
         intensity, intensity_std = get_scattered_intensity(sans_data, center, r0, dr, T,
                                                            d, l2)
-        reduced_data['scattered_intensity'] = numpy.append(reduced_data['scattered_intensity'], intensity)
-        reduced_data['scattered_intensity_std'] = numpy.append(reduced_data['scattered_intensity_std'], intensity_std)
+        reduced_data['I'] = numpy.append(reduced_data['I'], intensity)
+        reduced_data['Idev'] = numpy.append(reduced_data['Idev'], intensity_std)
 
         bs_factor = get_beam_stop_factor(r0, dr, bs)
         reduced_data['BS'] = numpy.append(reduced_data['BS'], bs_factor)

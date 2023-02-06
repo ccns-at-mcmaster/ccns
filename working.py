@@ -34,7 +34,7 @@ if __name__ == '__main__':
     monitor_counts = 8.42128E+06
 
     # Visualize the raw data
-    print_impact_matrix(data2d)
+    # print_impact_matrix(data2d)
 
     # Demonstrate masking
     rectangular_mask = get_mask('rectangle', x_width=30, y_width=30, origin=(50, 50))
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     #data2d = np.subtract(data2d, incoherent)
 
     # Visualize the processed data
-    print_impact_matrix(data2d, title="Processed Data")
+    # print_impact_matrix(data2d, title="Processed Data")
 
     reduced_data = reduce(data2d,
                           0.5,
@@ -94,3 +94,12 @@ if __name__ == '__main__':
                           sample_transmission,
                           sample_thickness,
                           pixel_dim)
+
+    # Add keys for raw data and metadata to reduced_data. These are needed by the writer.
+    reduced_data.update(data)
+
+    # Instantiate a data writer
+    from cnbl.writers.nxcansas_writer import NXcanSASWriter
+    filename = "C:\\Users\\burkeds\\Desktop\\working\\test"
+    writer = NXcanSASWriter(filename)
+    writer.write(reduced_data)

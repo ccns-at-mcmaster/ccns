@@ -8,10 +8,12 @@ Intended for use at the MacSANS laboratory at McMaster University.
 """
 
 import h5py
+import numpy
 from os import path
 
 nxsas_dict = {
     'title': '/entry/title',
+    'run': '/entry/run',
     'start_time': '/entry/start_time',
     'end_time': '/entry/end_time',
     'instrument_name': '/entry/instrument/name',
@@ -37,11 +39,22 @@ nxsas_dict = {
     'sample_thickness': '/entry/sample/thickness',
     'illuminated_sample_area': '/entry/sample/illuminated_sample_area',
     'sample_temperature': '/entry/sample/temperature',
+    'collimator_to_sample': '/entry/sample/collimator_to_sample',
+    'sample_details': '/entry/sample/details',
+    'sample_x_position': '/entry/sample/x_position',
+    'sample_y_position': '/entry/sample/y_position',
     'monitor_mode': '/entry/monitor/mode',
     'monitor_preset': '/entry/monitor/preset',
     'monitor_integral': '/entry/monitor/integral',
     'data': '/entry/data/data',
-    'counting_time': '/entry/instrument/metadata/counting_time'
+    'counting_time': '/entry/instrument/metadata/counting_time',
+    'process_name': "/entry/process/name",
+    'process_date': '/entry/process/date',
+    'process_description': '/entry/process/description',
+    'process_term': '/entry/process/term',
+    'process_note': '/entry/process/note',
+    'process_collection': '/entry/process/collection',
+    'collection': '/entry/collection'
 }
 
 

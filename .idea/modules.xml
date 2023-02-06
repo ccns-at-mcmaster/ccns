@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../CNBC_EPICS_CONFIG/.idea/CNBC_EPICS_CONFIG.iml" filepath="$PROJECT_DIR$/../CNBC_EPICS_CONFIG/.idea/CNBC_EPICS_CONFIG.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../CNBC_EPICS_DEV/.idea/CNBC_EPICS_DEV.iml" filepath="$PROJECT_DIR$/../CNBC_EPICS_DEV/.idea/CNBC_EPICS_DEV.iml" />
       <module fileurl="file://$PROJECT_DIR$/../CNBC_PY_INTERFACE/.idea/CNBC_PY_INTERFACE.iml" filepath="$PROJECT_DIR$/../CNBC_PY_INTERFACE/.idea/CNBC_PY_INTERFACE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../MIRR2D_SIM/.idea/MIRR2D_SIM.iml" filepath="$PROJECT_DIR$/../MIRR2D_SIM/.idea/MIRR2D_SIM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../MNR_SERVER_CONFIG/.idea/MNR_SERVER_CONFIG.iml" filepath="$PROJECT_DIR$/../MNR_SERVER_CONFIG/.idea/MNR_SERVER_CONFIG.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/cnbl.iml" filepath="$PROJECT_DIR$/.idea/cnbl.iml" />
     </modules>
   </component>
