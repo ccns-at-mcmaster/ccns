@@ -48,6 +48,9 @@ class DataWriter:
         :param filename: A string containing the pre-extension part of the filename.
         :return filename: Returns the filename and extension as a string.
         """
+        if filename is None:
+            filename = str(uuid.uuid4())
+            return filename + self.ext
         if not isinstance(filename, str):
             # noinspection PyTypeChecker
             raise Exception("The filename should be a string that does not contain whitespace or decimals.")

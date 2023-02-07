@@ -48,12 +48,6 @@ nxsas_dict = {
     'monitor_integral': '/entry/monitor/integral',
     'data': '/entry/data/data',
     'counting_time': '/entry/instrument/metadata/counting_time',
-    'process_name': "/entry/process/name",
-    'process_date': '/entry/process/date',
-    'process_description': '/entry/process/description',
-    'process_term': '/entry/process/term',
-    'process_note': '/entry/process/note',
-    'process_collection': '/entry/process/collection',
     'collection': '/entry/collection'
 }
 
