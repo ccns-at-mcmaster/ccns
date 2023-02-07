@@ -19,7 +19,7 @@ if __name__ == '__main__':
     s_1 = data['slit_one'][0]
     s_2 = data['slit_two'][0]
     l_1 = data['collimator_length'][0]
-    l_2 = sample_to_detector = data['sample_to_detector'][0] * 100 # Temporary, convert simulated rb to cm
+    l_2 = sample_to_detector = data['sample_to_detector'][0] * 100  # Temporary, convert simulated rb to cm
     pixel_dim = (data['y_pixel_size'][0], data['x_pixel_size'][0])
     center = (int(data['beam_center_y'][0]), int(data['beam_center_x'][0]))
     sample_transmission = data['sample_transmission'][0]
@@ -31,7 +31,6 @@ if __name__ == '__main__':
     detector_efficiency = 0.7
     counting_time = 600.0
     monitor_counts = 8.42128E+06
-    sample_transmission = 0.98
 
     # Visualize the raw data
     # print_impact_matrix(data2d)
@@ -96,6 +95,8 @@ if __name__ == '__main__':
                           s_2,
                           pixel_dim)
 
+    """
+
     import matplotlib.pyplot as plt
     x = reduced_data['Q']
     y = reduced_data['I']
@@ -109,10 +110,11 @@ if __name__ == '__main__':
     plt.show()
 
     # Add keys for raw data and metadata to reduced_data. These are needed by the writer.
-    # reduced_data.update(data)
-    # reduced_data['mask'] = numpy.zeros_like(reduced_data['I'])
+    reduced_data.update(data)
+    reduced_data['mask'] = numpy.zeros_like(reduced_data['I'])
     # Instantiate a data writer
-    # from cnbl.writers.nxcansas_writer import NXcanSASWriter
-    # filename = "C:\\Users\\burkeds\\Desktop\\working\\test"
-    # writer = NXcanSASWriter(filename)
-    # writer.write(reduced_data)
+    from cnbl.writers.nxcansas_writer import NXcanSASWriter
+    filename = "C:\\Users\\burkeds\\Desktop\\working\\test"
+    writer = NXcanSASWriter(filename)
+    writer.write(reduced_data)
+    """
