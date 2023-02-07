@@ -50,13 +50,19 @@ def _get_radial_bin(img, center, r0, dr):
         :return indices:     A list of (row, col) tuples which are indices corresponding to pixels that fall within a
                              ring bounded by outer_radius and inner_radius.
     """
+    try:
+        _ = iter(center)
+    except TypeError as te:
+        print(center, 'must be iterable')
+        raise te
+
+    if dr <= 0:
+        # noinspection PyTypeChecker
+        raise Exception('The annulus width must be a number greater than zero.')
+
     inner_radius = r0 - dr/2
     outer_radius = r0 + dr/2
 
-    if inner_radius >= outer_radius:
-        raise Exception('The inner radius of the radial binning ring must be less than the outer radius.')
-    inner_radius = inner_radius
-    outer_radius = outer_radius
     indices = []
 
     for y, row in enumerate(img):

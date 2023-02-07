@@ -19,7 +19,7 @@ if __name__ == '__main__':
     s_1 = data['slit_one'][0]
     s_2 = data['slit_two'][0]
     l_1 = data['collimator_length'][0]
-    l_2 = sample_to_detector = data['sample_to_detector'][0] * 100 #Temporary, convert simulated rb to cm
+    l_2 = sample_to_detector = data['sample_to_detector'][0] * 100 # Temporary, convert simulated rb to cm
     pixel_dim = (data['y_pixel_size'][0], data['x_pixel_size'][0])
     center = (int(data['beam_center_y'][0]), int(data['beam_center_x'][0]))
     sample_transmission = data['sample_transmission'][0]
@@ -29,7 +29,6 @@ if __name__ == '__main__':
     # This is done at the EPICS level, per pixel. I will keep it here now, but it may have to change. Now, efficiency is
     # accounting for at data acquisition and during reduction.
     detector_efficiency = 0.7
-
     counting_time = 600.0
     monitor_counts = 8.42128E+06
 
@@ -71,7 +70,7 @@ if __name__ == '__main__':
                                 detector_efficiency,
                                 counting_time,
                                 monitor_counts,
-                                normalize_time=True)
+                                normalize_time=False)
 
     # Create estimate of incoherent scattering from sample transmission and subtract from the measured values
     #incoherent = estimate_incoherent_scattering(l_2, sample_transmission, data2d.shape)
@@ -95,11 +94,23 @@ if __name__ == '__main__':
                           sample_thickness,
                           pixel_dim)
 
+    import matplotlib.pyplot as plt
+    x = reduced_data['Q']
+    y = reduced_data['I']
+    x_error = reduced_data['Qdev']
+    y_error = reduced_data['Idev']
+    plt.plot(x, y)
+    # plt.errorbar(x, y, xerr=x_error, yerr=y_error)
+    plt.xlabel('Q (1/ang)')
+    plt.ylabel('I (1/cm)')
+    plt.axvline(x=0.0035)
+    plt.show()
+
     # Add keys for raw data and metadata to reduced_data. These are needed by the writer.
-    reduced_data.update(data)
-    reduced_data['mask'] = numpy.zeros_like(reduced_data['I'])
+    # reduced_data.update(data)
+    # reduced_data['mask'] = numpy.zeros_like(reduced_data['I'])
     # Instantiate a data writer
-    from cnbl.writers.nxcansas_writer import NXcanSASWriter
-    filename = "C:\\Users\\burkeds\\Desktop\\working\\test"
-    writer = NXcanSASWriter(filename)
-    writer.write(reduced_data)
+    # from cnbl.writers.nxcansas_writer import NXcanSASWriter
+    # filename = "C:\\Users\\burkeds\\Desktop\\working\\test"
+    # writer = NXcanSASWriter(filename)
+    # writer.write(reduced_data)
