@@ -31,6 +31,7 @@ if __name__ == '__main__':
     detector_efficiency = 0.7
     counting_time = 600.0
     monitor_counts = 8.42128E+06
+    sample_transmission = 0.98
 
     # Visualize the raw data
     # print_impact_matrix(data2d)
@@ -42,7 +43,7 @@ if __name__ == '__main__':
     masked_pixel_list = [(50, 51), (51, 50), (52, 50), (52, 51), (52, 52), (53, 50), (53, 51), (53, 52)]
     irregular_mask = get_mask('irregular', (147, 147), irregular_pixels=masked_pixel_list)
     # apply_mask(data2d, ring_mask)
-    # print_impact_matrix(data2d)
+    print_impact_matrix(data2d)
 
     # Trim 5 pixels from the edges of the data
     trim_edges(data2d, 5)
@@ -63,6 +64,8 @@ if __name__ == '__main__':
     # Scale data to absolute intensity
     scale_to_absolute_intensity(data2d,
                                 empty,
+                                center,
+                                l_2,
                                 sample_transmission,
                                 sample_thickness,
                                 sample_to_detector,
@@ -70,14 +73,15 @@ if __name__ == '__main__':
                                 detector_efficiency,
                                 counting_time,
                                 monitor_counts,
-                                normalize_time=False)
+                                normalize_time=False,
+                                pixel_dim=pixel_dim)
 
     # Create estimate of incoherent scattering from sample transmission and subtract from the measured values
-    #incoherent = estimate_incoherent_scattering(l_2, sample_transmission, data2d.shape)
-    #data2d = np.subtract(data2d, incoherent)
+    incoherent = estimate_incoherent_scattering(l_2, sample_transmission, data2d.shape)
+    data2d = np.subtract(data2d, incoherent)
 
     # Visualize the processed data
-    # print_impact_matrix(data2d, title="Processed Data")
+    print_impact_matrix(data2d, title="Processed Data")
 
     reduced_data = reduce(data2d,
                           0.5,
@@ -90,8 +94,6 @@ if __name__ == '__main__':
                           l_2,
                           s_1,
                           s_2,
-                          sample_transmission,
-                          sample_thickness,
                           pixel_dim)
 
     import matplotlib.pyplot as plt

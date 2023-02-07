@@ -25,20 +25,19 @@ __all__ = ['solid_angle_correction',
            'rescale_with_empty_and_blocked_beams']
 
 
-def solid_angle_correction(img, l2, center, pixel_dim=(0.7, 0.7)):
+def solid_angle_correction(img, distance, center, pixel_dim=(0.7, 0.7)):
     """
     Perform solid angle correction of SANS data for planar detectors. This is usually the first step in data correction.
     The value of each pixel is multiplied by a geometric correction factor cos^3(theta). This function operates on the
     2D array you pass to it and returns None.
 
     :param img:            A 2D array of detector pixel values.
-    :param l2:             sample-source-to-detector distance
+    :param distance:             sample-source-to-detector distance
     :param center:         A tuple designating the (row, col) indices of the center pixel of the radial bin
     :param pixel_dim:      A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
     :return
     """
 
-    distance = l2
     for y, row in enumerate(img):
         for x, _ in enumerate(row):
             dx = x - center[1]
@@ -49,7 +48,10 @@ def solid_angle_correction(img, l2, center, pixel_dim=(0.7, 0.7)):
     return
 
 
-def scale_to_absolute_intensity(measured_img, empty_img,
+def scale_to_absolute_intensity(measured_img,
+                                empty_img,
+                                center,
+                                distance,
                                 sample_transmission,
                                 sample_thickness,
                                 sample_detector_distance,
@@ -57,13 +59,16 @@ def scale_to_absolute_intensity(measured_img, empty_img,
                                 detector_efficiency,
                                 counting_time,
                                 monitor_counts,
-                                normalize_time=False):
+                                normalize_time=False,
+                                pixel_dim=(0.7, 0.7)):
     """
     Scale the SANS data to form the macroscopic scattering cross section (units of cm^-1). The result is the absolute
     intensity.
 
     :param measured_img: 2D SANS data to be scaled.
     :param empty_img: SANS data of an empty beam.
+    :param center: A tuple designating the (row, col) indices of the center pixel of the radial bin
+    :param distance: sample-source-to-detector distance
     :param sample_transmission: Neutron transmission factor T of sample
     :param sample_thickness: Thickness of sample
     :param sample_detector_distance: sample-aperture-to-detector distance
@@ -72,12 +77,14 @@ def scale_to_absolute_intensity(measured_img, empty_img,
     :param counting_time: The effective counting time.
     :param monitor_counts: The integral counts of the monitor or area detector.
     :param normalize_time: Set to True to normalize the counting time to 10^8 monitor counts.
+    :param pixel_dim: A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
     :return: 2D SANS data scaled to absolute intensity
     """
 
     pixel_solid_angle = _pixel_solid_angle(sample_detector_distance)
 
     if measured_img.shape != empty_img.shape:
+        # noinspection PyTypeChecker
         raise Exception("The shape of the measured scattering intensity with the sample %s must match the shape of the "
                         "empty beam measure %s" % (measured_img.shape, empty_img.shape))
     if normalize_time:
@@ -85,9 +92,11 @@ def scale_to_absolute_intensity(measured_img, empty_img,
         counting_time *= (100000000.0 / monitor_counts)
     for y, row in enumerate(measured_img):
         for x, val in enumerate(row):
+            theta = _get_scattering_angle((y, x), center, distance, pixel_dim)
+            corrected_T = sample_transmission * _wide_angle_correction_factor(theta, sample_transmission)
             empty_beam_transmission = (empty_img[y][x] * illuminated_sample_area * detector_efficiency
                                        * counting_time)
-            m = (empty_beam_transmission * sample_transmission * sample_thickness * pixel_solid_angle)
+            m = (empty_beam_transmission * corrected_T * sample_thickness * pixel_solid_angle)
             measured_img[y][x] *= 1 / m
     return
 
@@ -127,7 +136,7 @@ def get_beam_stop_factor(r0, dr, b_s):
         return 0
 
 
-def get_scattered_intensity(abs_img, center, r0, dr, transmission, thickness, l2, pixel_dim=(0.7, 0.7)):
+def get_scattered_intensity(abs_img, center, r0, dr):
     """
     Calculates the mean and standard deviation of the scattering intensity within an annulus of radius r0 with width dr.
 
@@ -135,22 +144,16 @@ def get_scattered_intensity(abs_img, center, r0, dr, transmission, thickness, l2
     :param center:       A tuple designating the (row, col) indices of the center pixel of the radial bin
     :param r0:           Radius of the annulus centered on the beam.
     :param dr:           Width of the annulus
-    :param transmission: The neutron transmission factor of the sample.
-    :param thickness:    The sample thickness
-    :param l2:           source-aperture-to-detector distance
-    :param pixel_dim:    A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
     :return (mean, std): A tuple containing the mean and standard deviation of the scattered intensity within the
                          annulus.
     """
-    distance = l2
     radial_bin = _get_radial_bin(abs_img, center, r0, dr)
     intensities = numpy.empty(0)
     for pixel in radial_bin:
         row = pixel[0]
         col = pixel[1]
-        theta = _get_scattering_angle(pixel, center, distance, pixel_dim)
-        wac = _wide_angle_correction_factor(theta, transmission, thickness)
-        intensities = numpy.append(intensities, abs_img[row][col] * wac)
+        intensities = numpy.append(intensities, abs_img[row][col])
+    # noinspection PyTypeChecker
     if len(intensities) == 0:
         return 0, 0
     else:
@@ -229,8 +232,6 @@ def reduce(sans_data,
            sample_detector_distance,
            slit_one,
            slit_two,
-           sample_transmission,
-           sample_thickness,
            pixel_dim=(0.7, 0.7)):
     """
     Returns a dictionary of reduced SANS data. The reduced data can be accessed with dict[key] where key is a string
@@ -247,8 +248,6 @@ def reduce(sans_data,
     :param sample_detector_distance: sample-aperture-to-detector distance
     :param slit_one: Radius of the source aperture
     :param slit_two: Radius of the sample aperture
-    :param sample_transmission: The neutron transmission factor of the sample
-    :param sample_thickness: The thickness of the sample
     :param pixel_dim: A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
     :return reduced data: A python dictionary with keys corresponding to reduced data. The value of each key is a numpy
                           array of the data. The reduced data can be accessed with dict[key] where key is a string that
@@ -264,14 +263,13 @@ def reduce(sans_data,
     l2 = sample_detector_distance
     s1 = slit_one
     s2 = slit_two
-    T = sample_transmission
-    d = sample_thickness
 
     # Generate list of annular radii
     detector_axis_length = sans_data.shape[0] * pixel_dim[0]
     n_bins = int(detector_axis_length / dr)
     radii = numpy.linspace(0, detector_axis_length, n_bins)
 
+    # noinspection PyTypeChecker
     reduced_data = {'Q': numpy.empty(0),
                     'I': numpy.empty(0),
                     'Idev': numpy.empty(0),
@@ -286,8 +284,7 @@ def reduce(sans_data,
         reduced_data['Q'] = numpy.append(reduced_data['Q'], q)
         reduced_data['Qdev'] = numpy.append(reduced_data['Qdev'], v_q)
 
-        intensity, intensity_std = get_scattered_intensity(sans_data, center, r0, dr, T,
-                                                           d, l2)
+        intensity, intensity_std = get_scattered_intensity(sans_data, center, r0, dr)
         reduced_data['I'] = numpy.append(reduced_data['I'], intensity)
         reduced_data['Idev'] = numpy.append(reduced_data['Idev'], intensity_std)
 
