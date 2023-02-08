@@ -338,7 +338,8 @@ class NXcanSASWriter(DataWriter):
             self.nexus['/{}/instrument/source/type'.format(name)] = _h5_string(entry['source_type'])
             self.nexus['/{}/instrument/source/incident_wavelength'.format(name)] = _h5_string(entry['wavelength'])
             self.nexus['/{}/instrument/source/incident_wavelength'.format(name)].attrs["units"] = "angstrom"
-            self.nexus['/{}/instrument/source/incident_wavelength_spread'.format(name)] = _h5_string(entry['wavelength_spread'])
+            self.nexus['/{}/instrument/source/incident_wavelength_spread'.format(name)] = \
+                _h5_string(entry['wavelength_spread'])
 
             sample = sasentry.create_group("sample")
             sample.attrs["canSAS_class"] = "SASsample"
@@ -433,4 +434,3 @@ class NXcanSASWriter(DataWriter):
                 return
             finally:
                 return
-
