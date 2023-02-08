@@ -274,7 +274,7 @@ def reduce(sans_data,
                     'I': numpy.empty(0),
                     'Idev': numpy.empty(0),
                     'Qdev': numpy.empty(0),
-                    'ShadowFactor': numpy.empty(0, dtype=int),
+                    'BS': numpy.empty(0, dtype=int),
                     'Q_0': numpy.empty(0),
                     'reduction_timestamp': datetime.datetime.now().isoformat()}
     for r0 in radii:
@@ -289,7 +289,7 @@ def reduce(sans_data,
         reduced_data['Idev'] = numpy.append(reduced_data['Idev'], intensity_std)
 
         bs_factor = get_beam_stop_factor(r0, dr, bs)
-        reduced_data['ShadowFactor'] = numpy.append(reduced_data['ShadowFactor'], bs_factor)
+        reduced_data['BS'] = numpy.append(reduced_data['BS'], bs_factor)
         q_0 = _get_q(r0, l2, wl)
         reduced_data['Q_0'] = numpy.append(reduced_data['Q_0'], q_0)
     return reduced_data
