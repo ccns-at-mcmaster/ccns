@@ -5,29 +5,20 @@ Methods for analysis of reduced data using xarrays.
 
 (c) Copyright 2023, McMaster University
 """
-
 import xarray
 
 __all__ = ['get_xarray']
 
-def truncate_beam_shadow(dat):
-    """
-    Takes a dict containing reduced SANS data and deletes each element along the axis where the beamstop shadowfactor is
-    0.
-
-    :param dat:
-    :return:
-    """
-    return
 
 def get_xarray(dat):
     """
-
+    Takes a python dict of reduced SANS data and return an xarray DataArray object labeled by names of the data series
+    and Q. An xarray object is useful for fast analysis of data and is expected by our analysis functions.
 
     :param dat:
     :return:
     """
-    vals = {'I': dat['I'], 'Idev': dat['Idev'], 'Q': dat['Q'], 'Qdev': dat['Qdev'], 'ShadowFactor': dat['ShadowFactor']}
-    x = xarray.DataArray(list(vals.values()), dims=("Value", "Q"), coords={'Value': list(vals.keys()),
+    vals = {'I': dat['I'], 'Idev': dat['Idev'], 'Q': dat['Q'], 'Qdev': dat['Qdev'], 'BS': dat['BS']}
+    x = xarray.DataArray(list(vals.values()), dims=("Value", "Q"), coords={'name': list(vals.keys()),
                                                                            'Q': vals['Q']})
     return x

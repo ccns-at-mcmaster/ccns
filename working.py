@@ -104,9 +104,14 @@ if __name__ == '__main__':
                           s_2,
                           pixel_dim)
 
-    reduced_data['mask'] = np.array([1-i for i in reduced_data['BS']])
-
-    sasentry = get_sasentry(data, reduced_data)
+    import matplotlib.pyplot as plt
+    x = get_xarray(reduced_data)
+    # Ensure Q is monotonically increasing. Because Q is the mean Q of the bin, for small scattering angles it is
+    # Q might not increase monotonically. This breaks slicing.
+    x = x.sortby('Q', ascending=True)
+    myslice = x.sel(name='I', Q=slice(0.11, 0.13))
+    myslice.plot()
+    plt.show()
 
     """
 
