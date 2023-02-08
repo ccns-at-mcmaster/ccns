@@ -37,27 +37,6 @@ def _h5_float(x):
     return numpy.array(x, dtype=numpy.float32)
 
 
-def _h5_bool(x):
-    """
-    Convert a bool to a numpy array.
-
-    :param x: The float to be written
-    :return: The numpy array
-    """
-    if isinstance(x, numpy.ndarray):
-        return x
-
-    if x is None:
-        # noinspection PyTypeChecker
-        return numpy.array([False], dtype=numpy.bool_)
-
-    if not (isinstance(x, list)):
-        x = [x]
-    # noinspection PyTypeChecker
-
-    return numpy.array(x, dtype=numpy.bool_)
-
-
 def _h5_string(string):
     """
     Convert a string to a numpy string in a numpy array. This way it is written to the HDF5 file as a fixed length
@@ -76,24 +55,6 @@ def _h5_string(string):
         string = str(string)
 
     return numpy.array([numpy.string_(string)])
-
-
-def _h5_int(x):
-    """
-    Convert an int to an int in a numpy array.
-
-    :param x: Integer to be converted
-    :return: A numpy array containing the integer.
-    """
-    if x is None:
-        x = 0
-    if isinstance(x, numpy.ndarray):
-        return x
-    # noinspection PyTypeChecker
-    if not (isinstance(x, list)):
-        x = [x]
-    # noinspection PyTypeChecker
-    return numpy.array(x, dtype=numpy.int)
 
 
 def get_empty_sasentry():
@@ -262,7 +223,7 @@ class NXcanSASWriter(DataWriter):
             sasentry.attrs["default"] = "data"
             self.nexus['/{}/definition'.format(name)] = _h5_string("NXcanSAS")
             self.nexus['/{}/title'.format(name)] = _h5_string(entry.get('title', 'none'))
-            self.nexus['/{}/run'.format(name)] = _h5_int(entry.get('run', 0))
+            self.nexus['/{}/run'.format(name)] = entry.get('run', 0)
             self.nexus['/{}/run'.format(name)].attrs['name'] = _h5_string(entry.get('run_name', 'none'))
 
             # /entry/data
@@ -297,7 +258,7 @@ class NXcanSASWriter(DataWriter):
             self.nexus['/{}/data/Qdev'.format(name)] = entry["Qdev"]
             self.nexus['/{}/data/Qdev'.format(name)].attrs["units"] = "1/angstrom"
 
-            self.nexus['/{}/data/ShadowFactor'.format(name)] = _h5_bool(entry["ShadowFactor"])
+            self.nexus['/{}/data/ShadowFactor'.format(name)] = entry["BS"]
 
             # /entry/instrument
             sasinstrument = sasentry.create_group("instrument")

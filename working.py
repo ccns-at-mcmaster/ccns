@@ -4,6 +4,8 @@ from cnbl.utils import print_impact_matrix
 from cnbl.reduction import *
 from cnbl.writers.nxcansas_writer import get_sasentry, NXcanSASWriter
 from cnbl.analysis import *
+import numpy as np
+
 
 if __name__ == '__main__':
     # Load nexus file and read it
@@ -101,6 +103,8 @@ if __name__ == '__main__':
                           s_1,
                           s_2,
                           pixel_dim)
+
+    reduced_data['mask'] = np.array([1-i for i in reduced_data['BS']])
 
     sasentry = get_sasentry(data, reduced_data)
 
