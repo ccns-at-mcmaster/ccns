@@ -32,8 +32,8 @@ class DataWriter:
     """
     def __init__(self, filename=None):
         self.ext = ".out"
-        if filename:
-            self.filename = ""
+        self.filename = ""
+        if isinstance(filename, str):
             self.set_filename(filename)
         else:
             # noinspection PyTypeChecker
