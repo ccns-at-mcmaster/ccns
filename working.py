@@ -2,12 +2,16 @@ from cnbl.loader import *
 from cnbl.masking import *
 from cnbl.utils import print_impact_matrix
 from cnbl.reduction import *
+from cnbl.writers.nxcansas_writer import get_sasentry, NXcanSASWriter
 
 if __name__ == '__main__':
     # Load nexus file and read it
     filepath = "raw_data/agbeh.raw"
     file = get_nexus_file(filepath)
     data = read_sans_raw(file)
+
+    # Instantiate a DataWriter
+    writer = NXcanSASWriter()
 
     # Extract useful information from the data dictionary
     # Create a copy of the 2D impact matrix to manipulate
@@ -94,6 +98,8 @@ if __name__ == '__main__':
                           s_1,
                           s_2,
                           pixel_dim)
+
+    sasentry = get_sasentry(data, reduced_data)
 
     """
 
