@@ -232,7 +232,8 @@ def reduce(sans_data,
            sample_detector_distance,
            slit_one,
            slit_two,
-           pixel_dim=(0.7, 0.7)):
+           pixel_dim=(0.7, 0.7),
+           precision=6):
     """
     Returns a dictionary of reduced SANS data. The reduced data can be accessed with dict[key] where key is a string
     that can be 'Q', 'Q_variance', 'scattered_intensity', 'scattered_intensity_std', or 'BS'.
@@ -249,6 +250,7 @@ def reduce(sans_data,
     :param slit_one: Radius of the source aperture
     :param slit_two: Radius of the sample aperture
     :param pixel_dim: A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
+    :param precision: The desired precision of Q statistics. Defaults to 6 decimal places.
     :return reduced data: A python dictionary with keys corresponding to reduced data. The value of each key is a numpy
                           array of the data. The reduced data can be accessed with dict[key] where key is a string that
                           can be 'Q', 'Q_variance', 'scattered_intensity', 'scattered_intensity_std', or 'BS'.
@@ -281,17 +283,17 @@ def reduce(sans_data,
         if r0 <= dr:
             continue
         q, v_q = get_q_statistics(r0, dr, bs, wl, wl_spread, sigma_d, l1, l2, s1, s2)
-        reduced_data['Q'] = numpy.append(reduced_data['Q'], q)
-        reduced_data['Qdev'] = numpy.append(reduced_data['Qdev'], v_q)
+        reduced_data['Q'] = numpy.append(reduced_data['Q'], round(q, precision))
+        reduced_data['Qdev'] = numpy.append(reduced_data['Qdev'], round(v_q, precision))
 
         intensity, intensity_std = get_scattered_intensity(sans_data, center, r0, dr)
-        reduced_data['I'] = numpy.append(reduced_data['I'], intensity)
-        reduced_data['Idev'] = numpy.append(reduced_data['Idev'], intensity_std)
+        reduced_data['I'] = numpy.append(reduced_data['I'], round(intensity, 0))
+        reduced_data['Idev'] = numpy.append(reduced_data['Idev'], round(intensity_std, 0))
 
         bs_factor = get_beam_stop_factor(r0, dr, bs)
         reduced_data['ShadowFactor'] = numpy.append(reduced_data['ShadowFactor'], bs_factor)
         q_0 = _get_q(r0, l2, wl)
-        reduced_data['Q_0'] = numpy.append(reduced_data['Q_0'], q_0)
+        reduced_data['Q_0'] = numpy.append(reduced_data['Q_0'], round(q_0, precision))
     return reduced_data
 
 

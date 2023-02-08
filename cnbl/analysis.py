@@ -8,9 +8,26 @@ Methods for analysis of reduced data using xarrays.
 
 import xarray
 
+__all__ = ['get_xarray']
+
+def truncate_beam_shadow(dat):
+    """
+    Takes a dict containing reduced SANS data and deletes each element along the axis where the beamstop shadowfactor is
+    0.
+
+    :param dat:
+    :return:
+    """
+    return
 
 def get_xarray(dat):
-    x = xarray.DataArray(list(dat.values()), dims=("data_name", "Q_0"),
-                         coords={'data_name': list(dat.keys()),
-                                 'Q_0': dat['Q_0']})
+    """
+
+
+    :param dat:
+    :return:
+    """
+    vals = {'I': dat['I'], 'Idev': dat['Idev'], 'Q': dat['Q'], 'Qdev': dat['Qdev'], 'ShadowFactor': dat['ShadowFactor']}
+    x = xarray.DataArray(list(vals.values()), dims=("Value", "Q"), coords={'Value': list(vals.keys()),
+                                                                           'Q': vals['Q']})
     return x

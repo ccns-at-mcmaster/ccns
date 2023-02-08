@@ -3,6 +3,7 @@ from cnbl.masking import *
 from cnbl.utils import print_impact_matrix
 from cnbl.reduction import *
 from cnbl.writers.nxcansas_writer import get_sasentry, NXcanSASWriter
+from cnbl.analysis import *
 
 if __name__ == '__main__':
     # Load nexus file and read it
@@ -35,7 +36,9 @@ if __name__ == '__main__':
     detector_efficiency = 0.7
     counting_time = 600.0
     monitor_counts = 8.42128E+06
-
+    # Effective beam stop assuming 15 cm between detector and beamstop
+    l_b = 15
+    b_s = b_s * l_2 / (l_2 - l_b)
     # Visualize the raw data
     # print_impact_matrix(data2d)
 
@@ -46,7 +49,7 @@ if __name__ == '__main__':
     masked_pixel_list = [(50, 51), (51, 50), (52, 50), (52, 51), (52, 52), (53, 50), (53, 51), (53, 52)]
     irregular_mask = get_mask('irregular', (147, 147), irregular_pixels=masked_pixel_list)
     # apply_mask(data2d, ring_mask)
-    print_impact_matrix(data2d)
+    # print_impact_matrix(data2d)
 
     # Trim 5 pixels from the edges of the data
     trim_edges(data2d, 5)
@@ -84,7 +87,7 @@ if __name__ == '__main__':
     data2d = np.subtract(data2d, incoherent)
 
     # Visualize the processed data
-    print_impact_matrix(data2d, title="Processed Data")
+    # print_impact_matrix(data2d, title="Processed Data")
 
     reduced_data = reduce(data2d,
                           0.5,
