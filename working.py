@@ -5,6 +5,7 @@ from cnbl.reduction import *
 from cnbl.writers.nxcansas_writer import get_sasentry, NXcanSASWriter
 from cnbl.analysis import *
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
@@ -14,7 +15,9 @@ if __name__ == '__main__':
     data = read_sans_raw(file)
 
     # Instantiate a DataWriter
-    writer = NXcanSASWriter()
+    path = "C:\\Users\\burkeds\\Desktop\\working\\"
+    filename = path + "test"
+    writer = NXcanSASWriter(filename)
 
     # Extract useful information from the data dictionary
     # Create a copy of the 2D impact matrix to manipulate
@@ -104,35 +107,24 @@ if __name__ == '__main__':
                           s_2,
                           pixel_dim)
 
-    import matplotlib.pyplot as plt
+    # Generate a Guinier plot and perform a linear regression to calculate 'Rg'
+    # methods in cnbl.analysis require an xarray.DataArray object
     x = get_xarray(reduced_data)
     # Ensure Q is monotonically increasing. Because Q is the mean Q of the bin, for small scattering angles it is
     # Q might not increase monotonically. This breaks slicing.
+    # Truncating the data using beam-stop shadow factor will also solve this issue.
     x = x.sortby('Q', ascending=True)
-    myslice = x.sel(name='I', Q=slice(0.11, 0.13))
-    myslice.plot()
+    # Plot intensity
+    x.sel(name='I').plot()
     plt.show()
+    # Retrieve the Guinier plot and DataArray
+    line, xr = get_standard_plot(data_array=x, name='guinier', q_range=slice(0.11, 0.15))
+    fit = xr.polyfit(dim='Q2', deg=1)
+    slope = float(fit.polyfit_coefficients[0])
+    rg = np.sqrt(3*slope)
+    print("Radius of gyration: ", round(rg, 1))
 
     """
-
-    import matplotlib.pyplot as plt
-    x = reduced_data['Q']
-    y = reduced_data['I']
-    x_error = reduced_data['Qdev']
-    y_error = reduced_data['Idev']
-    plt.plot(x, y)
-    # plt.errorbar(x, y, xerr=x_error, yerr=y_error)
-    plt.xlabel('Q (1/ang)')
-    plt.ylabel('I (1/cm)')
-    plt.axvline(x=0.0035)
-    plt.show()
-
-    # Add keys for raw data and metadata to reduced_data. These are needed by the writer.
-    reduced_data.update(data)
-    reduced_data['mask'] = numpy.zeros_like(reduced_data['I'])
-    # Instantiate a data writer
-    from cnbl.writers.nxcansas_writer import NXcanSASWriter
-    filename = "C:\\Users\\burkeds\\Desktop\\working\\test"
-    writer = NXcanSASWriter(filename)
-    writer.write(reduced_data)
+    # Create a nexus file using the DataWriter
+    writer.open()
     """
