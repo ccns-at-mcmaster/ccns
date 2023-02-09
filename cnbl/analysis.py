@@ -122,7 +122,6 @@ def _get_zimm_plot(x, q_range=None):
     plt.ylabel(y_label)
     plt.show()
     return line, xr
-    return
 
 
 def get_standard_plot(name=None, data_array=None, q_range=None):
