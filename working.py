@@ -118,7 +118,7 @@ if __name__ == '__main__':
     x.sel(name='I').plot()
     plt.show()
     # Retrieve the Porod plot and DataArray. Remember to subtract the incoherent scattering intensity during reduction.
-    line, xr = get_standard_plot(data_array=x, name='kratky', q_range=slice(0.11, 0.13))
+    line, xr = get_standard_plot(data_array=x, name='kratky', q_range=None, zimm_q_range=slice(0.11, 0.13))
 
 
     """

@@ -134,7 +134,7 @@ def _get_zimm_plot(x, q_range=None):
     return line, xr
 
 
-def _get_kratky_plot(x, q_range=None):
+def _get_kratky_plot(x, q_range=None, zimm_q_range=None):
     """
     Generates a matplotlib plot of Q^2 * I(Q) vs Q (i.e. a standard Kratky plot) from the passed xarray.DataArray
     containing reduced SANS data. This version of the method gets the normalization factor I_0 from the Zimm intercept
@@ -143,14 +143,19 @@ def _get_kratky_plot(x, q_range=None):
     :param x: A DataArray that must contain a data series labeled 'I' and a coordinate labeled 'Q'.
     :param q_range: A python slice(min, max) object where min and max describe the range of Q values you want to include
                     in the analysis.
+    :param zimm_q_range: A python slice only used for the Kratky plot. The Q independent normalization constant
+                         is calculated from the Zimm intercept within this range.
     :return line: A matplotlib.lines.Line2D object.
     :return xr: A new DataArray labeled with 'Q2I' and 'Q' of the Kratky Plot data.
     """
     xz = x.copy()
-    if isinstance(q_range, slice):
-        xz = 1 / xz.sel(name='I', Q=q_range)
-    if q_range is None:
-        xz = 1 / xz.sel(name='I')
+    z_range = zimm_q_range
+    try:
+        xz = 1 / xz.sel(name='I', Q=z_range)
+    except KeyError or ValueError:
+        print("You must specify the Q range used for Zimm extrapolation to calculate the normalization constant.")
+        return
+
     q2 = numpy.array(xz['Q'])
     q2 = numpy.power(q2, 2)
     xz = xz.assign_coords({'Q': q2})
@@ -184,7 +189,7 @@ def _get_kratky_plot(x, q_range=None):
     return line, xr
 
 
-def get_standard_plot(name=None, data_array=None, q_range=None):
+def get_standard_plot(name=None, data_array=None, q_range=None, zimm_q_range=None):
     """
     This method takes a xarray and calls a method to generate one of a list of standard plots.
 
@@ -192,6 +197,8 @@ def get_standard_plot(name=None, data_array=None, q_range=None):
     :param data_array: An xarray.DataArray object containing reduced SANS data.
     :param q_range: A python slice(min, max) object where min and max describe the range of Q values you want to include
                     in the analysis.
+    :param zimm_q_range: A python slice only used for the Kratky plot. The Q independent normalization constant
+                         is calculated from the Zimm intercept within this range.
     :return:
     """
     xr = data_array
@@ -205,5 +212,5 @@ def get_standard_plot(name=None, data_array=None, q_range=None):
     if name.lower() == 'zimm':
         return _get_zimm_plot(xr, q_range)
     if name.lower() == 'kratky':
-        return _get_kratky_plot(xr, q_range)
+        return _get_kratky_plot(xr, q_range, zimm_q_range)
     return
