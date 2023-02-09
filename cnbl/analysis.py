@@ -98,6 +98,33 @@ def _get_porod_plot(x, q_range=None):
     return line, xr
 
 
+def _get_zimm_plot(x, q_range=None):
+    xr = x.copy()
+
+    title = 'Zimm Plot'
+    x_label = r'${\rm Q^2}\ {\rm (\AA^{-2})}$'
+    y_label = '1/I(Q)'
+
+    if isinstance(q_range, slice):
+        xr = 1 / xr.sel(name='I', Q=q_range)
+    if q_range is None:
+        xr = 1 / xr.sel(name='I')
+
+    q2 = numpy.array(xr['Q'])
+    q2 = numpy.power(q2, 2)
+    xr = xr.assign_coords({'Q': q2})
+    xr = xr.assign_coords({'name': '1/I'})
+    xr = xr.rename({'Q': 'Q2'})
+    line = xr.plot()
+
+    plt.title(title)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.show()
+    return line, xr
+    return
+
+
 def get_standard_plot(name=None, data_array=None, q_range=None):
     """
     This method takes a xarray and calls a method to generate one of a list of standard plots.
@@ -116,4 +143,6 @@ def get_standard_plot(name=None, data_array=None, q_range=None):
         return _get_guinier_plot(xr, q_range)
     if name.lower() == 'porod':
         return _get_porod_plot(xr, q_range)
+    if name.lower() == 'zimm':
+        return _get_zimm_plot(xr, q_range)
     return
