@@ -106,21 +106,6 @@ if __name__ == '__main__':
                           s_1,
                           s_2,
                           pixel_dim)
-
-    # Generate a Guinier plot and perform a linear regression to calculate 'Rg'
-    # methods in cnbl.analysis require an xarray.DataArray object
-    x = get_xarray(reduced_data)
-    # Ensure Q is monotonically increasing. Because Q is the mean Q of the bin, for small scattering angles it is
-    # Q might not increase monotonically. This breaks slicing.
-    # Truncating the data using beam-stop shadow factor will also solve this issue.
-    x = x.sortby('Q', ascending=True)
-    # Plot intensity
-    x.sel(name='I').plot()
-    plt.show()
-    # Retrieve the Porod plot and DataArray. Remember to subtract the incoherent scattering intensity during reduction.
-    line, xr = get_standard_plot(data_array=x, name='kratky', q_range=None, zimm_q_range=slice(0.11, 0.13))
-
-
     """
     # Create a nexus file using the DataWriter
     writer.open()
