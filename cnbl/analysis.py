@@ -63,6 +63,41 @@ def _get_guinier_plot(x, q_range=None):
     return line, xr
 
 
+def _get_porod_plot(x, q_range=None):
+    """
+    Generates a matplotlib plot of Log(I(Q)-B) vs Log(Q) (i.e. a standard Porod plot) from the passed xarray.DataArray
+    containing reduced SANS data.
+
+    :param x: A DataArray that must contain a data series labeled 'I' and a coordinate labeled 'Q'.
+    :param q_range: A python slice(min, max) object where min and max describe the range of Q values you want to include
+                    in the analysis.
+    :return line: A matplotlib.lines.Line2D object.
+    :return xr: A new DataArray labeled with 'Log(I(Q)-B)' and 'Log(Q)' of the Porod Plot data.
+    """
+    xr = x.copy()
+    title = 'Porod Plot'
+    x_label = 'Log(Q)'
+    y_label = 'Log(I(Q)-B)'
+
+    if isinstance(q_range, slice):
+        xr = numpy.log10(xr.sel(name='I', Q=q_range))
+    if q_range is None:
+        xr = numpy.log10(xr.sel(name='I'))
+
+    log_q = numpy.array(xr['Q'])
+    log_q = numpy.log10(log_q)
+    xr = xr.assign_coords({'Q': log_q})
+    xr = xr.assign_coords({'name': 'Log(I)'})
+    xr = xr.rename({'Q': 'Log(Q)'})
+    line = xr.plot()
+
+    plt.title(title)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.show()
+    return line, xr
+
+
 def get_standard_plot(name=None, data_array=None, q_range=None):
     """
     This method takes a xarray and calls a method to generate one of a list of standard plots.
@@ -79,4 +114,6 @@ def get_standard_plot(name=None, data_array=None, q_range=None):
         print("You must specify which of the standard plots {} you would like to generate.".format(standard_plots))
     if name.lower() == 'guinier':
         return _get_guinier_plot(xr, q_range)
+    if name.lower() == 'porod':
+        return _get_porod_plot(xr, q_range)
     return

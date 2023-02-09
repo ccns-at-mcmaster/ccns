@@ -117,12 +117,11 @@ if __name__ == '__main__':
     # Plot intensity
     x.sel(name='I').plot()
     plt.show()
-    # Retrieve the Guinier plot and DataArray
-    line, xr = get_standard_plot(data_array=x, name='guinier', q_range=slice(0.11, 0.15))
-    fit = xr.polyfit(dim='Q2', deg=1)
+    # Retrieve the Porod plot and DataArray. Remember to subtract the incoherent scattering intensity during reduction.
+    line, xr = get_standard_plot(data_array=x, name='porod', q_range=slice(0.11, 0.13))
+    fit = xr.polyfit(dim='Log(Q)', deg=1)
     slope = float(fit.polyfit_coefficients[0])
-    rg = np.sqrt(3*slope)
-    print("Radius of gyration: ", round(rg, 1))
+    print("The Porod slope is: ", round(slope, 2))
 
     """
     # Create a nexus file using the DataWriter
