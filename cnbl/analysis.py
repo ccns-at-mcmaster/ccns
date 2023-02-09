@@ -99,6 +99,16 @@ def _get_porod_plot(x, q_range=None):
 
 
 def _get_zimm_plot(x, q_range=None):
+    """
+    Generates a matplotlib plot of 1/I(Q) vs Q^2 (i.e. a standard Zimm plot) from the passed xarray.DataArray
+    containing reduced SANS data.
+
+    :param x: A DataArray that must contain a data series labeled 'I' and a coordinate labeled 'Q'.
+    :param q_range: A python slice(min, max) object where min and max describe the range of Q values you want to include
+                    in the analysis.
+    :return line: A matplotlib.lines.Line2D object.
+    :return xr: A new DataArray labeled with '1/I' and 'Q2' of the Zimm Plot data.
+    """
     xr = x.copy()
 
     title = 'Zimm Plot'
@@ -115,6 +125,56 @@ def _get_zimm_plot(x, q_range=None):
     xr = xr.assign_coords({'Q': q2})
     xr = xr.assign_coords({'name': '1/I'})
     xr = xr.rename({'Q': 'Q2'})
+    line = xr.plot()
+
+    plt.title(title)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.show()
+    return line, xr
+
+
+def _get_kratky_plot(x, q_range=None):
+    """
+    Generates a matplotlib plot of Q^2 * I(Q) vs Q (i.e. a standard Kratky plot) from the passed xarray.DataArray
+    containing reduced SANS data. This version of the method gets the normalization factor I_0 from the Zimm intercept
+    within the same q_range. This does not seem right, consider this function a work in progress.
+
+    :param x: A DataArray that must contain a data series labeled 'I' and a coordinate labeled 'Q'.
+    :param q_range: A python slice(min, max) object where min and max describe the range of Q values you want to include
+                    in the analysis.
+    :return line: A matplotlib.lines.Line2D object.
+    :return xr: A new DataArray labeled with 'Q2I' and 'Q' of the Kratky Plot data.
+    """
+    xz = x.copy()
+    if isinstance(q_range, slice):
+        xz = 1 / xz.sel(name='I', Q=q_range)
+    if q_range is None:
+        xz = 1 / xz.sel(name='I')
+    q2 = numpy.array(xz['Q'])
+    q2 = numpy.power(q2, 2)
+    xz = xz.assign_coords({'Q': q2})
+    xz = xz.rename({'Q': 'Q2'})
+    xz = xz.assign_coords({'name': '1/I'})
+    fit = xz.polyfit(dim='Q2', deg=1)
+    intercept = float(fit.polyfit_coefficients[1])
+    I_0 = 1 / intercept
+
+    xr = x.copy()
+
+    title = 'Kratky Plot'
+    y_label = r'${\rm Q^2*I(Q)/I_0}$'
+    x_label = 'Q'
+
+    if isinstance(q_range, slice):
+        xr = xr.sel(name='I', Q=q_range)
+    if q_range is None:
+        xr = xr.sel(name='I')
+
+    q2 = numpy.array(xr['Q'])
+    q2 = numpy.power(q2, 2)
+    xr = q2 * xr / I_0
+    xr = xr.assign_coords({'name': 'Q2I'})
     line = xr.plot()
 
     plt.title(title)
@@ -144,4 +204,6 @@ def get_standard_plot(name=None, data_array=None, q_range=None):
         return _get_porod_plot(xr, q_range)
     if name.lower() == 'zimm':
         return _get_zimm_plot(xr, q_range)
+    if name.lower() == 'kratky':
+        return _get_kratky_plot(xr, q_range)
     return

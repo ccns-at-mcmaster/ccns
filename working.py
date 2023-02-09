@@ -118,19 +118,8 @@ if __name__ == '__main__':
     x.sel(name='I').plot()
     plt.show()
     # Retrieve the Porod plot and DataArray. Remember to subtract the incoherent scattering intensity during reduction.
-    line, xr = get_standard_plot(data_array=x, name='zimm', q_range=slice(0.11, 0.13))
-    fit = xr.polyfit(dim='Q2', deg=1)
-    slope = float(fit.polyfit_coefficients[0])
-    intercept = float(fit.polyfit_coefficients[1])
-    print("The Zimm slope is: ", round(slope, 6))
-    print("The Zimm intercept is: ", round(intercept, 6))
-    I_0 = 1/intercept
-    corr_length = np.sqrt(numpy.absolute(slope * I_0))
-    print("The correlation length is: ", round(corr_length, 2))
-    rg = corr_length * np.sqrt(3)
-    print("The radius of gyration if in the low-Q region: ", round(rg, 1))
-    rg = corr_length * np.sqrt(2)
-    print("The radius of gyration if in the high-Q region: ", round(rg, 1))
+    line, xr = get_standard_plot(data_array=x, name='kratky', q_range=slice(0.11, 0.13))
+
 
     """
     # Create a nexus file using the DataWriter
