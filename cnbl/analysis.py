@@ -134,37 +134,19 @@ def _get_zimm_plot(x, q_range=None):
     return line, xr
 
 
-def _get_kratky_plot(x, q_range=None, zimm_q_range=None):
+def _get_kratky_plot(x, i_0, q_range=None):
     """
     Generates a matplotlib plot of Q^2 * I(Q) vs Q (i.e. a standard Kratky plot) from the passed xarray.DataArray
     containing reduced SANS data. This version of the method gets the normalization factor I_0 from the Zimm intercept
     within the same q_range. This does not seem right, consider this function a work in progress.
 
     :param x: A DataArray that must contain a data series labeled 'I' and a coordinate labeled 'Q'.
+    :param i_0: The normalization factor calculated from the Zimm intercept
     :param q_range: A python slice(min, max) object where min and max describe the range of Q values you want to include
                     in the analysis.
-    :param zimm_q_range: A python slice only used for the Kratky plot. The Q independent normalization constant
-                         is calculated from the Zimm intercept within this range.
     :return line: A matplotlib.lines.Line2D object.
     :return xr: A new DataArray labeled with 'Q2I' and 'Q' of the Kratky Plot data.
     """
-    xz = x.copy()
-    z_range = zimm_q_range
-    try:
-        xz = 1 / xz.sel(name='I', Q=z_range)
-    except KeyError or ValueError:
-        print("You must specify the Q range used for Zimm extrapolation to calculate the normalization constant.")
-        return
-
-    q2 = numpy.array(xz['Q'])
-    q2 = numpy.power(q2, 2)
-    xz = xz.assign_coords({'Q': q2})
-    xz = xz.rename({'Q': 'Q2'})
-    xz = xz.assign_coords({'name': '1/I'})
-    fit = xz.polyfit(dim='Q2', deg=1)
-    intercept = float(fit.polyfit_coefficients[1])
-    I_0 = 1 / intercept
-
     xr = x.copy()
 
     title = 'Kratky Plot'
@@ -178,7 +160,7 @@ def _get_kratky_plot(x, q_range=None, zimm_q_range=None):
 
     q2 = numpy.array(xr['Q'])
     q2 = numpy.power(q2, 2)
-    xr = q2 * xr / I_0
+    xr = q2 * xr / i_0
     xr = xr.assign_coords({'name': 'Q2I'})
     line = xr.plot()
 
