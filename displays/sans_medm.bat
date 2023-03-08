@@ -1,0 +1,1 @@
+start medm -x -macro "P=sans:urlcam[sans_tank]:,R=cam1:" op/adl/areaDetector/URLDriver.adl

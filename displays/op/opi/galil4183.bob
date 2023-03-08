@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Galil DMC Controller</name>
+  <macros>
+    <DMC>sans:galilMotor[galil4183]:</DMC>
+  </macros>
+  <height>1000</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>General Information</name>
+    <x>6</x>
+    <y>6</y>
+    <width>745</width>
+    <height>301</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)ADDRESS_MON</pv_name>
+      <x>144</x>
+      <y>12</y>
+      <width>150</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Address</text>
+      <x>6</x>
+      <y>12</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)COMMERR_STATUS</pv_name>
+      <x>144</x>
+      <y>72</y>
+      <width>150</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)MODEL_MON</pv_name>
+      <x>144</x>
+      <y>42</y>
+      <width>150</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)ETHADDR_MON</pv_name>
+      <x>414</x>
+      <y>12</y>
+      <width>187</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)SERIALNUM_MON</pv_name>
+      <x>414</x>
+      <y>42</y>
+      <width>187</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)SSICAPABLE_STATUS</pv_name>
+      <x>144</x>
+      <y>132</y>
+      <width>150</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)PVTCAPABLE_STATUS</pv_name>
+      <x>144</x>
+      <y>192</y>
+      <width>150</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Comm Error</text>
+      <x>6</x>
+      <y>72</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Model</text>
+      <x>6</x>
+      <y>42</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Ethernet Addr</text>
+      <x>300</x>
+      <y>12</y>
+      <width>110</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Serial Number</text>
+      <x>300</x>
+      <y>42</y>
+      <width>110</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Capable</text>
+      <x>6</x>
+      <y>132</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>PVT Capable</text>
+      <x>6</x>
+      <y>192</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>Message</text>
+      <x>303</x>
+      <y>72</y>
+      <width>104</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>$(DMC)ERROR_MON</pv_name>
+      <x>414</x>
+      <y>72</y>
+      <width>187</width>
+      <height>86</height>
+      <format>6</format>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)START_STATUS</pv_name>
+      <x>144</x>
+      <y>222</y>
+      <width>150</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Start Status</text>
+      <x>6</x>
+      <y>222</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AsynConnection</pv_name>
+      <x>144</x>
+      <y>102</y>
+      <width>150</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>TCP/IP Connection</text>
+      <x>6</x>
+      <y>102</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)BISSCAPABLE_STATUS</pv_name>
+      <x>144</x>
+      <y>162</y>
+      <width>150</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Capable</text>
+      <x>6</x>
+      <y>162</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Output Compare</name>
+    <x>6</x>
+    <y>642</y>
+    <width>419</width>
+    <height>319</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>OC1 Start</text>
+      <x>60</x>
+      <y>18</y>
+      <width>80</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)OC1START_CMD</pv_name>
+      <x>144</x>
+      <y>18</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)OC1START_MON</pv_name>
+      <x>246</x>
+      <y>18</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)OC1INCR_MON</pv_name>
+      <x>246</x>
+      <y>48</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)OC1INCR_CMD</pv_name>
+      <x>144</x>
+      <y>48</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>OC1 Inc</text>
+      <x>60</x>
+      <y>48</y>
+      <width>80</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>OC1 Axis</text>
+      <x>60</x>
+      <y>78</y>
+      <width>80</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button_5</name>
+      <pv_name>$(DMC)OC1AXIS_CMD</pv_name>
+      <x>144</x>
+      <y>78</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)OC1AXIS_STATUS</pv_name>
+      <x>246</x>
+      <y>78</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)OC2START_MON</pv_name>
+      <x>246</x>
+      <y>108</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)OC2START_CMD</pv_name>
+      <x>144</x>
+      <y>108</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>OC2 Start</text>
+      <x>60</x>
+      <y>108</y>
+      <width>80</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>OC2 Inc</text>
+      <x>60</x>
+      <y>138</y>
+      <width>80</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)OC2INCR_CMD</pv_name>
+      <x>144</x>
+      <y>138</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_1</name>
+      <pv_name>$(DMC)OC2INCR_MON</pv_name>
+      <x>246</x>
+      <y>138</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>$(DMC)OC2AXIS_STATUS</pv_name>
+      <x>246</x>
+      <y>168</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button_5</name>
+      <pv_name>$(DMC)OC2AXIS_CMD</pv_name>
+      <x>144</x>
+      <y>168</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>OC2 Axis</text>
+      <x>60</x>
+      <y>168</y>
+      <width>80</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Message</text>
+      <x>60</x>
+      <y>198</y>
+      <width>80</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>$(DMC)OCMESSAGE_MON</pv_name>
+      <x>144</x>
+      <y>198</y>
+      <width>199</width>
+      <height>79</height>
+      <format>6</format>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>General Commands</name>
+    <x>7</x>
+    <y>306</y>
+    <width>743</width>
+    <height>337</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>Command</text>
+      <x>6</x>
+      <y>18</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)SEND_STR_CMD</pv_name>
+      <x>144</x>
+      <y>18</y>
+      <width>199</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_7</name>
+      <text>Float Response</text>
+      <x>6</x>
+      <y>144</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>$(DMC)SEND_STRVAL_MON</pv_name>
+      <x>144</x>
+      <y>144</y>
+      <width>199</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>Response</text>
+      <x>6</x>
+      <y>48</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>$(DMC)SEND_STR_MON</pv_name>
+      <x>144</x>
+      <y>48</y>
+      <width>457</width>
+      <height>91</height>
+      <format>6</format>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Upload</description>
+        </action>
+      </actions>
+      <pv_name>$(DMC)UPLOAD_CMD</pv_name>
+      <x>144</x>
+      <y>174</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)UPLOAD_STATUS</pv_name>
+      <x>246</x>
+      <y>174</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(DMC)COORDSYS_CMD</pv_name>
+      <x>144</x>
+      <y>204</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)COORDSYS_STATUS</pv_name>
+      <x>246</x>
+      <y>204</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Coord Sys Cmd</text>
+      <x>6</x>
+      <y>204</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Upload User Array</text>
+      <x>6</x>
+      <y>174</y>
+      <width>134</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(DMC)LIMITTYPE_CMD</pv_name>
+      <x>144</x>
+      <y>234</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)LIMITTYPE_STATUS</pv_name>
+      <x>246</x>
+      <y>234</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(DMC)HOMETYPE_CMD</pv_name>
+      <x>144</x>
+      <y>264</y>
+      <width>97</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)HOMETYPE_STATUS</pv_name>
+      <x>246</x>
+      <y>264</y>
+      <width>97</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Limit Type</text>
+      <x>54</x>
+      <y>234</y>
+      <width>86</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Home Type</text>
+      <x>54</x>
+      <y>264</y>
+      <width>86</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Deferred Moves</text>
+      <x>420</x>
+      <y>174</y>
+      <width>269</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(DMC)DEFER_CMD</pv_name>
+      <x>420</x>
+      <y>204</y>
+      <width>131</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)DEFER_STATUS</pv_name>
+      <x>558</x>
+      <y>204</y>
+      <width>131</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button_1</name>
+      <pv_name>$(DMC)DEFER_MODE_CMD</pv_name>
+      <x>420</x>
+      <y>234</y>
+      <width>131</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Mode</text>
+      <x>348</x>
+      <y>234</y>
+      <width>68</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_1</name>
+      <pv_name>$(DMC)DEFER_MODE_STATUS</pv_name>
+      <x>558</x>
+      <y>234</y>
+      <width>131</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Control</text>
+      <x>348</x>
+      <y>204</y>
+      <width>68</width>
+      <height>26</height>
+      <transparent>false</transparent>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+</display>

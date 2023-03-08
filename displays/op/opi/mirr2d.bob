@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Mirr2d Control</name>
+  <macros>
+    <P>sans:mirr2d[sans_det]-</P>
+  </macros>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <class>TITLE</class>
+    <text>SANS Neutron Area Detector</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>460</width>
+    <height>31</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_state</name>
+    <text>Detector State</text>
+    <y>60</y>
+    <width>90</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_detstate</name>
+    <pv_name>$(P)state_RBV</pv_name>
+    <x>110</x>
+    <y>60</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>Monitoring</text>
+    <y>31</y>
+    <width>200</width>
+    <font>
+      <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_counttime</name>
+    <text>Count time (s)</text>
+    <y>80</y>
+    <width>90</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_counttime</name>
+    <pv_name>$(P)Gettime2DDAQ_RBV</pv_name>
+    <x>110</x>
+    <y>80</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_contromode</name>
+    <text>Control Mode</text>
+    <y>111</y>
+    <width>90</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_controlmode</name>
+    <pv_name>$(P)SelectCntrl</pv_name>
+    <x>110</x>
+    <y>111</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_targettime</name>
+    <text>Target Time</text>
+    <y>131</y>
+    <width>90</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_targettime</name>
+    <pv_name>$(P)Configtime_RBV.B</pv_name>
+    <x>110</x>
+    <y>131</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_targetimpacts</name>
+    <text>Target Impacts</text>
+    <y>151</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_targetimpacts</name>
+    <pv_name>$(P)Configmc_RBV.B</pv_name>
+    <x>110</x>
+    <y>151</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_control</name>
+    <text>Control</text>
+    <y>252</y>
+    <width>200</width>
+    <font>
+      <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_alarmstate</name>
+    <text>Alarm State</text>
+    <y>171</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_alarmstate</name>
+    <pv_name>$(P)Getndastate2DDAQ_RBV</pv_name>
+    <x>110</x>
+    <y>171</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_pressure</name>
+    <text>Pressure (bar)</text>
+    <y>191</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_pressure</name>
+    <pv_name>$(P)Getndadpval2DDAQ_RBV.VAL</pv_name>
+    <x>110</x>
+    <y>191</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_detectortemperature</name>
+    <text>Detector temperature (C)</text>
+    <y>211</y>
+    <height>41</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_dettemp0</name>
+    <pv_name>$(P)Getndadtval2DDAQ_RBV.AVAL[0]</pv_name>
+    <x>110</x>
+    <y>222</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_dettemp1</name>
+    <pv_name>$(P)Getndadtval2DDAQ_RBV.AVAL[1]</pv_name>
+    <x>220</x>
+    <y>222</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_frontendtemp</name>
+    <text>Frontend temperature readings (C)</text>
+    <x>490</x>
+    <y>60</y>
+    <width>280</width>
+    <font>
+      <font name="Header 3" family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp0</name>
+    <text>0:</text>
+    <x>490</x>
+    <y>80</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp0</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[0]</pv_name>
+    <x>510</x>
+    <y>80</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp1</name>
+    <text>1:</text>
+    <x>490</x>
+    <y>100</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp1</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[1]</pv_name>
+    <x>510</x>
+    <y>100</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp2</name>
+    <text>2:</text>
+    <x>490</x>
+    <y>120</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp2</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[2]</pv_name>
+    <x>510</x>
+    <y>120</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp3</name>
+    <text>3:</text>
+    <x>490</x>
+    <y>140</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp3</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[3]</pv_name>
+    <x>510</x>
+    <y>140</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp4</name>
+    <text>4:</text>
+    <x>490</x>
+    <y>160</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp4</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[4]</pv_name>
+    <x>510</x>
+    <y>160</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp5</name>
+    <text>5:</text>
+    <x>490</x>
+    <y>180</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp5</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[5]</pv_name>
+    <x>510</x>
+    <y>180</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp6</name>
+    <text>6:</text>
+    <x>490</x>
+    <y>200</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp6</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[6]</pv_name>
+    <x>510</x>
+    <y>200</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp7</name>
+    <text>7:</text>
+    <x>600</x>
+    <y>80</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp7</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[7]</pv_name>
+    <x>630</x>
+    <y>80</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp8</name>
+    <text>8:</text>
+    <x>600</x>
+    <y>100</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp8</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[8]</pv_name>
+    <x>630</x>
+    <y>100</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp9</name>
+    <text>9:</text>
+    <x>600</x>
+    <y>120</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp9</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[9]</pv_name>
+    <x>630</x>
+    <y>120</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp10</name>
+    <text>10:</text>
+    <x>600</x>
+    <y>140</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp10</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[10]</pv_name>
+    <x>630</x>
+    <y>140</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp11</name>
+    <text>11:</text>
+    <x>600</x>
+    <y>160</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp11</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[11]</pv_name>
+    <x>630</x>
+    <y>160</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp12</name>
+    <text>12:</text>
+    <x>600</x>
+    <y>180</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp12</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[12]</pv_name>
+    <x>630</x>
+    <y>180</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_ftemp13</name>
+    <text>13:</text>
+    <x>600</x>
+    <y>200</y>
+    <width>20</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_ftemp13</name>
+    <pv_name>$(P)Getndaftval2DDAQ_RBV.AVAL[13]</pv_name>
+    <x>630</x>
+    <y>200</y>
+    <width>40</width>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_start</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(P)StartCommand</pv_name>
+    <text>START</text>
+    <y>282</y>
+    <width>80</width>
+    <height>40</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_stop</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(P)StopCommand</pv_name>
+    <text>STOP</text>
+    <y>340</y>
+    <width>80</width>
+    <height>40</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_clear</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(P)ClearCommand</pv_name>
+    <text>CLEAR</text>
+    <y>400</y>
+    <width>80</width>
+    <height>40</height>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo Box_controlmodeselect</name>
+    <pv_name>$(P)SelectCntrl</pv_name>
+    <x>260</x>
+    <y>282</y>
+    <width>130</width>
+    <height>20</height>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>0</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_controlmodeselect</name>
+    <text>Control Mode</text>
+    <x>130</x>
+    <y>282</y>
+    <width>90</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_settargettime</name>
+    <text>Set target time</text>
+    <x>130</x>
+    <y>322</y>
+    <width>120</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_settargetimpacts</name>
+    <text>Set target impacts</text>
+    <x>130</x>
+    <y>360</y>
+    <width>120</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_settime</name>
+    <pv_name>$(P)Configtime</pv_name>
+    <x>260</x>
+    <y>322</y>
+    <width>130</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_setimpacts</name>
+    <pv_name>$(P)Configmc</pv_name>
+    <x>260</x>
+    <y>360</y>
+    <width>130</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_1</name>
+    <pv_name>$(P)Getndastate2DDAQ</pv_name>
+    <x>220</x>
+    <y>170</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color name="MINOR" red="255" green="128" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <pv_name>$(P)state</pv_name>
+    <x>220</x>
+    <y>60</y>
+  </widget>
+  <widget type="image" version="2.0.0">
+    <name>Image</name>
+    <pv_name>$(P)Getim2DDAQ_RBV.AVAL</pv_name>
+    <x>410</x>
+    <y>282</y>
+    <width>360</width>
+    <height>315</height>
+    <x_axis>
+      <visible>true</visible>
+      <title>X</title>
+      <minimum>0.0</minimum>
+      <maximum>147.0</maximum>
+      <title_font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </title_font>
+      <scale_font>
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </scale_font>
+    </x_axis>
+    <y_axis>
+      <visible>true</visible>
+      <title>Y</title>
+      <minimum>0.0</minimum>
+      <maximum>147.0</maximum>
+      <title_font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </title_font>
+      <scale_font>
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </scale_font>
+    </y_axis>
+    <data_width>147</data_width>
+    <data_height>147</data_height>
+    <interpolation>0</interpolation>
+    <maximum>250.0</maximum>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_control_1</name>
+    <text>Impact matrix</text>
+    <x>540</x>
+    <y>252</y>
+    <width>122</width>
+    <font>
+      <font name="Header 2" family="Liberation Sans" style="BOLD" size="18.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_counttime_1</name>
+    <text>Impact count</text>
+    <x>240</x>
+    <y>80</y>
+    <width>90</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_counttime_1</name>
+    <pv_name>$(P)Getmc2DDAQ_RBV</pv_name>
+    <x>330</x>
+    <y>80</y>
+  </widget>
+</display>

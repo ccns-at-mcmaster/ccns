@@ -1,0 +1,782 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Display</name>
+  <macros>
+    <CNTR>cntcontrol</CNTR>
+    <DET>mirr2ddet</DET>
+    <MON>mon</MON>
+    <SID>sans</SID>
+    <cntrID>sans_det</cntrID>
+    <detID>sans_det</detID>
+    <galilID>galil4183</galilID>
+    <monID>sans_det</monID>
+    <scanID>sans_scanner</scanID>
+    <scannerID>sans_scanner</scannerID>
+    <specID>sans_spec_dev</specID>
+    <tempID>t1</tempID>
+  </macros>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry</name>
+    <pv_name>$(SID):spec[$(specID)]-defaultdir</pv_name>
+    <x>130</x>
+    <y>40</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_5</name>
+    <text>Config file</text>
+    <y>60</y>
+    <width>110</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_1</name>
+    <pv_name>$(SID):configfile</pv_name>
+    <x>130</x>
+    <y>60</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_6</name>
+    <text>Shared directory</text>
+    <y>80</y>
+    <width>110</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_2</name>
+    <pv_name>$(SID):sharedir</pv_name>
+    <x>130</x>
+    <y>80</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_7</name>
+    <text>Error msg:</text>
+    <y>100</y>
+    <width>400</width>
+    <height>30</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_3</name>
+    <pv_name>$(SID):error</pv_name>
+    <x>80</x>
+    <y>100</y>
+    <width>270</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_8</name>
+    <text>Info</text>
+    <y>130</y>
+    <width>120</width>
+    <height>30</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>$(SID):info</pv_name>
+    <x>80</x>
+    <y>130</y>
+    <width>270</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_9</name>
+    <text>Log</text>
+    <y>510</y>
+    <width>120</width>
+    <height>30</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):spec[$(specID)]-sys_script.PROC</pv_name>
+    <text>RUN SCRIPT</text>
+    <x>720</x>
+    <y>480</y>
+    <width>70</width>
+    <height>50</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_24</name>
+    <text>Log level</text>
+    <y>480</y>
+    <width>120</width>
+    <height>30</height>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo Box</name>
+    <pv_name>$(SID):spec[$(specID)]-loglevel</pv_name>
+    <x>80</x>
+    <y>480</y>
+    <height>20</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_25</name>
+    <text>Status</text>
+    <x>10</x>
+    <y>170</y>
+    <font>
+      <font name="Header 3" family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_26</name>
+    <text>Counting</text>
+    <x>10</x>
+    <y>230</y>
+    <width>70</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cnting</pv_name>
+    <x>90</x>
+    <y>230</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_27</name>
+    <text>Done</text>
+    <x>160</x>
+    <y>230</y>
+    <width>40</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_1</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-done</pv_name>
+    <x>210</x>
+    <y>230</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_28</name>
+    <text>Mon count</text>
+    <x>10</x>
+    <y>280</y>
+    <width>80</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_7</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cnt</pv_name>
+    <x>130</x>
+    <y>280</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_29</name>
+    <text>Total count time</text>
+    <x>10</x>
+    <y>260</y>
+    <width>110</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_8</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-ctime</pv_name>
+    <x>130</x>
+    <y>260</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_31</name>
+    <text>Busy</text>
+    <x>360</x>
+    <y>30</y>
+    <width>40</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_2</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-busy</pv_name>
+    <x>410</x>
+    <y>30</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_32</name>
+    <text>Comment</text>
+    <x>360</x>
+    <y>50</y>
+    <width>110</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_17</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-scomment.VAL</pv_name>
+    <x>440</x>
+    <y>50</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_33</name>
+    <text>Scan error</text>
+    <x>360</x>
+    <y>90</y>
+    <width>110</width>
+    <height>30</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_34</name>
+    <text>npts</text>
+    <x>360</x>
+    <y>150</y>
+    <width>50</width>
+    <height>30</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_10</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-npts</pv_name>
+    <x>440</x>
+    <y>150</y>
+    <width>70</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_35</name>
+    <text>pntnum</text>
+    <x>360</x>
+    <y>170</y>
+    <width>50</width>
+    <height>30</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_1</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):scanner[$(scannerID)]-restart</pv_name>
+    <text>RESTART</text>
+    <x>590</x>
+    <y>220</y>
+    <width>90</width>
+    <height>20</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_2</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):scanner[$(scannerID)]-run</pv_name>
+    <text>RUN SCAN</text>
+    <x>590</x>
+    <y>180</y>
+    <width>90</width>
+    <height>20</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_36</name>
+    <text>nrecs</text>
+    <x>360</x>
+    <y>190</y>
+    <width>50</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_12</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-nrecs</pv_name>
+    <x>440</x>
+    <y>190</y>
+    <width>70</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_37</name>
+    <text>scanfile</text>
+    <x>360</x>
+    <y>70</y>
+    <width>110</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_19</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-scanfile</pv_name>
+    <x>440</x>
+    <y>70</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_38</name>
+    <text>seq</text>
+    <x>360</x>
+    <y>230</y>
+    <width>120</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_39</name>
+    <text>seqnum</text>
+    <x>360</x>
+    <y>250</y>
+    <width>120</width>
+    <height>30</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_14</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-seqnum</pv_name>
+    <x>440</x>
+    <y>250</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_40</name>
+    <text>recnum</text>
+    <x>360</x>
+    <y>210</y>
+    <width>120</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_15</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-recnum</pv_name>
+    <x>440</x>
+    <y>210</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_16</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-stats</pv_name>
+    <x>10</x>
+    <y>330</y>
+    <width>770</width>
+    <height>70</height>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_41</name>
+    <text>start time</text>
+    <x>360</x>
+    <y>110</y>
+    <width>80</width>
+    <height>30</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_17</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-starttime</pv_name>
+    <x>440</x>
+    <y>110</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_42</name>
+    <text>precnt</text>
+    <x>590</x>
+    <y>50</y>
+    <width>120</width>
+    <height>30</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_43</name>
+    <text>postcnt</text>
+    <x>590</x>
+    <y>70</y>
+    <width>120</width>
+    <height>30</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_44</name>
+    <text>prescan</text>
+    <x>590</x>
+    <y>100</y>
+    <width>120</width>
+    <height>30</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_45</name>
+    <text>postscan</text>
+    <x>590</x>
+    <y>120</y>
+    <width>120</width>
+    <height>30</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_3</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):scanner[$(scannerID)]-_stop</pv_name>
+    <text>STOP</text>
+    <x>690</x>
+    <y>180</y>
+    <width>90</width>
+    <height>20</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_22</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-error</pv_name>
+    <x>440</x>
+    <y>90</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>Default directory</text>
+    <y>40</y>
+    <width>110</width>
+    <height>30</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_14</name>
+    <text>str1</text>
+    <x>370</x>
+    <y>470</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_6</name>
+    <pv_name>$(SID):spec[$(specID)]-str1</pv_name>
+    <x>400</x>
+    <y>470</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_15</name>
+    <text>str2</text>
+    <x>370</x>
+    <y>490</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_7</name>
+    <pv_name>$(SID):spec[$(specID)]-str2</pv_name>
+    <x>400</x>
+    <y>490</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_16</name>
+    <text>str3</text>
+    <x>370</x>
+    <y>510</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_8</name>
+    <pv_name>$(SID):spec[$(specID)]-str3</pv_name>
+    <x>400</x>
+    <y>510</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_17</name>
+    <text>str4</text>
+    <x>370</x>
+    <y>530</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_9</name>
+    <pv_name>$(SID):spec[$(specID)]-str4</pv_name>
+    <x>400</x>
+    <y>530</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_18</name>
+    <text>str5</text>
+    <x>370</x>
+    <y>550</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_10</name>
+    <pv_name>$(SID):spec[$(specID)]-str5</pv_name>
+    <x>400</x>
+    <y>550</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_11</name>
+    <pv_name>$(SID):spec[$(specID)]-str6</pv_name>
+    <x>400</x>
+    <y>570</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_20</name>
+    <text>flt1</text>
+    <x>540</x>
+    <y>470</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_12</name>
+    <pv_name>$(SID):spec[$(specID)]-flt1</pv_name>
+    <x>570</x>
+    <y>470</y>
+    <width>130</width>
+    <format>1</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_21</name>
+    <text>flt2</text>
+    <x>540</x>
+    <y>490</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_13</name>
+    <pv_name>$(SID):spec[$(specID)]-flt2</pv_name>
+    <x>570</x>
+    <y>490</y>
+    <width>130</width>
+    <format>1</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_22</name>
+    <text>int1</text>
+    <x>540</x>
+    <y>520</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_14</name>
+    <pv_name>$(SID):spec[$(specID)]-int1</pv_name>
+    <x>570</x>
+    <y>520</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_23</name>
+    <text>int2</text>
+    <x>540</x>
+    <y>540</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_15</name>
+    <pv_name>$(SID):spec[$(specID)]-int2</pv_name>
+    <x>570</x>
+    <y>540</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_30</name>
+    <text>Scanning</text>
+    <x>360</x>
+    <y>10</y>
+    <font>
+      <font name="Header 3" family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <pv_name>INSTRUMENT</pv_name>
+    <x>2</x>
+    <y>10</y>
+    <width>130</width>
+    <height>22</height>
+    <font>
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Spectrometer</text>
+    <x>130</x>
+    <y>10</y>
+    <width>150</width>
+    <font>
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_5</name>
+    <pv_name>$(SID):log</pv_name>
+    <x>80</x>
+    <y>510</y>
+    <width>270</width>
+    <height>70</height>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_46</name>
+    <text>str6</text>
+    <x>370</x>
+    <y>570</y>
+    <width>30</width>
+    <height>10</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_10</name>
+    <text>Scripting</text>
+    <x>370</x>
+    <y>400</y>
+    <width>130</width>
+    <font>
+      <font name="Header 3" family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_13</name>
+    <text>Run a system script. Script name is in str1. Parameters are in str2 through &lt;n&gt;</text>
+    <x>370</x>
+    <y>420</y>
+    <width>290</width>
+    <height>40</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_47</name>
+    <text>Control monitor</text>
+    <x>10</x>
+    <y>200</y>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo Box_1</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-mon</pv_name>
+    <x>140</x>
+    <y>200</y>
+    <width>90</width>
+    <height>20</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_50</name>
+    <text>base</text>
+    <x>240</x>
+    <y>200</y>
+    <width>40</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_51</name>
+    <text>cnt</text>
+    <x>240</x>
+    <y>220</y>
+    <width>40</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_21</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-control_count.A</pv_name>
+    <x>280</x>
+    <y>200</y>
+    <width>70</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_22</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-control_count.B</pv_name>
+    <x>280</x>
+    <y>220</y>
+    <width>70</width>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_4</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-execute.PROC</pv_name>
+    <text>EXECUTE</text>
+    <x>250</x>
+    <y>250</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_5</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cancel.PROC</pv_name>
+    <text>CANCEL</text>
+    <x>250</x>
+    <y>290</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_20</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-pntnum</pv_name>
+    <x>440</x>
+    <y>170</y>
+    <width>130</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_23</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-sequence</pv_name>
+    <x>440</x>
+    <y>230</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_24</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-precnt</pv_name>
+    <x>670</x>
+    <y>50</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_25</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-postcnt</pv_name>
+    <x>670</x>
+    <y>70</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_26</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-prescan</pv_name>
+    <x>670</x>
+    <y>100</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_27</name>
+    <pv_name>$(SID):scanner[$(scannerID)]-postscan</pv_name>
+    <x>670</x>
+    <y>120</y>
+    <width>130</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_48</name>
+    <text>Rate</text>
+    <x>10</x>
+    <y>300</y>
+    <width>80</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_9</name>
+    <pv_name>$(SID):$(MON)[$(monID)]-rate.VAL</pv_name>
+    <x>130</x>
+    <y>300</y>
+    <format>1</format>
+  </widget>
+</display>

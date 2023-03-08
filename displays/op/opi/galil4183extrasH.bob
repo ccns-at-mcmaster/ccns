@@ -1,0 +1,2546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>$(M) Expert</name>
+  <macros>
+    <DMC>sans:galilMotor[galil4183]:</DMC>
+    <M>sans:galilMotor[galil4183]:H</M>
+  </macros>
+  <width>1100</width>
+  <height>1200</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>Axis Configuration &amp; Status</name>
+    <x>6</x>
+    <y>6</y>
+    <width>613</width>
+    <height>391</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_MCONN_STATUS</pv_name>
+      <x>174</x>
+      <y>78</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_AXIS_STATUS</pv_name>
+      <x>174</x>
+      <y>48</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M).NAME</pv_name>
+      <x>174</x>
+      <y>18</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_MTRTYPE_CMD</pv_name>
+      <x>174</x>
+      <y>108</y>
+      <width>163</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_MTRTYPE_STATUS</pv_name>
+      <x>342</x>
+      <y>108</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_MENCTYPE_CMD</pv_name>
+      <x>174</x>
+      <y>138</y>
+      <width>163</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_MENCTYPE_STATUS</pv_name>
+      <x>342</x>
+      <y>138</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_AENCTYPE_CMD</pv_name>
+      <x>174</x>
+      <y>168</y>
+      <width>163</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_AENCTYPE_STATUS</pv_name>
+      <x>342</x>
+      <y>168</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Motor Connected</text>
+      <x>6</x>
+      <y>78</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Axis Status</text>
+      <x>6</x>
+      <y>48</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Axis Name</text>
+      <x>6</x>
+      <y>18</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Motor Type (MT)</text>
+      <x>6</x>
+      <y>108</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Encoder Typen (CE)</text>
+      <x>6</x>
+      <y>138</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Aux Encoder Type (CE)</text>
+      <x>6</x>
+      <y>168</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Disconnected if both limits on</text>
+      <x>342</x>
+      <y>78</y>
+      <width>211</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Gain (AG)</text>
+      <x>60</x>
+      <y>228</y>
+      <width>110</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_AMPGAIN_CMD</pv_name>
+      <x>174</x>
+      <y>228</y>
+      <width>163</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_AMPGAIN_STATUS</pv_name>
+      <x>342</x>
+      <y>228</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Current Loop Gain (AU)</text>
+      <x>6</x>
+      <y>258</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_AMPCLGAIN_CMD</pv_name>
+      <x>174</x>
+      <y>258</y>
+      <width>163</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_AMPCLGAIN_STATUS</pv_name>
+      <x>342</x>
+      <y>258</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Low Current Setting (LC)</text>
+      <y>288</y>
+      <width>170</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_AMPLC_MON</pv_name>
+      <x>342</x>
+      <y>288</y>
+      <width>163</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Internal Amplifier Settings</text>
+      <x>174</x>
+      <y>203</y>
+      <width>331</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_AMPLC_SP</pv_name>
+      <x>174</x>
+      <y>288</y>
+      <width>163</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>0=100% holding current, 1=25% holding current</text>
+      <x>174</x>
+      <y>318</y>
+      <width>331</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Axis SSI Encoder</name>
+    <x>6</x>
+    <y>807</y>
+    <width>469</width>
+    <height>373</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Connection</text>
+      <x>6</x>
+      <y>42</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_SCONN_STATUS</pv_name>
+      <x>174</x>
+      <y>42</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_SSIINPUT_CMD</pv_name>
+      <x>174</x>
+      <y>72</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_SSIINPUT_STATUS</pv_name>
+      <x>300</x>
+      <y>72</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_SSITOTBITS_MON</pv_name>
+      <x>300</x>
+      <y>102</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_SSISINGLETBITS_MON</pv_name>
+      <x>300</x>
+      <y>132</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_SSIERRBITS_MON</pv_name>
+      <x>300</x>
+      <y>162</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_SSITIME_MON</pv_name>
+      <x>300</x>
+      <y>192</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_SSIDATA_STATUS</pv_name>
+      <x>300</x>
+      <y>222</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_SSIDATA_CMD</pv_name>
+      <x>174</x>
+      <y>222</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_SSITIME_SP</pv_name>
+      <x>174</x>
+      <y>192</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_SSIERRBITS_SP</pv_name>
+      <x>174</x>
+      <y>162</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_SSISINGLETBITS_SP</pv_name>
+      <x>174</x>
+      <y>132</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_SSITOTBITS_SP</pv_name>
+      <x>174</x>
+      <y>102</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Input</text>
+      <x>6</x>
+      <y>72</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Total Bits</text>
+      <x>6</x>
+      <y>102</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Single Turn Bits</text>
+      <x>6</x>
+      <y>132</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Error Bits</text>
+      <x>6</x>
+      <y>162</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Time Code</text>
+      <x>6</x>
+      <y>192</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Data</text>
+      <x>6</x>
+      <y>222</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>See SI command documentation</text>
+      <x>12</x>
+      <y>264</y>
+      <width>408</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)SSICAPABLE_STATUS</pv_name>
+      <x>174</x>
+      <y>12</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>SSI Capable</text>
+      <x>6</x>
+      <y>12</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Axis Homing Program</name>
+    <x>618</x>
+    <y>6</y>
+    <width>469</width>
+    <height>391</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Home Allowed</text>
+      <x>6</x>
+      <y>12</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_HOMEALLOWED_CMD</pv_name>
+      <x>174</x>
+      <y>12</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_HOMEALLOWED_STATUS</pv_name>
+      <x>300</x>
+      <y>12</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Use Switch</text>
+      <x>6</x>
+      <y>42</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_USWITCH_CMD</pv_name>
+      <x>174</x>
+      <y>42</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_USWITCH_STATUS</pv_name>
+      <x>300</x>
+      <y>42</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_UINDEX_STATUS</pv_name>
+      <x>300</x>
+      <y>72</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_UINDEX_CMD</pv_name>
+      <x>174</x>
+      <y>72</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Use Index</text>
+      <x>6</x>
+      <y>72</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Jog After Home</text>
+      <x>6</x>
+      <y>102</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_JAH_CMD</pv_name>
+      <x>174</x>
+      <y>102</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_JAH_STATUS</pv_name>
+      <x>300</x>
+      <y>102</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_JAHV_MON</pv_name>
+      <x>300</x>
+      <y>132</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_JAHV_SP</pv_name>
+      <x>174</x>
+      <y>132</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Jog After Home Position</text>
+      <x>6</x>
+      <y>132</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>These only apply if we use motor record HOMF/HOMR
+Home position will be set to 0</text>
+      <x>12</x>
+      <y>174</y>
+      <width>408</width>
+      <height>55</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Axis General Settings</name>
+    <x>6</x>
+    <y>396</y>
+    <width>1081</width>
+    <height>412</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Wrong Limit Protection</text>
+      <x>6</x>
+      <y>18</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_WLP_CMD</pv_name>
+      <x>174</x>
+      <y>18</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_WLP_STATUS</pv_name>
+      <x>300</x>
+      <y>18</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Protection Status</text>
+      <x>6</x>
+      <y>48</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_WLPACTIVE_STATUS</pv_name>
+      <x>174</x>
+      <y>48</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Encoder Stall Status</text>
+      <x>6</x>
+      <y>168</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_ERRLIMIT_MON</pv_name>
+      <x>300</x>
+      <y>78</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_ERRLIMIT_SP</pv_name>
+      <x>174</x>
+      <y>78</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Position Error Limit (ER)</text>
+      <x>6</x>
+      <y>78</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Encoder Stall Time</text>
+      <x>6</x>
+      <y>108</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_ESTALLTIME_SP</pv_name>
+      <x>174</x>
+      <y>108</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_ESTALLTIME_MON</pv_name>
+      <x>300</x>
+      <y>108</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_ESTALL_STATUS</pv_name>
+      <x>174</x>
+      <y>168</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_AUTOONOFF_STATUS</pv_name>
+      <x>300</x>
+      <y>240</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_ON_STATUS</pv_name>
+      <x>300</x>
+      <y>210</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_ON_CMD</pv_name>
+      <x>174</x>
+      <y>210</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Motor Power (SH/MO)</text>
+      <x>6</x>
+      <y>210</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Auto Power Control</text>
+      <x>6</x>
+      <y>240</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Power On Delay</text>
+      <x>6</x>
+      <y>270</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Power Off Delay</text>
+      <x>6</x>
+      <y>300</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Off On Error (OE)</text>
+      <x>480</x>
+      <y>18</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_OFFONERR_STATUS</pv_name>
+      <x>774</x>
+      <y>18</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_OFFDELAY_MON</pv_name>
+      <x>300</x>
+      <y>300</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_ONDELAY_MON</pv_name>
+      <x>300</x>
+      <y>270</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_AUTOONOFF_CMD</pv_name>
+      <x>174</x>
+      <y>240</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_ONDELAY_SP</pv_name>
+      <x>174</x>
+      <y>270</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_OFFDELAY_SP</pv_name>
+      <x>174</x>
+      <y>300</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_OFFONERR_CMD</pv_name>
+      <x>648</x>
+      <y>18</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_BRAKEONDELAY_SP</pv_name>
+      <x>648</x>
+      <y>48</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Brake On Delay</text>
+      <x>480</x>
+      <y>48</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Brake Port</text>
+      <x>480</x>
+      <y>78</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Auto Brake Control</text>
+      <x>480</x>
+      <y>108</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Step Smoothing (KS)</text>
+      <x>480</x>
+      <y>138</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>EGU After Limit (DC/VD)</text>
+      <x>474</x>
+      <y>168</y>
+      <width>170</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_EGUAFTLIMIT_SP</pv_name>
+      <x>648</x>
+      <y>168</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_STEPSMOOTH_SP</pv_name>
+      <x>648</x>
+      <y>138</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_AUTOBRAKE_CMD</pv_name>
+      <x>648</x>
+      <y>108</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_BRAKEPORT_SP</pv_name>
+      <x>648</x>
+      <y>78</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BRAKEONDELAY_MON</pv_name>
+      <x>774</x>
+      <y>48</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BRAKEPORT_MON</pv_name>
+      <x>774</x>
+      <y>78</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_AUTOBRAKE_STATUS</pv_name>
+      <x>774</x>
+      <y>108</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_STEPSMOOTH_MON</pv_name>
+      <x>774</x>
+      <y>138</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_EGUAFTLIMIT_MON</pv_name>
+      <x>774</x>
+      <y>168</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Stop Delay</text>
+      <x>6</x>
+      <y>330</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_STOPDELAY_MON</pv_name>
+      <x>300</x>
+      <y>330</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_STOPDELAY_SP</pv_name>
+      <x>174</x>
+      <y>330</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_LIMITDISABLE_STATUS</pv_name>
+      <x>774</x>
+      <y>198</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_LIMITDISABLE_CMD</pv_name>
+      <x>648</x>
+      <y>198</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Limit Disable (LD)</text>
+      <x>474</x>
+      <y>198</y>
+      <width>170</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Poll Delay for SSI &amp; BISS</text>
+      <x>444</x>
+      <y>300</y>
+      <width>200</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_STATUS_POLL_DELAY_CMD</pv_name>
+      <x>648</x>
+      <y>300</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_STATUS_POLL_DELAY_MON</pv_name>
+      <x>774</x>
+      <y>300</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Encoder Tolerance</text>
+      <x>6</x>
+      <y>138</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_ENC_TOLERANCE_SP</pv_name>
+      <x>174</x>
+      <y>138</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_ENC_TOLERANCE_MON</pv_name>
+      <x>300</x>
+      <y>138</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Axis BiSS Encoder</name>
+    <x>474</x>
+    <y>807</y>
+    <width>613</width>
+    <height>427</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_BISSINPUT_CMD</pv_name>
+      <x>174</x>
+      <y>42</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSINPUT_STATUS</pv_name>
+      <x>300</x>
+      <y>42</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSDATA1_MON</pv_name>
+      <x>300</x>
+      <y>72</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSDATA2_MON</pv_name>
+      <x>300</x>
+      <y>102</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSZP_MON</pv_name>
+      <x>300</x>
+      <y>132</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSCD_MON</pv_name>
+      <x>300</x>
+      <y>162</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSLEVEL_STATUS</pv_name>
+      <x>300</x>
+      <y>282</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_BISSLEVEL_CMD</pv_name>
+      <x>174</x>
+      <y>282</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_BISSCD_SP</pv_name>
+      <x>174</x>
+      <y>162</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_BISSZP_SP</pv_name>
+      <x>174</x>
+      <y>132</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_BISSDATA2_SP</pv_name>
+      <x>174</x>
+      <y>102</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(M)_BISSDATA1_SP</pv_name>
+      <x>174</x>
+      <y>72</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Input</text>
+      <x>6</x>
+      <y>42</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Data 1 Bits</text>
+      <x>6</x>
+      <y>72</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Data 2 Bits</text>
+      <x>6</x>
+      <y>102</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Zero Pad Bits</text>
+      <x>6</x>
+      <y>132</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Clock Divider</text>
+      <x>6</x>
+      <y>162</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Active Level</text>
+      <x>6</x>
+      <y>282</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>See SS command documentation</text>
+      <x>438</x>
+      <y>57</y>
+      <width>121</width>
+      <height>116</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSSTAT_TIMEOUT</pv_name>
+      <x>174</x>
+      <y>222</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Timeout</text>
+      <x>6</x>
+      <y>222</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSSTAT_CRC</pv_name>
+      <x>174</x>
+      <y>252</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS CRC</text>
+      <x>6</x>
+      <y>252</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSSTAT_ERROR</pv_name>
+      <x>174</x>
+      <y>312</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Error</text>
+      <x>6</x>
+      <y>312</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSSTAT_WARN</pv_name>
+      <x>174</x>
+      <y>342</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Warning</text>
+      <x>6</x>
+      <y>342</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>See SY command documentation</text>
+      <x>426</x>
+      <y>263</y>
+      <width>121</width>
+      <height>64</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Poll BiSS Status</text>
+      <x>6</x>
+      <y>192</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Menu Button</name>
+      <pv_name>$(M)_BISSSTAT_POLL_CMD</pv_name>
+      <x>174</x>
+      <y>192</y>
+      <width>120</width>
+      <height>26</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)_BISSSTAT_POLL</pv_name>
+      <x>300</x>
+      <y>192</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)BISSCAPABLE_STATUS</pv_name>
+      <x>174</x>
+      <y>12</y>
+      <width>120</width>
+      <height>26</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>BiSS Capable</text>
+      <x>6</x>
+      <y>12</y>
+      <width>164</width>
+      <height>26</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+</display>

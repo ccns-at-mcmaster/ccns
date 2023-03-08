@@ -1,0 +1,1744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Galil DMC IO</name>
+  <macros>
+    <DMC>sans:galilMotor[galil4183]:</DMC>
+  </macros>
+  <width>1200</width>
+  <height>450</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>Digital IO</name>
+    <x>6</x>
+    <y>6</y>
+    <width>367</width>
+    <height>391</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bi1_STATUS</pv_name>
+      <bit>0</bit>
+      <x>269</x>
+      <y>41</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Input RBV</text>
+      <x>237</x>
+      <y>6</y>
+      <width>85</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>39</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bi2_STATUS</pv_name>
+      <bit>0</bit>
+      <x>269</x>
+      <y>77</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bi3_STATUS</pv_name>
+      <bit>0</bit>
+      <x>269</x>
+      <y>113</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bi4_STATUS</pv_name>
+      <bit>0</bit>
+      <x>269</x>
+      <y>149</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bi5_STATUS</pv_name>
+      <bit>0</bit>
+      <x>269</x>
+      <y>185</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bi6_STATUS</pv_name>
+      <bit>0</bit>
+      <x>269</x>
+      <y>221</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bi7_STATUS</pv_name>
+      <bit>0</bit>
+      <x>269</x>
+      <y>257</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bi8_STATUS</pv_name>
+      <bit>0</bit>
+      <x>269</x>
+      <y>293</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>2</text>
+      <x>12</x>
+      <y>75</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>3</text>
+      <x>12</x>
+      <y>111</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>4</text>
+      <x>12</x>
+      <y>147</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>5</text>
+      <x>12</x>
+      <y>183</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>6</text>
+      <x>12</x>
+      <y>219</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>7</text>
+      <x>12</x>
+      <y>255</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>8</text>
+      <x>12</x>
+      <y>291</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bo1_STATUS</pv_name>
+      <bit>0</bit>
+      <x>164</x>
+      <y>41</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Output</text>
+      <x>54</x>
+      <y>6</y>
+      <width>79</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED_1</name>
+      <pv_name>$(DMC)0Bo7_STATUS</pv_name>
+      <bit>0</bit>
+      <x>164</x>
+      <y>257</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Boolean Button</name>
+      <pv_name>$(DMC)0Bo1_CMD</pv_name>
+      <x>48</x>
+      <y>36</y>
+      <width>91</width>
+      <height>31</height>
+      <off_label>OFF</off_label>
+      <off_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </off_color>
+      <on_label>ON</on_label>
+      <on_color>
+        <color red="192" green="192" blue="192">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Boolean Button</name>
+      <pv_name>$(DMC)0Bo3_CMD</pv_name>
+      <x>48</x>
+      <y>108</y>
+      <width>91</width>
+      <height>31</height>
+      <off_label>OFF</off_label>
+      <off_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </off_color>
+      <on_label>ON</on_label>
+      <on_color>
+        <color red="192" green="192" blue="192">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Boolean Button</name>
+      <pv_name>$(DMC)0Bo2_CMD</pv_name>
+      <x>48</x>
+      <y>72</y>
+      <width>91</width>
+      <height>31</height>
+      <off_label>OFF</off_label>
+      <off_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </off_color>
+      <on_label>ON</on_label>
+      <on_color>
+        <color red="192" green="192" blue="192">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Boolean Button</name>
+      <pv_name>$(DMC)0Bo4_CMD</pv_name>
+      <x>48</x>
+      <y>144</y>
+      <width>91</width>
+      <height>31</height>
+      <off_label>OFF</off_label>
+      <off_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </off_color>
+      <on_label>ON</on_label>
+      <on_color>
+        <color red="192" green="192" blue="192">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Boolean Button</name>
+      <pv_name>$(DMC)0Bo5_CMD</pv_name>
+      <x>48</x>
+      <y>180</y>
+      <width>91</width>
+      <height>31</height>
+      <off_label>OFF</off_label>
+      <off_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </off_color>
+      <on_label>ON</on_label>
+      <on_color>
+        <color red="192" green="192" blue="192">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Boolean Button</name>
+      <pv_name>$(DMC)0Bo6_CMD</pv_name>
+      <x>48</x>
+      <y>216</y>
+      <width>91</width>
+      <height>31</height>
+      <off_label>OFF</off_label>
+      <off_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </off_color>
+      <on_label>ON</on_label>
+      <on_color>
+        <color red="192" green="192" blue="192">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Boolean Button</name>
+      <pv_name>$(DMC)0Bo7_CMD</pv_name>
+      <x>48</x>
+      <y>252</y>
+      <width>91</width>
+      <height>31</height>
+      <off_label>OFF</off_label>
+      <off_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </off_color>
+      <on_label>ON</on_label>
+      <on_color>
+        <color red="192" green="192" blue="192">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="bool_button" version="2.0.0">
+      <name>Boolean Button</name>
+      <pv_name>$(DMC)0Bo8_CMD</pv_name>
+      <x>48</x>
+      <y>288</y>
+      <width>91</width>
+      <height>31</height>
+      <off_label>OFF</off_label>
+      <off_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </off_color>
+      <on_label>ON</on_label>
+      <on_color>
+        <color red="192" green="192" blue="192">
+        </color>
+      </on_color>
+      <show_led>false</show_led>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <confirm_message></confirm_message>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bo2_STATUS</pv_name>
+      <bit>0</bit>
+      <x>164</x>
+      <y>77</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bo3_STATUS</pv_name>
+      <bit>0</bit>
+      <x>164</x>
+      <y>113</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bo4_STATUS</pv_name>
+      <bit>0</bit>
+      <x>164</x>
+      <y>149</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bo5_STATUS</pv_name>
+      <bit>0</bit>
+      <x>164</x>
+      <y>185</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bo6_STATUS</pv_name>
+      <bit>0</bit>
+      <x>164</x>
+      <y>221</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(DMC)0Bo8_STATUS</pv_name>
+      <bit>0</bit>
+      <x>164</x>
+      <y>293</y>
+      <width>22</width>
+      <height>22</height>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <square>true</square>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Output RBV</text>
+      <x>132</x>
+      <y>6</y>
+      <width>85</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Analog Input</name>
+    <x>372</x>
+    <y>6</y>
+    <width>307</width>
+    <height>391</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Input RBV</text>
+      <x>54</x>
+      <y>6</y>
+      <width>83</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)Ai1_MON</pv_name>
+      <x>47</x>
+      <y>39</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)Ai1Deadb_SP</pv_name>
+      <x>149</x>
+      <y>39</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Deadband</text>
+      <x>149</x>
+      <y>6</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>39</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)Ai2_MON</pv_name>
+      <x>47</x>
+      <y>75</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)Ai2Deadb_SP</pv_name>
+      <x>149</x>
+      <y>75</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>75</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)Ai3_MON</pv_name>
+      <x>47</x>
+      <y>111</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)Ai3Deadb_SP</pv_name>
+      <x>149</x>
+      <y>111</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>111</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)Ai4Deadb_SP</pv_name>
+      <x>149</x>
+      <y>147</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>147</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)Ai4_MON</pv_name>
+      <x>47</x>
+      <y>147</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)Ai5_MON</pv_name>
+      <x>47</x>
+      <y>183</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)Ai5Deadb_SP</pv_name>
+      <x>149</x>
+      <y>183</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>183</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)Ai6_MON</pv_name>
+      <x>47</x>
+      <y>219</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)Ai6Deadb_SP</pv_name>
+      <x>149</x>
+      <y>219</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>219</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)Ai7_MON</pv_name>
+      <x>47</x>
+      <y>255</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)Ai7Deadb_SP</pv_name>
+      <x>149</x>
+      <y>255</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>255</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)Ai8_MON</pv_name>
+      <x>47</x>
+      <y>291</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)Ai8Deadb_SP</pv_name>
+      <x>149</x>
+      <y>291</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>291</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>RIO Analog Output</name>
+    <x>678</x>
+    <y>6</y>
+    <width>421</width>
+    <height>391</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Deadband</text>
+      <x>252</x>
+      <y>6</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Output</text>
+      <x>54</x>
+      <y>6</y>
+      <width>79</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO1_SP</pv_name>
+      <x>45</x>
+      <y>39</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Output RBV</text>
+      <x>146</x>
+      <y>6</y>
+      <width>106</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO1Deadb_SP</pv_name>
+      <x>252</x>
+      <y>39</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>1</text>
+      <x>12</x>
+      <y>39</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AO1_MON</pv_name>
+      <x>150</x>
+      <y>39</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO2_SP</pv_name>
+      <x>45</x>
+      <y>75</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)AO2Deadb_SP</pv_name>
+      <x>252</x>
+      <y>75</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>2</text>
+      <x>12</x>
+      <y>75</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AO2_MON</pv_name>
+      <x>150</x>
+      <y>75</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO3_SP</pv_name>
+      <x>45</x>
+      <y>111</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)AO3Deadb_SP</pv_name>
+      <x>252</x>
+      <y>111</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>3</text>
+      <x>12</x>
+      <y>111</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AO3_MON</pv_name>
+      <x>150</x>
+      <y>111</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO4_SP</pv_name>
+      <x>45</x>
+      <y>147</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)AO4Deadb_SP</pv_name>
+      <x>252</x>
+      <y>147</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>4</text>
+      <x>12</x>
+      <y>147</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AO4_MON</pv_name>
+      <x>150</x>
+      <y>147</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO5_SP</pv_name>
+      <x>45</x>
+      <y>183</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)AO5Deadb_SP</pv_name>
+      <x>252</x>
+      <y>183</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>5</text>
+      <x>12</x>
+      <y>183</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AO5_MON</pv_name>
+      <x>150</x>
+      <y>183</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO6_SP</pv_name>
+      <x>45</x>
+      <y>219</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)AO6Deadb_SP</pv_name>
+      <x>252</x>
+      <y>219</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>6</text>
+      <x>12</x>
+      <y>219</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AO6_MON</pv_name>
+      <x>150</x>
+      <y>219</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO7_SP</pv_name>
+      <x>45</x>
+      <y>255</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)AO7Deadb_SP</pv_name>
+      <x>252</x>
+      <y>255</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>7</text>
+      <x>12</x>
+      <y>255</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AO7_MON</pv_name>
+      <x>150</x>
+      <y>255</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input</name>
+      <pv_name>$(DMC)AO8_SP</pv_name>
+      <x>45</x>
+      <y>291</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Input_1</name>
+      <pv_name>$(DMC)AO8Deadb_SP</pv_name>
+      <x>252</x>
+      <y>291</y>
+      <width>98</width>
+      <height>26</height>
+      <background_color>
+        <color name="WritePV_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>8</text>
+      <x>12</x>
+      <y>291</y>
+      <width>31</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(DMC)AO8_MON</pv_name>
+      <x>150</x>
+      <y>291</y>
+      <width>98</width>
+      <height>26</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+</display>
