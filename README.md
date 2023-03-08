@@ -1,6 +1,6 @@
-#Data Reduction at CCNS
+# Data Reduction at CCNS
 
-###This repository is a work in progress. It is being made public for purposes of collaboration and user feedback. In
+### This repository is a work in progress. It is being made public for purposes of collaboration and user feedback. In
 its current state, reduction results have not been validated, and it should not be relied upon.
 
 This is the repository for data analysis and control system monitoring at the Canadian Centre for Neutron Science 
