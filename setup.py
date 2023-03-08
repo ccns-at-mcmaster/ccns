@@ -1,9 +1,9 @@
 from setuptools import setup
 
 setup(
-    name='cnbl',
+    name='ccns',
     version='0.1',
-    packages=['cnbl', 'cnbl.writers', 'cnbl.reduction'],
+    packages=['ccns', 'ccns.writers', 'ccns.reduction'],
     url='https://github.com/burkeds/cnbl',
     license='',
     author='burkeds',

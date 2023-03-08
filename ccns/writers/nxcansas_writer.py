@@ -111,9 +111,9 @@ def get_empty_sasentry():
 def get_sasentry(raw_data, reduced_data, entry=None):
     """
 
-    :param raw_data: A dictionary of raw sans_data. This is usually returned by cnbl.loader.read_sans_raw.
+    :param raw_data: A dictionary of raw sans_data. This is usually returned by ccns.loader.read_sans_raw.
     :param reduced_data: A dictionary of reduced sans data. This is usually the dictionary returned by
-                         cnbl.reduction.reduce.
+                         ccns.reduction.reduce.
     :param entry: If not specified, this method fetches an 'empty' NXcanSAS entry dictionary from get_empty_sasentry. If
                   a dictionary is passed as entry, the dictionary is updated with key, value pairs from raw_data and
                   reduced_data.
