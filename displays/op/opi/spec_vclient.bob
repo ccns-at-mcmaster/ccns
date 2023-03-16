@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2023-03-16 15:13:45 by burkeds-->
 <display version="2.0.0">
   <name>Display</name>
   <macros>
@@ -778,5 +779,63 @@
     <x>130</x>
     <y>300</y>
     <format>1</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>Run Info</text>
+    <x>810</x>
+    <y>10</y>
+    <font>
+      <font name="Header 3" family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_52</name>
+    <text>Title</text>
+    <x>810</x>
+    <y>40</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_23</name>
+    <pv_name>$(SID):run</pv_name>
+    <x>900</x>
+    <y>60</y>
+    <width>290</width>
+    <format>6</format>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_18</name>
+    <pv_name>$(SID):title</pv_name>
+    <x>900</x>
+    <y>40</y>
+    <width>290</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_53</name>
+    <text>Run</text>
+    <x>810</x>
+    <y>60</y>
+    <width>30</width>
+    <height>30</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_54</name>
+    <text>Run Name</text>
+    <x>810</x>
+    <y>80</y>
+    <width>70</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_28</name>
+    <pv_name>$(SID):run_name</pv_name>
+    <x>900</x>
+    <y>80</y>
+    <width>290</width>
+    <format>6</format>
   </widget>
 </display>
