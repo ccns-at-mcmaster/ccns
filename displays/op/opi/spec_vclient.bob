@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-03-16 15:13:45 by burkeds-->
+<!--Saved on 2023-03-17 14:56:19 by burkeds-->
 <display version="2.0.0">
   <name>Display</name>
   <macros>
@@ -703,6 +703,7 @@
     <x>250</x>
     <y>250</y>
     <tooltip>$(actions)</tooltip>
+    <enabled>false</enabled>
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>Action Button_5</name>
@@ -718,6 +719,7 @@
     <x>250</x>
     <y>290</y>
     <tooltip>$(actions)</tooltip>
+    <enabled>false</enabled>
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Text Entry_20</name>
@@ -837,5 +839,114 @@
     <y>80</y>
     <width>290</width>
     <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_55</name>
+    <text>Name</text>
+    <x>1110</x>
+    <y>160</y>
+    <width>80</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_29</name>
+    <pv_name>$(SID):sample[simple_sample]-name</pv_name>
+    <x>810</x>
+    <y>160</y>
+    <width>290</width>
+    <format>6</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_56</name>
+    <text>Sample Info</text>
+    <x>810</x>
+    <y>130</y>
+    <font>
+      <font name="Header 3" family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_57</name>
+    <text>Description</text>
+    <x>1110</x>
+    <y>180</y>
+    <width>80</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_30</name>
+    <pv_name>$(SID):sample[simple_sample]-description</pv_name>
+    <x>810</x>
+    <y>180</y>
+    <width>290</width>
+    <format>6</format>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_31</name>
+    <pv_name>$(SID):sample[simple_sample]-transmission</pv_name>
+    <x>810</x>
+    <y>200</y>
+    <width>290</width>
+    <format>1</format>
+    <precision>2</precision>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_58</name>
+    <text>Transmission</text>
+    <x>1110</x>
+    <y>200</y>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_32</name>
+    <pv_name>$(SID):sample[simple_sample]-thickness</pv_name>
+    <x>810</x>
+    <y>220</y>
+    <width>290</width>
+    <format>1</format>
+    <precision>2</precision>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_59</name>
+    <text>Thickness (cm)</text>
+    <x>1110</x>
+    <y>220</y>
+    <width>140</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_33</name>
+    <pv_name>$(SID):sample[simple_sample]-illuminated_sample_area</pv_name>
+    <x>810</x>
+    <y>240</y>
+    <width>290</width>
+    <format>1</format>
+    <precision>2</precision>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_60</name>
+    <text>Illuminated Sample Area (cm^2)</text>
+    <x>1110</x>
+    <y>240</y>
+    <width>210</width>
+    <height>30</height>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_34</name>
+    <pv_name>$(SID):sample[simple_sample]-temperature</pv_name>
+    <x>810</x>
+    <y>260</y>
+    <width>290</width>
+    <format>1</format>
+    <precision>2</precision>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_61</name>
+    <text>Temperature (K)</text>
+    <x>1110</x>
+    <y>260</y>
+    <width>130</width>
+    <height>30</height>
   </widget>
 </display>
