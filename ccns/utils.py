@@ -8,6 +8,7 @@ laboratory at McMaster University
 """
 
 from scipy.integrate import cumtrapz
+import numpy as np
 
 def print_impact_matrix(dat, title=None):
     import matplotlib.pyplot as plt
@@ -34,3 +35,8 @@ def normalize(array):
     integral = cumtrapz(array).sum()
     normalized_array = [float(i)/float(integral) for i in array]
     return normalized_array
+
+def get_projections(a):
+    y = np.mean(a, axis=0)
+    x = np.mean(a, axis=1)
+    return y,x
