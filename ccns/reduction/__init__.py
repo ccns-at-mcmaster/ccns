@@ -97,7 +97,10 @@ def scale_to_absolute_intensity(measured_img,
             empty_beam_transmission = (empty_img[y][x] * illuminated_sample_area * detector_efficiency
                                        * counting_time)
             m = (empty_beam_transmission * corrected_T * sample_thickness * pixel_solid_angle)
-            measured_img[y][x] *= 1 / m
+            if m == 0.0:
+                pass
+            else:
+                measured_img[y][x] *= 1 / m
     return
 
 
@@ -185,14 +188,22 @@ def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
 
     # Get the variance contribution from the detector and correct for the presence of the beamstop
     v_rd = _vrd(sigma_d, d_r)
-    v_rds = _beam_stop_correction(v_rd, r_0, b_s, sigma_d)
+    if b_s > 0.0:
+        v_rds = _beam_stop_correction(v_rd, r_0, b_s, sigma_d)
+    else:
+        v_rds = v_rd
 
     # Calculate the total variance in distance
     v_rs = _vr(v_rb, v_rds, v_rg)
 
     # Calculate the fractional correction to the mean distance from the beam-stop and second order effects
-    f_r = _fr(v_rd, r_0, b_s, sigma_d)[0]
-    r_mean, v_r = _second_order_size_effects(f_r, r_0, v_rs)
+    if b_s > 0.0:
+        f_r = _fr(v_rd, r_0, b_s, sigma_d)[0]
+        r_mean, v_r = _second_order_size_effects(f_r, r_0, v_rs)
+    else:
+        f_r = 1.0
+        r_mean, v_r = r_0, v_rs
+
 
     # Convert to momentum transfer space
     # q = _get_q(r, l_2, wl)

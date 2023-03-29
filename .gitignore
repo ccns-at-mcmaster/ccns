@@ -145,3 +145,4 @@ cython_debug/
 #Temporary files
 working.py
 raw_data
+test_data
