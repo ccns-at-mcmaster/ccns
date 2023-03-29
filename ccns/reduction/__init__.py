@@ -181,7 +181,6 @@ def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
     :return q_mean: The mean momentum transfer in the radial bin
     :return v_q: The variance of the resolution function in q
     """
-
     # Get the variance contributions from the beam and from gravity
     v_rb = _vrb(l_1, l_2, s_1, s_2)
     v_rg = _vrg(wl, wl_spread, l_1, l_2)
@@ -203,7 +202,6 @@ def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
     else:
         f_r = 1.0
         r_mean, v_r = r_0, v_rs
-
 
     # Convert to momentum transfer space
     # q = _get_q(r, l_2, wl)

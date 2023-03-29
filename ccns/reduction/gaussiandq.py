@@ -14,7 +14,9 @@ by numerical and analytical methods." Journal of applied crystallography 28.2 (1
 import math
 import numpy
 import scipy.constants as const
-from scipy.special import gammainc
+#from scipy.special import gammainc
+from mpmath import erf, mp, gammainc
+mp.dps = 100
 
 __all__ = ['_vrb',
            '_vrd',
@@ -99,12 +101,9 @@ def _q_variance(q0, vr, r0, wl_spread):
     :param wl_spread: Relative spread of the neutron wavelength. sigma_wavelength / wl. Usually 0.1 - 0.2.
     :return Vq: Variance in the momentum transfer q.
     """
-    try:
-        x = vr / (r0 * r0)
-        y = wl_spread ** 2
-        Vq = q0 * q0 * (x + y)
-    except ZeroDivisionError:
-        return 0
+    x = vr / (r0 * r0)
+    y = wl_spread ** 2
+    Vq = q0 * q0 * (x + y)
     return Vq
 
 
@@ -121,7 +120,7 @@ def _fs(vrd, r0, bs):
     :return delta_r: A value useful in calculating fr and fv.
     """
     delta_r = (r0 - bs) / math.sqrt(2 * vrd)
-    fs = 0.5 * (1 + math.erf(delta_r))
+    fs = 0.5 * (1.0 + erf(delta_r))
     return fs, delta_r
 
 
@@ -140,12 +139,9 @@ def _fr(vrd, r0, bs, sig_d):
     :return delta_r: A value useful in calculating fr and fv.
     """
     fs, delta_r = _fs(vrd, r0, bs)
-    x = sig_d * numpy.exp(-1 * delta_r ** 2)
-    y = r0 * fs * math.sqrt(2 * numpy.pi)
-    try:
-        fr = 1 + x/y
-    except ZeroDivisionError:
-        fr = 1
+    x = sig_d * numpy.exp(-1.0 * delta_r ** 2.0)
+    y = r0 * fs * math.sqrt(2.0 * numpy.pi)
+    fr = 1.0 + x/y
     return fr, fs, delta_r
 
 
@@ -161,9 +157,13 @@ def _fv(vrd, r0, bs, sig_d):
     :return fv: Fractional shift in the detector component of the distance variance. fv = Vrds / Vrd
     """
     fr, fs, delta_r = _fr(vrd, r0, bs, sig_d)
-    x = 1 / (fs * math.sqrt(numpy.pi)) * (1 - gammainc(3/2, delta_r**2))
+    x1 = fs * math.sqrt(numpy.pi)
+    x1 = 1/x1
+    x2 = 1 - gammainc(3/2, delta_r**2)
+    x = x1*x2
     y = (r0 ** 2 / vrd) * ((fr - 1) ** 2)
     fv = x - y
+    print(x, y, fv)
     return fv
 
 
