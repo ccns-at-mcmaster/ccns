@@ -51,10 +51,9 @@ def solid_angle_correction(img, distance, center, pixel_dim=(0.7, 0.7)):
 def scale_to_absolute_intensity(measured_img,
                                 empty_img,
                                 center,
-                                distance,
+                                sdd,
                                 sample_transmission,
                                 sample_thickness,
-                                sample_detector_distance,
                                 illuminated_sample_area,
                                 detector_efficiency,
                                 counting_time,
@@ -68,10 +67,9 @@ def scale_to_absolute_intensity(measured_img,
     :param measured_img: 2D SANS data to be scaled.
     :param empty_img: SANS data of an empty beam.
     :param center: A tuple designating the (row, col) indices of the center pixel of the radial bin
-    :param distance: sample-source-to-detector distance
+    :param sdd: sample-to-detector distance
     :param sample_transmission: Neutron transmission factor T of sample
     :param sample_thickness: Thickness of sample
-    :param sample_detector_distance: sample-aperture-to-detector distance
     :param illuminated_sample_area: Sample area illuminated by neutrons
     :param detector_efficiency: The efficiency of the detector
     :param counting_time: The effective counting time.
@@ -81,7 +79,8 @@ def scale_to_absolute_intensity(measured_img,
     :return: 2D SANS data scaled to absolute intensity
     """
 
-    pixel_solid_angle = _pixel_solid_angle(sample_detector_distance)
+    # This SDD is the distance from the sample to the detector
+    pixel_solid_angle = _pixel_solid_angle(sdd)
 
     if measured_img.shape != empty_img.shape:
         # noinspection PyTypeChecker
@@ -92,11 +91,11 @@ def scale_to_absolute_intensity(measured_img,
         counting_time *= (100000000.0 / monitor_counts)
     for y, row in enumerate(measured_img):
         for x, val in enumerate(row):
-            theta = _get_scattering_angle((y, x), center, distance, pixel_dim)
-            corrected_T = sample_transmission * _wide_angle_correction_factor(theta, sample_transmission)
+            theta = _get_scattering_angle((y, x), center, sdd, pixel_dim)
+            corrected_transmission = sample_transmission * _wide_angle_correction_factor(theta, sample_transmission)
             empty_beam_transmission = (empty_img[y][x] * illuminated_sample_area * detector_efficiency
                                        * counting_time)
-            m = (empty_beam_transmission * corrected_T * sample_thickness * pixel_solid_angle)
+            m = (empty_beam_transmission * corrected_transmission * sample_thickness * pixel_solid_angle)
             if m == 0.0:
                 pass
             else:
@@ -104,17 +103,15 @@ def scale_to_absolute_intensity(measured_img,
     return
 
 
-def estimate_incoherent_scattering(l2, sample_transmission, shape=(147, 147)):
+def estimate_incoherent_scattering(distance, sample_transmission, shape=(147, 147)):
     """
     This function estimates the incoherent scattering assuming that incoherent scattering dominates.
 
-    :param l2:                      sample-aperture-to-detector distance.
+    :param distance:                sample-to-detector distance.
     :param sample_transmission:     Neutron transmission factor T of sample.
     :param shape:                   Shape of the returned incoherent scattering array. (147, 147) by default.
     :return incoherent_scattering:  A 2D array of the estimated incoherent scattering.
     """
-
-    distance = l2
     incoherent_scattering = numpy.zeros(shape, order='F')
     for y, row in enumerate(incoherent_scattering):
         for x, val in enumerate(row):
@@ -163,7 +160,7 @@ def get_scattered_intensity(abs_img, center, r0, dr):
         return numpy.mean(intensities), numpy.std(intensities)
 
 
-def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
+def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, sdd, l_1, l_2, s_1, s_2):
     """
     Returns the mean momentum transfer and its variance for an annulus with radius r_0 and width d_r after beam-stop and
     second order corrections.
@@ -174,6 +171,7 @@ def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
     :param wl: The mean neutron wavelength.
     :param wl_spread: The standard deviation of the neutron wavelength distribution expressed as a fraction of its mean.
     :param sigma_d: Standard deviation of detector intrinsic spatial resolution
+    :param sdd: sample-to-detector distance
     :param l_1: source-aperture-to-sample-aperture distance
     :param l_2: sample-aperture-to-detector distance
     :param s_1: source aperture radius
@@ -200,12 +198,11 @@ def get_q_statistics(r_0, d_r, b_s, wl, wl_spread, sigma_d, l_1, l_2, s_1, s_2):
         f_r = _fr(v_rd, r_0, b_s, sigma_d)[0]
         r_mean, v_r = _second_order_size_effects(f_r, r_0, v_rs)
     else:
-        f_r = 1.0
         r_mean, v_r = r_0, v_rs
 
     # Convert to momentum transfer space
     # q = _get_q(r, l_2, wl)
-    q_mean = _get_q(r_mean, l_2, wl)
+    q_mean = _get_q(r_mean, sdd, wl)
 
     # Get the variance of the resolution function
     v_q = _q_variance(q_mean, v_r, r_0, wl_spread)
@@ -237,10 +234,11 @@ def reduce(sans_data,
            neutron_wavelength,
            wavelength_spread,
            detector_resolution,
-           source_sample_distance,
-           sample_detector_distance,
-           slit_one,
-           slit_two,
+           sdd,
+           l1,
+           l2,
+           s1,
+           s2,
            pixel_dim=(0.7, 0.7),
            precision=6):
     """
@@ -254,10 +252,11 @@ def reduce(sans_data,
     :param neutron_wavelength: The mean neutron wavelength
     :param wavelength_spread: The relative error in the mean neutron wavelength expressed as a decimal.
     :param detector_resolution: The standard deviation of the intrinsic detector spatial resolution.
-    :param source_sample_distance: source-aperture-to-sample distance
-    :param sample_detector_distance: sample-aperture-to-detector distance
-    :param slit_one: Radius of the source aperture
-    :param slit_two: Radius of the sample aperture
+    :param sdd: sample_to_detector distance
+    :param l1: source aperture (S1) to sample aperture (S2) distance
+    :param l2: sample aperture (S1) to detector distance
+    :param s1: Radius of the source aperture
+    :param s2: Radius of the sample aperture
     :param pixel_dim: A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
     :param precision: The desired precision of Q statistics. Defaults to 6 decimal places.
     :return reduced data: A python dictionary with keys corresponding to reduced data. The value of each key is a numpy
@@ -270,10 +269,6 @@ def reduce(sans_data,
     wl = neutron_wavelength
     wl_spread = wavelength_spread
     sigma_d = detector_resolution
-    l1 = source_sample_distance
-    l2 = sample_detector_distance
-    s1 = slit_one
-    s2 = slit_two
 
     # Generate list of annular radii
     detector_axis_length = sans_data.shape[0] * pixel_dim[0]
@@ -291,7 +286,7 @@ def reduce(sans_data,
     for r0 in radii:
         if r0 <= dr:
             continue
-        q, v_q = get_q_statistics(r0, dr, bs, wl, wl_spread, sigma_d, l1, l2, s1, s2)
+        q, v_q = get_q_statistics(r0, dr, bs, wl, wl_spread, sigma_d, sdd, l1, l2, s1, s2)
         reduced_data['Q'] = numpy.append(reduced_data['Q'], round(q, precision))
         reduced_data['Qdev'] = numpy.append(reduced_data['Qdev'], round(v_q, precision))
 

@@ -200,16 +200,16 @@ def _second_order_size_effects(f_r, r0, vrs):
     return r_mean, vr
 
 
-def _get_q(r, l2, wl):
+def _get_q(r, sdd, wl):
     """
     Get the magnitude of the momentum transfer Q for a given scattering distance across the detector face for a given
     neutron wavelength.
 
     :param r: Scattering distance across the detector plane relative to the beam center.
-    :param l2: sample-aperture-to-detector distance
+    :param sdd: sample-to-detector distance
     :param wl: neutron mean wavelength
     :return q: magnitude of the momentum transfer
     """
-    theta = math.atan(r / l2)
+    theta = math.atan(r / sdd)
     q = 4 * numpy.pi / wl * math.sin(theta/2)
     return q
