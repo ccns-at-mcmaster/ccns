@@ -22,9 +22,25 @@ to mask or analyze data. Analysis methods exist to automatically generate common
 dictionaries loaded into a xarray. The xarray format was chosen because of its label-based selection capabilities. We 
 are interested in seeing how intuitive this feels for our users.
 
+Users should use data reduction methods found in ccns/reduction/__init__.py. These are all the methods you need to 
+produce a reduced data structure which can be saved to NXcanSAS format. You can import these methods using:
+
+`from ccns.reduction import *`
+
 We suggest we use reduction methods from ccns/reduction/gaussiandq.py which reduce SANS data via a Gaussian
 approximation. An exact numerical method has been attempted in ccns/reduction/numericaldq.py however as of time of
 writing, the computational load is too great to be practical and further development is on hold.
+
+ccns.writers contains class definitions for datawriters. Currently only a nexusformat writer exists. You can initialize
+an nxcansas_writer and using its pre-defined methods, open a nexus file and add an entry by using an appropriately 
+structured dictionary. ccns.reduction.reduce returns such a dictionary.
+```
+writer = NXcanSASWriter()
+writer.set_filename = "filename"
+writer.open()
+writer.add_entry(dictionary)
+writer.close()
+```
 
 Any feedback on this repository may be directed to the authors:
 Devin Burke (burkeds@mcmaster.ca)
