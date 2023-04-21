@@ -5,7 +5,7 @@ called by these user functions and are not intended to be accessed directly by m
 
     author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 """
 
 import math

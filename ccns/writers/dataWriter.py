@@ -3,7 +3,7 @@ Class to define a generic data writer for saving reduced SANS data.
 
     Author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 """
 
 import uuid

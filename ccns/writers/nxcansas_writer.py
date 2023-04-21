@@ -5,7 +5,7 @@ https://manual.nexusformat.org/classes/applications/NXcanSAS.html
 
     Author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 """
 
 from .dataWriter import DataWriter

@@ -4,7 +4,7 @@ These methods are used to calculate scattering vector quantities and absolute in
 
     Author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 """
 
 import math

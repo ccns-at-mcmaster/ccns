@@ -3,7 +3,7 @@ Simple class for an EPICS logger.
 
     Author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 """
 import os
 import datetime
