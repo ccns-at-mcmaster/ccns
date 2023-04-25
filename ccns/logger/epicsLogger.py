@@ -46,6 +46,7 @@ class EpicsLogger:
         self.status = 'idle'
         self.stop_flag = 0
         self.pvs = {}
+        self.last = None
         if not pv_names:
             raise Exception("A list of PV names must be specified.")
         for pv in pv_names:
@@ -84,6 +85,7 @@ class EpicsLogger:
                 values = [pv.value for pv in self.pvs.values()]
                 timestamp = now.isoformat()
                 values.insert(0, timestamp)
+                self.last = values
                 Thread(target=self._writer, args=[filename, values]).start()
                 sleep(1)
 

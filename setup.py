@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='ccns',
     version='0.1',
-    packages=['ccns', 'ccns.writers', 'ccns.reduction'],
+    packages=['ccns', 'ccns.writers', 'ccns.reduction', 'ccns.logger', 'ccns.visualization'],
     url='https://github.com/burkeds/cnbl',
     license='',
     author='burkeds',

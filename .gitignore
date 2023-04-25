@@ -143,6 +143,6 @@ cython_debug/
 .idea
 
 #Temporary files
-working.py
+working
+working/*
 raw_data
-test_data
