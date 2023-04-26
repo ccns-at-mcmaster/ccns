@@ -64,7 +64,10 @@ class EpicsLogger:
             start = datetime.datetime.now()
             filename = str(start.day) + str(start.month) + str(start.year) + '_' \
                 + str(start.hour) + '-' + str(start.minute) + '-' + str(start.second)
-            filename = os.getcwd() + '\\epicslog_' + filename + '.csv'
+            if os.name == 'nt':
+                filename = os.getcwd() + '\\epicslog_' + filename + '.csv'
+            else:
+                filename = os.getcwd() + '/epicslog_' + filename + '.csv'
             self._newfile(start, filename)
             if self.stop_flag:
                 self.stop_flag = 0
@@ -73,7 +76,7 @@ class EpicsLogger:
 
     def _newfile(self, start, filename):
         header = list(self.pvs.keys())
-        header.insert(0, str(start.isoformat()))
+        header.insert(0, 'Timestamp')
         self._writer(filename, header)
         while True:
             now = datetime.datetime.now()
