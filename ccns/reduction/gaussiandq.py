@@ -163,7 +163,6 @@ def _fv(vrd, r0, bs, sig_d):
     x = x1*x2
     y = (r0 ** 2 / vrd) * ((fr - 1) ** 2)
     fv = x - y
-    print(x, y, fv)
     return fv
 
 
