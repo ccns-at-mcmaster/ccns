@@ -258,7 +258,7 @@ class NXcanSASWriter(DataWriter):
             self.nexus['/{}/data/Qdev'.format(name)] = entry["Qdev"]
             self.nexus['/{}/data/Qdev'.format(name)].attrs["units"] = "1/angstrom"
 
-            self.nexus['/{}/data/ShadowFactor'.format(name)] = entry["BS"]
+            self.nexus['/{}/data/ShadowFactor'.format(name)] = entry["ShadowFactor"]
 
             # /entry/instrument
             sasinstrument = sasentry.create_group("instrument")
