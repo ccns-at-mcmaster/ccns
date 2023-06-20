@@ -14,7 +14,7 @@ by numerical and analytical methods." Journal of applied crystallography 28.2 (1
 import math
 import numpy
 import scipy.constants as const
-#from scipy.special import gammainc
+# from scipy.special import gammainc
 from mpmath import erf, mp, gammainc
 mp.dps = 100
 

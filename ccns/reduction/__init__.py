@@ -21,7 +21,7 @@ __all__ = ['solid_angle_correction',
            'get_scattered_intensity',
            'get_q_statistics',
            'resolution_function',
-           'reduce',
+           'reduce_data',
            'rescale_with_empty_and_blocked_beams']
 
 
@@ -227,20 +227,20 @@ def resolution_function(q, mean_q, v_q):
     return 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - mean_q)**2 / (2*v_q))
 
 
-def reduce(sans_data,
-           annulus_width,
-           center,
-           beamstop_radius,
-           neutron_wavelength,
-           wavelength_spread,
-           detector_resolution,
-           sdd,
-           l1,
-           l2,
-           s1,
-           s2,
-           pixel_dim=(0.7, 0.7),
-           precision=6):
+def reduce_data(sans_data,
+                annulus_width,
+                center,
+                beamstop_radius,
+                neutron_wavelength,
+                wavelength_spread,
+                detector_resolution,
+                sdd,
+                l1,
+                l2,
+                s1,
+                s2,
+                pixel_dim=(0.7, 0.7),
+                precision=6):
     """
     Returns a dictionary of reduced SANS data. The reduced data can be accessed with dict[key] where key is a string
     that can be 'Q', 'Q_variance', 'scattered_intensity', 'scattered_intensity_std', or 'BS'.
@@ -280,7 +280,7 @@ def reduce(sans_data,
                     'I': numpy.empty(0),
                     'Idev': numpy.empty(0),
                     'Qdev': numpy.empty(0),
-                    'BS': numpy.empty(0, dtype=int),
+                    'ShadowFactor': numpy.empty(0, dtype=int),
                     'Q_0': numpy.empty(0),
                     'reduction_timestamp': datetime.datetime.now().isoformat()}
     for r0 in radii:
@@ -295,7 +295,7 @@ def reduce(sans_data,
         reduced_data['Idev'] = numpy.append(reduced_data['Idev'], round(intensity_std, 0))
 
         bs_factor = get_beam_stop_factor(r0, dr, bs)
-        reduced_data['BS'] = numpy.append(reduced_data['BS'], bs_factor)
+        reduced_data['ShadowFactor'] = numpy.append(reduced_data['ShadowFactor'], bs_factor)
         q_0 = _get_q(r0, l2, wl)
         reduced_data['Q_0'] = numpy.append(reduced_data['Q_0'], round(q_0, precision))
     return reduced_data

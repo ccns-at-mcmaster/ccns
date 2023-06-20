@@ -8,7 +8,6 @@ Intended for use at the MacSANS laboratory at McMaster University.
 """
 
 import h5py
-import numpy
 from os import path
 
 nxsas_dict = {
