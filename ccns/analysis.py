@@ -45,7 +45,9 @@ def _get_guinier_plot(x, q_range=None):
     y_label = r'${\rm Ln(I)}$'
 
     if isinstance(q_range, slice):
-        xr = numpy.log(xr.sel(name='I', Q=q_range, method='nearest'))
+        start = float(xr.sel(Q=q_range.start, method='nearest').loc['Q'])
+        stop = float(xr.sel(Q=q_range.stop, method='nearest').loc['Q'])
+        xr = numpy.log(xr.sel(name='I', Q=slice(start, stop)))
     if q_range is None:
         xr = numpy.log(xr.sel(name='I'))
 
@@ -80,7 +82,9 @@ def _get_porod_plot(x, q_range=None):
     y_label = 'Log(I(Q)-B)'
 
     if isinstance(q_range, slice):
-        xr = numpy.log10(xr.sel(name='I', Q=q_range, method='nearest'))
+        start = float(xr.sel(Q=q_range.start, method='nearest').loc['Q'])
+        stop = float(xr.sel(Q=q_range.stop, method='nearest').loc['Q'])
+        xr = numpy.log10(xr.sel(name='I', Q=slice(start, stop)))
     if q_range is None:
         xr = numpy.log10(xr.sel(name='I'))
 
@@ -116,7 +120,9 @@ def _get_zimm_plot(x, q_range=None):
     y_label = '1/I(Q)'
 
     if isinstance(q_range, slice):
-        xr = 1 / xr.sel(name='I', Q=q_range, method='nearest')
+        start = float(xr.sel(Q=q_range.start, method='nearest').loc['Q'])
+        stop = float(xr.sel(Q=q_range.stop, method='nearest').loc['Q'])
+        xr = 1 / xr.sel(name='I', Q=slice(start, stop))
     if q_range is None:
         xr = 1 / xr.sel(name='I')
 
@@ -154,7 +160,9 @@ def _get_kratky_plot(x, i_0, q_range=None):
     x_label = 'Q'
 
     if isinstance(q_range, slice):
-        xr = xr.sel(name='I', Q=q_range, method='nearest')
+        start = float(xr.sel(Q=q_range.start, method='nearest').loc['Q'])
+        stop = float(xr.sel(Q=q_range.stop, method='nearest').loc['Q'])
+        xr = xr.sel(name='I', Q=slice(start, stop))
     if q_range is None:
         xr = xr.sel(name='I')
 
