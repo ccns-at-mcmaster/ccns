@@ -21,7 +21,7 @@ def get_xarray(dat):
     :param dat:
     :return:
     """
-    vals = {'I': dat['I'], 'Idev': dat['Idev'], 'Q': dat['Q'], 'Qdev': dat['Qdev'], 'BS': dat['BS']}
+    vals = {'I': dat['I'], 'Idev': dat['Idev'], 'Q': dat['Q'], 'Qdev': dat['Qdev'], 'BS': dat['ShadowFactor']}
     x = xarray.DataArray(list(vals.values()), dims=("name", "Q"), coords={'name': list(vals.keys()),
                                                                           'Q': vals['Q']})
     return x
