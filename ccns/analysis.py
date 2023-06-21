@@ -21,7 +21,7 @@ def get_xarray(dat):
     :param dat:
     :return:
     """
-    vals = {'I': dat['I'], 'Idev': dat['Idev'], 'Q': dat['Q'], 'Qdev': dat['Qdev'], 'BS': dat['ShadowFactor']}
+    vals = {'I': dat['I'], 'Idev': dat['Idev'], 'Q': dat['Q'], 'Qdev': dat['Qdev'], 'ShadowFactor': dat['ShadowFactor']}
     x = xarray.DataArray(list(vals.values()), dims=("name", "Q"), coords={'name': list(vals.keys()),
                                                                           'Q': vals['Q']})
     return x
@@ -45,7 +45,7 @@ def _get_guinier_plot(x, q_range=None):
     y_label = r'${\rm Ln(I)}$'
 
     if isinstance(q_range, slice):
-        xr = numpy.log(xr.sel(name='I', Q=q_range))
+        xr = numpy.log(xr.sel(name='I', Q=q_range), method='nearest')
     if q_range is None:
         xr = numpy.log(xr.sel(name='I'))
 
@@ -80,7 +80,7 @@ def _get_porod_plot(x, q_range=None):
     y_label = 'Log(I(Q)-B)'
 
     if isinstance(q_range, slice):
-        xr = numpy.log10(xr.sel(name='I', Q=q_range))
+        xr = numpy.log10(xr.sel(name='I', Q=q_range), method='nearest')
     if q_range is None:
         xr = numpy.log10(xr.sel(name='I'))
 
@@ -116,7 +116,7 @@ def _get_zimm_plot(x, q_range=None):
     y_label = '1/I(Q)'
 
     if isinstance(q_range, slice):
-        xr = 1 / xr.sel(name='I', Q=q_range)
+        xr = 1 / xr.sel(name='I', Q=q_range, method='nearest')
     if q_range is None:
         xr = 1 / xr.sel(name='I')
 
@@ -154,7 +154,7 @@ def _get_kratky_plot(x, i_0, q_range=None):
     x_label = 'Q'
 
     if isinstance(q_range, slice):
-        xr = xr.sel(name='I', Q=q_range)
+        xr = xr.sel(name='I', Q=q_range, method='nearest')
     if q_range is None:
         xr = xr.sel(name='I')
 
