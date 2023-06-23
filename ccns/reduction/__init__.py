@@ -21,7 +21,7 @@ __all__ = ['solid_angle_correction',
            'get_scattered_intensity',
            'get_q_statistics',
            'resolution_function',
-           'reduce',
+           'reduce_data',
            'rescale_with_empty_and_blocked_beams']
 
 
@@ -78,7 +78,7 @@ def scale_to_absolute_intensity(img,
     :param pixel_dim: A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
     :return: 2D SANS data scaled to absolute intensity
     """
-    scaled_img = img.copy
+    scaled_img = numpy.copy(img)
     # This SDD is the distance from the sample to the detector
     pixel_solid_angle = _pixel_solid_angle(sdd)
 
@@ -230,20 +230,20 @@ def resolution_function(q, mean_q, v_q):
     return 1 / math.sqrt(2*numpy.pi*v_q) * math.exp(-1 * (q - mean_q)**2 / (2*v_q))
 
 
-def reduce(sans_data,
-           annulus_width,
-           center,
-           beamstop_radius,
-           neutron_wavelength,
-           wavelength_spread,
-           detector_resolution,
-           sdd,
-           l1,
-           l2,
-           s1,
-           s2,
-           pixel_dim=(0.7, 0.7),
-           precision=6):
+def reduce_data(sans_data,
+                annulus_width,
+                center,
+                beamstop_radius,
+                neutron_wavelength,
+                wavelength_spread,
+                detector_resolution,
+                sdd,
+                l1,
+                l2,
+                s1,
+                s2,
+                pixel_dim=(0.7, 0.7),
+                precision=6):
     """
     Returns a dictionary of reduced SANS data. The reduced data can be accessed with dict[key] where key is a string
     that can be 'Q', 'Q_variance', 'scattered_intensity', 'scattered_intensity_std', or 'BS'.
