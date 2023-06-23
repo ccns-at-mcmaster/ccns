@@ -35,20 +35,20 @@ def solid_angle_correction(img, distance, center, pixel_dim=(0.7, 0.7)):
     :param distance:             sample-source-to-detector distance
     :param center:         A tuple designating the (row, col) indices of the center pixel of the radial bin
     :param pixel_dim:      A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
-    :return
+    :return A 2D array corrected for planar geometry.
     """
-
-    for y, row in enumerate(img):
+    corrected_img = img.copy()
+    for y, row in enumerate(corrected_img):
         for x, _ in enumerate(row):
             dx = x - center[1]
             dy = y - center[0]
             radius = math.sqrt((dx * pixel_dim[1]) ** 2 + (dy * pixel_dim[0]) ** 2)
             theta = math.atan(radius/distance)
-            img[y][x] *= math.cos(theta) ** 3
-    return
+            corrected_img[y][x] *= math.cos(theta) ** 3
+    return corrected_img
 
 
-def scale_to_absolute_intensity(measured_img,
+def scale_to_absolute_intensity(img,
                                 empty_img,
                                 center,
                                 sdd,
@@ -64,7 +64,7 @@ def scale_to_absolute_intensity(measured_img,
     Scale the SANS data to form the macroscopic scattering cross section (units of cm^-1). The result is the absolute
     intensity.
 
-    :param measured_img: 2D SANS data to be scaled.
+    :param img: 2D SANS data to be scaled.
     :param empty_img: SANS data of an empty beam.
     :param center: A tuple designating the (row, col) indices of the center pixel of the radial bin
     :param sdd: sample-to-detector distance
@@ -78,18 +78,18 @@ def scale_to_absolute_intensity(measured_img,
     :param pixel_dim: A tuple (y, x) containing the y and x size of the pixel. (0.7, 0.7) by default.
     :return: 2D SANS data scaled to absolute intensity
     """
-
+    scaled_img = img.copy
     # This SDD is the distance from the sample to the detector
     pixel_solid_angle = _pixel_solid_angle(sdd)
 
-    if measured_img.shape != empty_img.shape:
+    if scaled_img.shape != empty_img.shape:
         # noinspection PyTypeChecker
         raise Exception("The shape of the measured scattering intensity with the sample %s must match the shape of the "
-                        "empty beam measure %s" % (measured_img.shape, empty_img.shape))
+                        "empty beam measure %s" % (scaled_img.shape, empty_img.shape))
     if normalize_time:
         # The effective counting time should be re-normalized to give 10^8 monitor counts
         counting_time *= (100000000.0 / monitor_counts)
-    for y, row in enumerate(measured_img):
+    for y, row in enumerate(scaled_img):
         for x, val in enumerate(row):
             theta = _get_scattering_angle((y, x), center, sdd, pixel_dim)
             corrected_transmission = sample_transmission * _wide_angle_correction_factor(theta, sample_transmission)
@@ -99,8 +99,8 @@ def scale_to_absolute_intensity(measured_img,
             if m == 0.0:
                 pass
             else:
-                measured_img[y][x] *= 1 / m
-    return
+                scaled_img[y][x] *= 1 / m
+    return scaled_img
 
 
 def estimate_incoherent_scattering(distance, sample_transmission, shape=(147, 147)):
@@ -127,13 +127,16 @@ def get_beam_stop_factor(r0, dr, b_s):
     :param r0:           The radius of the annular bin.
     :param dr:           The full width of the annular bin.
     :param b_s:          The beam-stop radius.
-    :return bool:
+    :return :            0 if the point is in the shadow of the beam-stop, 1 otherwise.
     """
-    inner_radius = r0 - dr/2
-    if b_s < inner_radius:
-        return 1
+    if all([isinstance(x, float) for x in [r0, dr, b_s]]):
+        inner_radius = r0 - dr/2
+        if b_s < inner_radius:
+            return 1
+        if b_s >= inner_radius:
+            return 0
     else:
-        return 0
+        raise Exception("The parameters r0, dr, and b_s must be floats.")
 
 
 def get_scattered_intensity(abs_img, center, r0, dr):
@@ -263,7 +266,11 @@ def reduce(sans_data,
                           array of the data. The reduced data can be accessed with dict[key] where key is a string that
                           can be 'Q', 'Q_variance', 'scattered_intensity', 'scattered_intensity_std', or 'BS'.
     """
-
+    if not all(isinstance(x, float) for x in [annulus_width, beamstop_radius, neutron_wavelength, wavelength_spread,
+                                              detector_resolution, sdd, l1, l2, s1, s2]):
+        raise TypeError('All distance parameters must be floats.')
+    if not all(isinstance(x, tuple) for x in [center, pixel_dim]):
+        raise TypeError('center and pixel_dim must be tuples.')
     dr = annulus_width
     bs = beamstop_radius
     wl = neutron_wavelength
