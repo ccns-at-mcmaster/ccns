@@ -14,7 +14,6 @@ by numerical and analytical methods." Journal of applied crystallography 28.2 (1
 import math
 import numpy
 import scipy.constants as const
-#from scipy.special import gammainc
 from mpmath import erf, mp, gammainc
 mp.dps = 100
 
@@ -57,8 +56,8 @@ def _vrd(sig_d, dr):
     :param dr: width of the radial average annulus
     :return Vrd: Variance produced by the detector.
     """
-    Vrd = sig_d ** 2 + (dr ** 2 / 12)
-    return Vrd
+    vrd = sig_d ** 2 + (dr ** 2 / 12)
+    return vrd
 
 
 def _vrg(wl, wl_spread, l1, l2):
@@ -72,9 +71,9 @@ def _vrg(wl, wl_spread, l1, l2):
     :return Vrg: variance produced by deflection of the beam due to gravity.
     """
     v_neutron = const.h / (const.m_n * wl) * 1E12
-    Yg = (const.g * 100 / (2 * v_neutron ** 2)) * l2 * (l1 + l2)
-    Vrg = 2 * Yg ** 2 * wl_spread ** 2
-    return Vrg
+    yg = (const.g * 100 / (2 * v_neutron ** 2)) * l2 * (l1 + l2)
+    vrg = 2 * yg ** 2 * wl_spread ** 2
+    return vrg
 
 
 def _vr(vrb, vrd, vrg):
@@ -103,8 +102,8 @@ def _q_variance(q0, vr, r0, wl_spread):
     """
     x = vr / (r0 * r0)
     y = wl_spread ** 2
-    Vq = q0 * q0 * (x + y)
-    return Vq
+    vq = q0 * q0 * (x + y)
+    return vq
 
 
 def _fs(vrd, r0, bs):
