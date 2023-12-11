@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-08-17 15:20:05 by burkeds-->
+<!--Saved on 2023-11-24 12:31:08 by burkeds-->
 <display version="2.0.0">
   <name>Mirr2d Control</name>
   <macros>
@@ -517,7 +517,7 @@
   </widget>
   <widget type="label" version="2.0.0">
     <name>label_counttime_1</name>
-    <text>Impact count</text>
+    <text>mw_cnt</text>
     <x>240</x>
     <y>80</y>
     <width>90</width>
@@ -569,5 +569,20 @@
     <data_height>147</data_height>
     <interpolation>0</interpolation>
     <maximum>250.0</maximum>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>label_counttime_2</name>
+    <text>rate cnt/s</text>
+    <x>240</x>
+    <y>100</y>
+    <width>90</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_counttime_2</name>
+    <pv_name>sans:mirr2ddet[sans_det]-rate.VAL</pv_name>
+    <x>330</x>
+    <y>100</y>
+    <format>2</format>
+    <precision>3</precision>
   </widget>
 </display>

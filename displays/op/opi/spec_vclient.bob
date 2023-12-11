@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-11-03 15:52:22 by burkeds-->
+<!--Saved on 2023-12-08 14:06:16 by burkeds-->
 <display version="2.0.0">
   <name>Display</name>
   <macros>
@@ -7,11 +7,11 @@
     <DET>mirr2ddet</DET>
     <MON>mon</MON>
     <SID>sans</SID>
-    <cntrID>sans_det</cntrID>
+    <cntrID>sans_cntctrl</cntrID>
     <detID>sans_det</detID>
     <galilID>galil4183</galilID>
-    <monID>sans_mb</monID>
-    <scanID>sans_scanner</scanID>
+    <monID>sans_ib</monID>
+    <scanID>scanner</scanID>
     <scannerID>sans_scanner</scannerID>
     <specID>sans_spec_dev</specID>
     <tempID>t1</tempID>
@@ -683,38 +683,6 @@
     <y>220</y>
     <width>70</width>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_4</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(pv_name)</pv_name>
-        <value>1</value>
-        <description>WritePV</description>
-      </action>
-    </actions>
-    <pv_name>$(SID):$(CNTR)[$(cntrID)]-execute.PROC</pv_name>
-    <text>EXECUTE</text>
-    <x>250</x>
-    <y>250</y>
-    <tooltip>$(actions)</tooltip>
-    <enabled>false</enabled>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_5</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(pv_name)</pv_name>
-        <value>1</value>
-        <description>WritePV</description>
-      </action>
-    </actions>
-    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cancel.PROC</pv_name>
-    <text>CANCEL</text>
-    <x>250</x>
-    <y>290</y>
-    <tooltip>$(actions)</tooltip>
-    <enabled>false</enabled>
-  </widget>
   <widget type="textentry" version="3.0.0">
     <name>Text Entry_20</name>
     <pv_name>$(SID):scanner[$(scannerID)]-pntnum</pv_name>
@@ -1159,5 +1127,231 @@
     <x>1110</x>
     <y>430</y>
     <width>200</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_4</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-enable</pv_name>
+    <x>210</x>
+    <y>300</y>
+    <off_color>
+      <color name="STOP" red="255" green="0" blue="0">
+      </color>
+    </off_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_82</name>
+    <text>Enable</text>
+    <x>150</x>
+    <y>300</y>
+    <width>50</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_5</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cnting</pv_name>
+    <x>220</x>
+    <y>610</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_8</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-done</pv_name>
+    <x>220</x>
+    <y>650</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_11</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime.DISA</pv_name>
+    <x>220</x>
+    <y>690</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_14</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-enable</pv_name>
+    <x>220</x>
+    <y>730</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_17</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-inhibit</pv_name>
+    <x>220</x>
+    <y>770</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_36</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cnting</pv_name>
+    <y>650</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_37</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-enable</pv_name>
+    <y>680</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_88</name>
+    <text>Cnting</text>
+    <x>150</x>
+    <y>610</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_89</name>
+    <text>DONE</text>
+    <x>150</x>
+    <y>650</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_90</name>
+    <text>ETIME.DISA</text>
+    <x>150</x>
+    <y>690</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_91</name>
+    <text>Enable</text>
+    <x>150</x>
+    <y>730</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_92</name>
+    <text>Inhibit</text>
+    <x>150</x>
+    <y>770</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_18</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-execute.DISA</pv_name>
+    <x>220</x>
+    <y>800</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_93</name>
+    <text>execute.DISA</text>
+    <x>150</x>
+    <y>800</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_6</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cancel.VAL</pv_name>
+    <text>CANCEL</text>
+    <x>250</x>
+    <y>290</y>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_7</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-execute.VAL</pv_name>
+    <text>EXECUTE</text>
+    <x>250</x>
+    <y>250</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>BUSY</text>
+    <x>320</x>
+    <y>640</y>
+    <width>70</width>
+    <height>21</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_48</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_executeStartBusy.VAL</pv_name>
+    <x>390</x>
+    <y>640</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_49</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_executeClearBusy.VAL</pv_name>
+    <x>390</x>
+    <y>660</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_50</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_cancelBusy.VAL</pv_name>
+    <x>390</x>
+    <y>680</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_51</name>
+    <pv_name>sans:mirr2d[sans_det]-StartCommand_RBV.VAL</pv_name>
+    <x>550</x>
+    <y>640</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_52</name>
+    <pv_name>sans:mirr2d[sans_det]-ClearCommand_RBV.VAL</pv_name>
+    <x>550</x>
+    <y>660</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_53</name>
+    <pv_name>sans:mirr2d[sans_det]-StopCommand_RBV.VAL</pv_name>
+    <x>550</x>
+    <y>680</y>
+    <width>130</width>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_8</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>sans:mirr2d[sans_det]-ClearCommand.VAL</pv_name>
+    <text>CLEAR</text>
+    <x>360</x>
+    <y>290</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_54</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_executeStartBusyMonitor.VAL</pv_name>
+    <x>550</x>
+    <y>710</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_56</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_executeClearBusyMonitor.VAL</pv_name>
+    <x>550</x>
+    <y>730</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_57</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_cancelBusyMonitor.VAL</pv_name>
+    <x>550</x>
+    <y>750</y>
+    <width>130</width>
   </widget>
 </display>
