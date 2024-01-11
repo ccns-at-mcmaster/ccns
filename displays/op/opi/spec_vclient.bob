@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-03-17 14:56:19 by burkeds-->
+<!--Saved on 2023-12-11 14:40:03 by cnbc-->
 <display version="2.0.0">
   <name>Display</name>
   <macros>
@@ -7,11 +7,11 @@
     <DET>mirr2ddet</DET>
     <MON>mon</MON>
     <SID>sans</SID>
-    <cntrID>sans_det</cntrID>
+    <cntrID>sans_cntctrl</cntrID>
     <detID>sans_det</detID>
     <galilID>galil4183</galilID>
-    <monID>sans_det</monID>
-    <scanID>sans_scanner</scanID>
+    <monID>sans_ib</monID>
+    <scanID>scanner</scanID>
     <scannerID>sans_scanner</scannerID>
     <specID>sans_spec_dev</specID>
     <tempID>t1</tempID>
@@ -159,29 +159,23 @@
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_28</name>
-    <text>Mon count</text>
-    <x>10</x>
-    <y>280</y>
+    <text>MB Count</text>
+    <x>810</x>
+    <y>480</y>
     <width>80</width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_7</name>
-    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cnt</pv_name>
-    <x>130</x>
-    <y>280</y>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_29</name>
     <text>Total count time</text>
-    <x>10</x>
-    <y>260</y>
+    <x>810</x>
+    <y>460</y>
     <width>110</width>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
     <pv_name>$(SID):$(CNTR)[$(cntrID)]-ctime</pv_name>
-    <x>130</x>
-    <y>260</y>
+    <x>930</x>
+    <y>460</y>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_31</name>
@@ -406,7 +400,7 @@
         <description>WritePV</description>
       </action>
     </actions>
-    <pv_name>$(SID):scanner[$(scannerID)]-_stop</pv_name>
+    <pv_name>$(SID):scanner[$(scannerID)]-stop</pv_name>
     <text>STOP</text>
     <x>690</x>
     <y>180</y>
@@ -689,38 +683,6 @@
     <y>220</y>
     <width>70</width>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_4</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(pv_name)</pv_name>
-        <value>1</value>
-        <description>WritePV</description>
-      </action>
-    </actions>
-    <pv_name>$(SID):$(CNTR)[$(cntrID)]-execute.PROC</pv_name>
-    <text>EXECUTE</text>
-    <x>250</x>
-    <y>250</y>
-    <tooltip>$(actions)</tooltip>
-    <enabled>false</enabled>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_5</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(pv_name)</pv_name>
-        <value>1</value>
-        <description>WritePV</description>
-      </action>
-    </actions>
-    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cancel.PROC</pv_name>
-    <text>CANCEL</text>
-    <x>250</x>
-    <y>290</y>
-    <tooltip>$(actions)</tooltip>
-    <enabled>false</enabled>
-  </widget>
   <widget type="textentry" version="3.0.0">
     <name>Text Entry_20</name>
     <pv_name>$(SID):scanner[$(scannerID)]-pntnum</pv_name>
@@ -771,15 +733,15 @@
   <widget type="label" version="2.0.0">
     <name>Label_48</name>
     <text>Rate</text>
-    <x>10</x>
-    <y>300</y>
+    <x>810</x>
+    <y>500</y>
     <width>80</width>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
     <pv_name>$(SID):$(MON)[$(monID)]-rate.VAL</pv_name>
-    <x>130</x>
-    <y>300</y>
+    <x>930</x>
+    <y>500</y>
     <format>1</format>
   </widget>
   <widget type="label" version="2.0.0">
@@ -850,7 +812,7 @@
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Text Entry_29</name>
-    <pv_name>$(SID):sample[simple_sample]-name</pv_name>
+    <pv_name>$(SID):sample[simple_sample]-sample_name</pv_name>
     <x>810</x>
     <y>160</y>
     <width>290</width>
@@ -948,5 +910,566 @@
     <y>260</y>
     <width>130</width>
     <height>30</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_62</name>
+    <text>Count Control</text>
+    <x>810</x>
+    <y>300</y>
+    <width>210</width>
+    <font>
+      <font name="Header 3" family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_63</name>
+    <text>ctime</text>
+    <x>810</x>
+    <y>330</y>
+    <width>80</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_64</name>
+    <text>flxlo</text>
+    <x>810</x>
+    <y>370</y>
+    <width>80</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_65</name>
+    <text>flxdbnd</text>
+    <x>810</x>
+    <y>390</y>
+    <width>80</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_66</name>
+    <text>inhibit</text>
+    <x>810</x>
+    <y>410</y>
+    <width>80</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_67</name>
+    <text>flx</text>
+    <x>810</x>
+    <y>430</y>
+    <width>80</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_68</name>
+    <text>etime</text>
+    <x>810</x>
+    <y>350</y>
+    <width>80</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_35</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-ctime</pv_name>
+    <x>940</x>
+    <y>330</y>
+    <width>70</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_36</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime</pv_name>
+    <x>940</x>
+    <y>350</y>
+    <width>70</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_37</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-flxlo</pv_name>
+    <x>940</x>
+    <y>370</y>
+    <width>70</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_38</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-flxdbnd</pv_name>
+    <x>940</x>
+    <y>390</y>
+    <width>70</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_39</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-inhibit</pv_name>
+    <x>940</x>
+    <y>410</y>
+    <width>70</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_40</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-flx</pv_name>
+    <x>940</x>
+    <y>430</y>
+    <width>70</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_11</name>
+    <pv_name>$(SID):$(MON)[$(monID)]-cnt.VAL</pv_name>
+    <x>930</x>
+    <y>480</y>
+    <format>1</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_69</name>
+    <text>Monitor value</text>
+    <x>10</x>
+    <y>260</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_13</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cnt</pv_name>
+    <x>110</x>
+    <y>260</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_70</name>
+    <text>etime</text>
+    <x>1120</x>
+    <y>300</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_71</name>
+    <text>INPA</text>
+    <x>1050</x>
+    <y>330</y>
+    <width>50</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_72</name>
+    <text>B</text>
+    <x>1050</x>
+    <y>350</y>
+    <width>50</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_73</name>
+    <text>C</text>
+    <x>1050</x>
+    <y>370</y>
+    <width>50</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_74</name>
+    <text>SDIS</text>
+    <x>1050</x>
+    <y>390</y>
+    <width>50</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_41</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime.INPA</pv_name>
+    <x>1110</x>
+    <y>330</y>
+    <width>200</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_42</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime.B</pv_name>
+    <x>1110</x>
+    <y>350</y>
+    <width>200</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_43</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime.C</pv_name>
+    <x>1110</x>
+    <y>370</y>
+    <width>200</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_44</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime.SDIS</pv_name>
+    <x>1110</x>
+    <y>390</y>
+    <width>200</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_75</name>
+    <text>DISA</text>
+    <x>1050</x>
+    <y>410</y>
+    <width>50</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_45</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime.DISA</pv_name>
+    <x>1110</x>
+    <y>410</y>
+    <width>200</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_76</name>
+    <text>Acquiring</text>
+    <x>810</x>
+    <y>530</y>
+    <width>50</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_3</name>
+    <pv_name>sans:mirr2d[sans_det]-acquiring</pv_name>
+    <x>890</x>
+    <y>540</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_77</name>
+    <text>DISV</text>
+    <x>1050</x>
+    <y>430</y>
+    <width>50</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry_46</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime.DISV</pv_name>
+    <x>1110</x>
+    <y>430</y>
+    <width>200</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_4</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-enable</pv_name>
+    <x>210</x>
+    <y>300</y>
+    <off_color>
+      <color name="STOP" red="255" green="0" blue="0">
+      </color>
+    </off_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_82</name>
+    <text>Enable</text>
+    <x>150</x>
+    <y>300</y>
+    <width>50</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_5</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cnting</pv_name>
+    <x>220</x>
+    <y>610</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_8</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-done</pv_name>
+    <x>220</x>
+    <y>650</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_11</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-etime.DISA</pv_name>
+    <x>220</x>
+    <y>690</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_14</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-enable</pv_name>
+    <x>220</x>
+    <y>730</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_17</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-inhibit</pv_name>
+    <x>220</x>
+    <y>770</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_36</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cnting</pv_name>
+    <y>650</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_37</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-enable</pv_name>
+    <y>680</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_88</name>
+    <text>Cnting</text>
+    <x>150</x>
+    <y>610</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_89</name>
+    <text>DONE</text>
+    <x>150</x>
+    <y>650</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_90</name>
+    <text>ETIME.DISA</text>
+    <x>150</x>
+    <y>690</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_91</name>
+    <text>Enable</text>
+    <x>150</x>
+    <y>730</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_92</name>
+    <text>Inhibit</text>
+    <x>150</x>
+    <y>770</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_18</name>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-execute.DISA</pv_name>
+    <x>220</x>
+    <y>800</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_93</name>
+    <text>execute.DISA</text>
+    <x>150</x>
+    <y>800</y>
+    <width>60</width>
+    <height>11</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_6</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-cancel.VAL</pv_name>
+    <text>CANCEL</text>
+    <x>250</x>
+    <y>290</y>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_7</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>$(SID):$(CNTR)[$(cntrID)]-execute.VAL</pv_name>
+    <text>EXECUTE</text>
+    <x>250</x>
+    <y>250</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>BUSY</text>
+    <x>320</x>
+    <y>640</y>
+    <width>70</width>
+    <height>21</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_48</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_executeStartBusy.VAL</pv_name>
+    <x>390</x>
+    <y>640</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_49</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_executeClearBusy.VAL</pv_name>
+    <x>390</x>
+    <y>660</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_50</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_cancelBusy.VAL</pv_name>
+    <x>390</x>
+    <y>680</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_51</name>
+    <pv_name>sans:mirr2d[sans_det]-StartCommand_RBV.VAL</pv_name>
+    <x>550</x>
+    <y>640</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_52</name>
+    <pv_name>sans:mirr2d[sans_det]-ClearCommand_RBV.VAL</pv_name>
+    <x>550</x>
+    <y>660</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_53</name>
+    <pv_name>sans:mirr2d[sans_det]-StopCommand_RBV.VAL</pv_name>
+    <x>550</x>
+    <y>680</y>
+    <width>130</width>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_8</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>WritePV</description>
+      </action>
+    </actions>
+    <pv_name>sans:mirr2d[sans_det]-ClearCommand.VAL</pv_name>
+    <text>CLEAR</text>
+    <x>360</x>
+    <y>290</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_54</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_executeStartBusyMonitor.VAL</pv_name>
+    <x>550</x>
+    <y>710</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_56</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_executeClearBusyMonitor.VAL</pv_name>
+    <x>550</x>
+    <y>730</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_57</name>
+    <pv_name>sans:cntcontrol[sans_cntctrl]-_cancelBusyMonitor.VAL</pv_name>
+    <x>550</x>
+    <y>750</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_55</name>
+    <pv_name>sans:test</pv_name>
+    <x>390</x>
+    <y>720</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text>sans:test</text>
+    <x>310</x>
+    <y>720</y>
+    <width>70</width>
+    <height>21</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_58</name>
+    <pv_name>sans:mirr2d[sans_det]-_ClearResponseCalc.VAL</pv_name>
+    <x>390</x>
+    <y>741</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_4</name>
+    <text>calc</text>
+    <x>310</x>
+    <y>741</y>
+    <width>70</width>
+    <height>21</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_59</name>
+    <pv_name>sans:mirr2d[sans_det]-_Clear2DDAQ.VAL</pv_name>
+    <x>390</x>
+    <y>762</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_11</name>
+    <text>clear2ddaq</text>
+    <x>310</x>
+    <y>762</y>
+    <width>70</width>
+    <height>21</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_12</name>
+    <text>clear</text>
+    <x>720</x>
+    <y>621</y>
+    <width>40</width>
+    <height>19</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_19</name>
+    <text>start</text>
+    <x>790</x>
+    <y>621</y>
+    <width>40</width>
+    <height>19</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_78</name>
+    <text>stop</text>
+    <x>850</x>
+    <y>621</y>
+    <width>40</width>
+    <height>19</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_60</name>
+    <pv_name>sans:mirr2d[sans_det]-_ClearResponseCalc.B</pv_name>
+    <x>720</x>
+    <y>660</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_61</name>
+    <pv_name>sans:mirr2d[sans_det]-_Clear2DDAQ.VAL</pv_name>
+    <x>720</x>
+    <y>640</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_62</name>
+    <pv_name>sans:mirr2d[sans_det]-_docalc.B</pv_name>
+    <x>790</x>
+    <y>660</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_63</name>
+    <pv_name>sans:mirr2d[sans_det]-_startDet.VAL</pv_name>
+    <x>790</x>
+    <y>640</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_64</name>
+    <pv_name>sans:mirr2d[sans_det]-_StopResponseCalc.B</pv_name>
+    <x>850</x>
+    <y>660</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_65</name>
+    <pv_name>sans:mirr2d[sans_det]-_Stop2DDAQ.VAL</pv_name>
+    <x>850</x>
+    <y>640</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_66</name>
+    <pv_name>sans:mirr2d[sans_det]-_ClearResponseCalc.C</pv_name>
+    <x>720</x>
+    <y>680</y>
+    <width>40</width>
   </widget>
 </display>

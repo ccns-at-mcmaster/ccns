@@ -6,7 +6,7 @@ This is the repository for data analysis and control system monitoring at the Ca
 (CCNS) currently under construction
 at the McMaster University Nuclear Reactor.
 
-This repo contains the python package ccns which contains all data reduction algorithms necessary to reduce small angle
+This package contains all data reduction algorithms necessary to reduce small angle
 neutron scattering data obtained at the MacSANS laboratory.
 
 To install this package simply install it via pip from the top directory:
@@ -27,13 +27,16 @@ produce a reduced data structure which can be saved to NXcanSAS format. You can 
 
 `from ccns.reduction import *`
 
-We suggest we use reduction methods from ccns/reduction/gaussiandq.py which reduce SANS data via a Gaussian
+I suggest you use reduction methods from ccns/reduction/gaussiandq.py which reduce SANS data via a Gaussian
 approximation. An exact numerical method has been attempted in ccns/reduction/numericaldq.py however as of time of
 writing, the computational load is too great to be practical and further development is on hold.
 
+Reduced data returned by ccns.reduction.reduce_data is combined with the raw data by 
+ccns.writers.nxcansas_writer.get_sasentry to return a dictionary which can be saved to NXcanSAS format.
+
 ccns.writers contains class definitions for datawriters. Currently only a nexusformat writer exists. You can initialize
 an nxcansas_writer and using its pre-defined methods, open a nexus file and add an entry by using an appropriately 
-structured dictionary. ccns.reduction.reduce returns such a dictionary.
+structured dictionary. 
 ```
 writer = NXcanSASWriter()
 writer.set_filename = "filename"
@@ -42,6 +45,6 @@ writer.add_entry(dictionary)
 writer.close()
 ```
 
-Any feedback on this repository may be directed to the authors:
-Devin Burke (burkeds@mcmaster.ca)
+Any feedback on this repository may be directed to the authors:<br />
+Devin Burke (burkeds@mcmaster.ca)<br />
 Canadian Centre for Neutron Science (ccns@mcmaster.ca)

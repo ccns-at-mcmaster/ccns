@@ -4,11 +4,10 @@ Intended for use at the MacSANS laboratory at McMaster University.
 
     Author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 """
 
 import h5py
-import numpy
 from os import path
 
 nxsas_dict = {
@@ -28,6 +27,7 @@ nxsas_dict = {
     'slit_two': '/entry/instrument/collimator/slit_two',
     'sample_to_detector': '/entry/instrument/detector/distance',
     'detector_height': '/entry/instrument/detector/height',
+    'efficiency' : '/entry/instrument/detector/efficiency',
     'x_pixel_size': '/entry/instrument/detector/x_pixel_size',
     'y_pixel_size': '/entry/instrument/detector/y_pixel_size',
     'beam_center_x': '/entry/instrument/detector/beam_center_x',

@@ -1,8 +1,8 @@
 h5py==3.8.0
 matplotlib==3.6.2
-numpy==1.24.0
+numpy~=1.24.3
 scipy==1.10.0
-setuptools>=65.5.1
+setuptools~=65.5.1
 sympy==1.11.1
 xarray==2023.2.0
 

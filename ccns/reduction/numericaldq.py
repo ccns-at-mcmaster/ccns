@@ -4,7 +4,7 @@ These methods are used for the numerical method of calculated the q resolution.
 
     Author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 
 Method from:
 Barker, J. G., and J. S. Pedersen. "Instrumental smearing effects in radially symmetric small-angle neutron scattering

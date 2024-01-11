@@ -2,7 +2,7 @@
 <display version="2.0.0">
   <name>Galil DMC IO</name>
   <macros>
-    <DMC>sans:galilMotor[galil4183]:</DMC>
+    <DMC>sans:galilMotor[galil4123]:Galil</DMC>
   </macros>
   <width>1200</width>
   <height>450</height>

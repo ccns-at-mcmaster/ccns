@@ -4,7 +4,7 @@ Intended for use at the MacSANS laboratory at McMaster University.
 
     Author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 """
 import numpy as np
 

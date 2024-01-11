@@ -5,7 +5,7 @@ called by these user functions and are not intended to be accessed directly by m
 
     author: Devin Burke
 
-(c) Copyright 2022, McMaster University
+(c) Copyright 2023, McMaster University
 """
 
 import math
@@ -287,7 +287,7 @@ def reduce_data(sans_data,
                     'I': numpy.empty(0),
                     'Idev': numpy.empty(0),
                     'Qdev': numpy.empty(0),
-                    'BS': numpy.empty(0, dtype=int),
+                    'ShadowFactor': numpy.empty(0, dtype=int),
                     'Q_0': numpy.empty(0),
                     'reduction_timestamp': datetime.datetime.now().isoformat()}
     for r0 in radii:
@@ -302,7 +302,7 @@ def reduce_data(sans_data,
         reduced_data['Idev'] = numpy.append(reduced_data['Idev'], round(intensity_std, 0))
 
         bs_factor = get_beam_stop_factor(r0, dr, bs)
-        reduced_data['BS'] = numpy.append(reduced_data['BS'], bs_factor)
+        reduced_data['ShadowFactor'] = numpy.append(reduced_data['ShadowFactor'], bs_factor)
         q_0 = _get_q(r0, l2, wl)
         reduced_data['Q_0'] = numpy.append(reduced_data['Q_0'], round(q_0, precision))
     return reduced_data
