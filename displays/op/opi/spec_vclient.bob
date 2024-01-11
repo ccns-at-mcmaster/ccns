@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-12-08 14:06:16 by burkeds-->
+<!--Saved on 2023-12-11 14:40:03 by cnbc-->
 <display version="2.0.0">
   <name>Display</name>
   <macros>
@@ -1353,5 +1353,123 @@
     <x>550</x>
     <y>750</y>
     <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_55</name>
+    <pv_name>sans:test</pv_name>
+    <x>390</x>
+    <y>720</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text>sans:test</text>
+    <x>310</x>
+    <y>720</y>
+    <width>70</width>
+    <height>21</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_58</name>
+    <pv_name>sans:mirr2d[sans_det]-_ClearResponseCalc.VAL</pv_name>
+    <x>390</x>
+    <y>741</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_4</name>
+    <text>calc</text>
+    <x>310</x>
+    <y>741</y>
+    <width>70</width>
+    <height>21</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_59</name>
+    <pv_name>sans:mirr2d[sans_det]-_Clear2DDAQ.VAL</pv_name>
+    <x>390</x>
+    <y>762</y>
+    <width>130</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_11</name>
+    <text>clear2ddaq</text>
+    <x>310</x>
+    <y>762</y>
+    <width>70</width>
+    <height>21</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_12</name>
+    <text>clear</text>
+    <x>720</x>
+    <y>621</y>
+    <width>40</width>
+    <height>19</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_19</name>
+    <text>start</text>
+    <x>790</x>
+    <y>621</y>
+    <width>40</width>
+    <height>19</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_78</name>
+    <text>stop</text>
+    <x>850</x>
+    <y>621</y>
+    <width>40</width>
+    <height>19</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_60</name>
+    <pv_name>sans:mirr2d[sans_det]-_ClearResponseCalc.B</pv_name>
+    <x>720</x>
+    <y>660</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_61</name>
+    <pv_name>sans:mirr2d[sans_det]-_Clear2DDAQ.VAL</pv_name>
+    <x>720</x>
+    <y>640</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_62</name>
+    <pv_name>sans:mirr2d[sans_det]-_docalc.B</pv_name>
+    <x>790</x>
+    <y>660</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_63</name>
+    <pv_name>sans:mirr2d[sans_det]-_startDet.VAL</pv_name>
+    <x>790</x>
+    <y>640</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_64</name>
+    <pv_name>sans:mirr2d[sans_det]-_StopResponseCalc.B</pv_name>
+    <x>850</x>
+    <y>660</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_65</name>
+    <pv_name>sans:mirr2d[sans_det]-_Stop2DDAQ.VAL</pv_name>
+    <x>850</x>
+    <y>640</y>
+    <width>40</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_66</name>
+    <pv_name>sans:mirr2d[sans_det]-_ClearResponseCalc.C</pv_name>
+    <x>720</x>
+    <y>680</y>
+    <width>40</width>
   </widget>
 </display>
