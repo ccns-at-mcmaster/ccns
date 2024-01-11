@@ -266,6 +266,11 @@ def reduce_data(sans_data,
                           array of the data. The reduced data can be accessed with dict[key] where key is a string that
                           can be 'Q', 'Q_variance', 'scattered_intensity', 'scattered_intensity_std', or 'BS'.
     """
+    d_vars = [annulus_width, beamstop_radius, neutron_wavelength, wavelength_spread, detector_resolution, sdd, l1, l2, s1, s2]
+    for i, x in d_vars:
+        if not isinstance(x, float):
+            d_vars[i] = float(d_vars[i])
+
     if not all(isinstance(x, tuple) for x in [center, pixel_dim]):
         raise TypeError('center and pixel_dim must be tuples.')
     dr = annulus_width
