@@ -269,7 +269,7 @@ def reduce_data(sans_data,
     d_vars = [annulus_width, beamstop_radius, neutron_wavelength, wavelength_spread, detector_resolution, sdd, l1, l2, s1, s2]
     for i, x in d_vars:
         if not isinstance(x, float):
-            d_vars[i] = float(d_vars[i])
+            d_vars[i] = float(x)
 
     if not all(isinstance(x, tuple) for x in [center, pixel_dim]):
         raise TypeError('center and pixel_dim must be tuples.')
